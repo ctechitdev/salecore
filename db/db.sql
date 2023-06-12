@@ -411,6 +411,7 @@ item_name varchar(300),
 item_unit int,
 item_price float,
 item_total_price float,
+item_cate_type varchar(30),
 order_by int,
 date_register date
 );

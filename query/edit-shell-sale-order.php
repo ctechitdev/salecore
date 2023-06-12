@@ -78,8 +78,8 @@ if ($box_values == "yes") {
                 $price_item = $total_price[$i] / $item_value[$i];
 
                 $insertbill = $conn->query(" 
-            insert into tbl_shell_sale_order ( sbo_id,item_name,item_unit,item_price,item_total_price,order_by,date_register) 
-            values ('$bill_id','$item_name[$i]','$item_value[$i]','$price_item','$total_price[$i]','$id_users',CURDATE())
+            insert into tbl_shell_sale_order ( sbo_id,item_name,item_unit,item_price,item_total_price,item_cate_type,order_by,date_register) 
+            values ('$bill_id','$item_name[$i]','$item_value[$i]','$price_item','$total_price[$i]','$sale_unit[$i]','$id_users',CURDATE())
               ");
                 $bill_price += $total_price[$i];
             }

@@ -104,15 +104,10 @@ $vd_id = $_GET['vd_id'];
                                         where vd_id = '$vd_id'  ")->fetch(PDO::FETCH_ASSOC);
 
                                         $c_code = $cusrows['cus_code'];
-                                        $c_shop_name = $cusrows['c_shop_name'];
-
-
-
+                                        $c_shop_name = $cusrows['c_shop_name']; 
                                         $provinces = $cusrows['pv_name'];
                                         $district = $cusrows['distict_name'];
-                                        $village = $cusrows['village_name'];
-
-
+                                        $village = $cusrows['village_name']; 
                                         $phone1 = $cusrows['phone_number'];
 
 
@@ -121,6 +116,7 @@ $vd_id = $_GET['vd_id'];
                                         <input type="hidden" class="form-control" name="vd_id" id="vd_id" value='<?php echo "$vd_id" ?>' required>
 
                                         <div class="row text-center">
+
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="firstName">
@@ -128,7 +124,6 @@ $vd_id = $_GET['vd_id'];
                                                     </label>
                                                 </div>
                                             </div>
-
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="firstName">
@@ -136,11 +131,6 @@ $vd_id = $_GET['vd_id'];
                                                     </label>
                                                 </div>
                                             </div>
-
-
-
-
-
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <h4> ເບີໂທຕິດຕໍ່: <?php echo "$phone1"; ?></h4>
@@ -331,7 +321,7 @@ $vd_id = $_GET['vd_id'];
 
                                                                                 <div class="form-group "> <?php echo "ລາຍການທີ: $x"; ?> <br>
                                                                                     <div class="row p-2">
-                                                                                        <div class="form-group  col-lg-5">
+                                                                                        <div class="form-group  col-lg-12">
                                                                                             <label class="text-dark font-weight-medium">ຊື່ສິນຄ້າ</label>
                                                                                             <div class="form-group">
                                                                                                 <select class=" form-control font" name="item_name[]" id="item_name<?php echo $x; ?>">
@@ -360,14 +350,34 @@ $vd_id = $_GET['vd_id'];
                                                                                             </div>
                                                                                         </div>
 
-                                                                                        <div class="form-group  col-lg-2">
+                                                                                        <div class="col-lg-3">
+                                                                                            <div class="form-group">
+                                                                                                <label for="firstName">ຫົວໜ່ວຍ</label>
+                                                                                                <select class="form-control" name="sale_unit[]" id="sale_unit<?php echo $x; ?>">
+                                                                                                    <option value="">ຫົວໜ່ວຍ</option>
+                                                                                                    <?php
+                                                                                                    $stmt3 = $conn->prepare(" SELECT * from tbl_category_type  order by cat_name ");
+                                                                                                    $stmt3->execute();
+                                                                                                    if ($stmt3->rowCount() > 0) {
+                                                                                                        while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+                                                                                                    ?> <option value="<?php echo $row3['cat_name']; ?>"> <?php echo $row3['cat_name']; ?></option>
+                                                                                                    <?php
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                </select>
+
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group  col-lg-3">
                                                                                             <label class="text-dark font-weight-medium">ຈຳນວນ</label>
                                                                                             <div class="form-group">
                                                                                                 <input type="number" name="item_value[]" id="item_value<?php echo $x; ?>" autocomplete="off" class="form-control" />
                                                                                             </div>
                                                                                         </div>
 
-                                                                                        <div class="form-group  col-lg-2">
+                                                                                        <div class="form-group  col-lg-3">
                                                                                             <label class="text-dark font-weight-medium">ລາຄາຂາຍ</label>
                                                                                             <div class="form-group">
                                                                                                 <input type="number" name="total_price[]" id="total_price<?php echo $x; ?>" autocomplete="off" class="form-control" />
@@ -515,7 +525,7 @@ $vd_id = $_GET['vd_id'];
                                                         </a>
 
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                                            <a class="dropdown-item" href="edit-customer-latlong-order.php?order_id=<?php echo "$sbo_id"; ?>&&cus_id=<?php echo "$cus_code"; ?>">ສະແດງຂໍ້ມູນ</a>
+                                                            <a class="dropdown-item" href="edit-customer-latlong-order.php?order_id=<?php echo "$sbo_id"; ?>&&vd_id=<?php echo "$vd_id"; ?>">ສະແດງຂໍ້ມູນ</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -725,7 +735,7 @@ $vd_id = $_GET['vd_id'];
                         '<div class="form-group">ລາຍການທີ: ' + count +
                         '<div class="row p-2">' +
 
-                        '<div class="col-lg-5">' +
+                        '<div class="col-lg-12">' +
                         '<div class="form-group">' +
                         '<label for="firstName">ຊື່ສິນຄ້າ</label>' +
 
@@ -741,15 +751,33 @@ $vd_id = $_GET['vd_id'];
                         '</div>' +
 
 
+                        '<div class="col-lg-3"> ' +
+                        '<div class="form-group"> ' +
+                        '<label for="firstName">ຫົວໜ່ວຍນ້ອຍ</label> ' +
+                        '<select class="form-control" name="sale_unit[]" id="sale_unit' + count + '" >' + 
+                        '<option value="">ຫົວໜ່ວຍ</option> ' +
+                        '<option value="Bottle">Bottle</option> ' +
+                        '<option value="Case">Case</option> ' +
+                        '<option value="Drum">Drum</option> ' +
+                        '<option value="Ea">Ea</option> ' +
+                        '<option value="KG">KG</option> ' +
+                        '<option value="Pack">Pack</option> ' +
+                        '<option value="Pail">Pail</option> ' +
+                        '<option value="Pcs">Pcs</option> ' +
+                        '<option value="Unit">Unit</option> ' +
+                        '</select> ' +
 
-                        '<div class="form-group  col-lg-2">' +
+                        '</div> ' +
+                        '</div> ' +
+
+                        '<div class="form-group  col-lg-3">' +
                         '<label class="text-dark font-weight-medium">ຈຳນວນ</label>' +
                         '<div class="form-group">' +
                         '<input type="number" name="item_value[]" id="item_value' + count + '" autocomplete="off" class="form-control" />' +
                         '</div>' +
                         '</div>' +
 
-                        '<div class="form-group  col-lg-2">' +
+                        '<div class="form-group  col-lg-3">' +
                         '<label class="text-dark font-weight-medium">ຈຳນວນ</label>' +
                         '<div class="form-group">' +
                         '<input type="number" name="total_price[]" id="total_price' + count + '" autocomplete="off" class="form-control" />' +

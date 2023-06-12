@@ -5,7 +5,7 @@ include("../setting/conn.php");
 $header_name = "ຢ້ຽມຢາມລູກຄ້າ";
 $header_click = "6";
 
-$cus_id = $_GET['cus_id'];
+$vd_id = $_GET['vd_id'];
 $bill_id = $_GET['order_id'];
 
 ?>
@@ -74,21 +74,23 @@ $bill_id = $_GET['order_id'];
 
 
 
-                                    $cusrows = $conn->query(" SELECT c_code,c_shop_name,c_name, pv_name as provinces,
-                                        distict_name as district,village,street,h_unit,h_number,phone1 
-                                        FROM tbl_customer a
+                                    $cusrows = $conn->query(" 
+                                        select cus_code,c_shop_name,pv_name,distict_name,village_name,phone_number 
+                                        from tbl_visit_dairy a
                                         left join tbl_provinces b on a.provinces = b.pv_id
-                                        left join tbl_districts c on a.district = c.dis_id where c_code = '$cus_id' ")->fetch(PDO::FETCH_ASSOC);
-                                    $c_code = $cusrows['c_code'];
+                                        left join tbl_districts c on a.district = c.dis_id 
+                                        where vd_id = '$vd_id' 
+                                        
+                                        
+                                         ")->fetch(PDO::FETCH_ASSOC);
+
+
+                                    $c_code = $cusrows['cus_code'];
                                     $c_shop_name = $cusrows['c_shop_name'];
-                                    $c_name = $cusrows['c_name'];
-                                    $provinces = $cusrows['provinces'];
-                                    $district = $cusrows['district'];
-                                    $village = $cusrows['village'];
-                                    $street = $cusrows['street'];
-                                    $h_unit = $cusrows['h_unit'];
-                                    $h_number = $cusrows['h_number'];
-                                    $phone1 = $cusrows['phone1'];
+                                    $provinces = $cusrows['pv_name'];
+                                    $district = $cusrows['distict_name'];
+                                    $village = $cusrows['village_name'];
+                                    $phone1 = $cusrows['phone_number'];
 
 
                                     ?>
@@ -113,34 +115,15 @@ $bill_id = $_GET['order_id'];
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label for="firstName">
-                                                    <h4> ຊື່ລູກຄ້າ: <?php echo "$c_name"; ?></h4>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ຖະໜົນ: $street ບ້ານ:$village ເມືອງ: $district ແຂວງ:$provinces "; ?> </label>
+                                                <h4> ເບີໂທຕິດຕໍ່: <?php echo "$phone1"; ?></h4>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ເຮືອນເລກທີ: $h_number / ໜ່ວຍ: $h_unit "; ?> </label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ເບີໂທຕິດຕໍ່: $phone1"; ?> </label>
-                                            </div>
-                                        </div>
                                         <?php
 
                                         $sql = "SELECT time_check_in,time_check_out,vc_id
                                         FROM tbl_visited_customer 
-                                        WHERE check_by = '$id_users' and  date_check = CURDATE() and cus_code ='$cus_id' ";
+                                        WHERE check_by = '$id_users' and  date_check = CURDATE() and cus_code ='$vd_id' ";
 
                                         $result = $conn->prepare($sql);
                                         $result->execute();
@@ -163,13 +146,13 @@ $bill_id = $_GET['order_id'];
 
 
                                         ?>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="firstName"> <?php echo "ເວລາເຂົ້າ: $time_check_in"; ?> </label>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="firstName"> <?php echo "ເວລາອອກ: $time_check_out"; ?> </label>
                                             </div>
@@ -301,7 +284,7 @@ $bill_id = $_GET['order_id'];
 
                                                                                     <div class="form-group "> <?php echo "ລາຍການທີ: $x"; ?> <br>
                                                                                         <div class="row p-2">
-                                                                                            <div class="form-group  col-lg-5">
+                                                                                            <div class="form-group  col-lg-12">
                                                                                                 <label class="text-dark font-weight-medium">ຊື່ສິນຄ້າ</label>
                                                                                                 <div class="form-group">
                                                                                                     <select class=" form-control font" name="item_name[]" id="item_name<?php echo $x; ?>">
@@ -319,28 +302,48 @@ $bill_id = $_GET['order_id'];
                                                                                                         if ($stmt1->rowCount() > 0) {
                                                                                                             while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
                                                                                                         ?>
-                                                                                                                <option value="<?php echo $row1['item_name']; ?>" <?php if ($row3['item_name'] = $row1['item_name']) {
+                                                                                                                <option value="<?php echo $row1['item_name']; ?>" <?php if ($row3['item_name'] == $row1['item_name']) {
                                                                                                                                                                         echo "selected";
                                                                                                                                                                     } ?>> <?php echo $row1['item_name']; ?></option>
                                                                                                         <?php
                                                                                                             }
                                                                                                         }
 
-
-
                                                                                                         ?>
                                                                                                     </select>
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                            <div class="form-group  col-lg-2">
+                                                                                            <div class="col-lg-3">
+                                                                                                <div class="form-group">
+                                                                                                    <label for="firstName">ຫົວໜ່ວຍນ້ອຍ</label>
+                                                                                                    <select class="form-control" name="sale_unit[]" id="sale_unit<?php echo $x; ?>">
+                                                                                                        <option value="">ຫົວໜ່ວຍ</option>
+                                                                                                        <?php
+                                                                                                        $stmt6 = $conn->prepare(" SELECT * from tbl_category_type  order by cat_name ");
+                                                                                                        $stmt6->execute();
+                                                                                                        if ($stmt3->rowCount() > 0) {
+                                                                                                            while ($row6 = $stmt6->fetch(PDO::FETCH_ASSOC)) {
+                                                                                                        ?> <option value="<?php echo $row6['cat_name']; ?>" <?php if ($row6['cat_name'] == $row3['item_cate_type']) {
+                                                                                                                                                                echo "selected";
+                                                                                                                                                            } ?>> <?php echo $row6['cat_name']; ?></option>
+                                                                                                        <?php
+                                                                                                            }
+                                                                                                        }
+                                                                                                        ?>
+                                                                                                    </select>
+
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group  col-lg-3">
                                                                                                 <label class="text-dark font-weight-medium">ຈຳນວນ</label>
                                                                                                 <div class="form-group">
                                                                                                     <input type="number" name="item_value[]" id="item_value<?php echo $x; ?>" value='<?php echo $row3['item_unit']; ?>' autocomplete="off" class="form-control" />
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                            <div class="form-group  col-lg-2">
+                                                                                            <div class="form-group  col-lg-3">
                                                                                                 <label class="text-dark font-weight-medium">ຈຳນວນ</label>
                                                                                                 <div class="form-group">
                                                                                                     <input type="number" name="total_price[]" id="total_price<?php echo $x; ?>" value='<?php echo $row3['item_total_price']; ?>' autocomplete="off" class="form-control" />
@@ -454,7 +457,7 @@ $bill_id = $_GET['order_id'];
                                     from tbl_shell_bill_order a
                                     left join tbl_shell_sale_order b on a.sbo_id = b.sbo_id
                                     left join tbl_customer c on a.cus_code = c.c_code
-                                    where a.order_by = '$id_users' and cus_code = '$cus_id'
+                                    where a.order_by = '$id_users' and cus_code = '$vd_id'
                                     group by b.sbo_id
 				  ");
                                     $stmt4->execute();
@@ -495,7 +498,7 @@ $bill_id = $_GET['order_id'];
                                                         </a>
 
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                                            <a class="dropdown-item" href="edit-customer-latlong-order.php?order_id=<?php echo "$sbo_id"; ?>&&cus_id=<?php echo "$cus_code"; ?>">ສະແດງຂໍ້ມູນ</a>
+                                                            <a class="dropdown-item" href="edit-customer-latlong-order.php?order_id=<?php echo "$sbo_id"; ?>&&vd_id=<?php echo "$vd_id"; ?>">ສະແດງຂໍ້ມູນ</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -646,7 +649,7 @@ $bill_id = $_GET['order_id'];
                         '<div class="form-group">ລາຍການທີ: ' + count +
                         '<div class="row p-2">' +
 
-                        '<div class="col-lg-5">' +
+                        '<div class="col-lg-12">' +
                         '<div class="form-group">' +
                         '<label for="firstName">ຊື່ສິນຄ້າ</label>' +
 
@@ -662,15 +665,33 @@ $bill_id = $_GET['order_id'];
                         '</div>' +
 
 
+                        '<div class="col-lg-3"> ' +
+                        '<div class="form-group"> ' +
+                        '<label for="firstName">ຫົວໜ່ວຍນ້ອຍ</label> ' +
+                        '<select class="form-control" name="sale_unit[]" id="sale_unit' + count + '" >' +
+                        '<option value="">ຫົວໜ່ວຍ</option> ' +
+                        '<option value="Bottle">Bottle</option> ' +
+                        '<option value="Case">Case</option> ' +
+                        '<option value="Drum">Drum</option> ' +
+                        '<option value="Ea">Ea</option> ' +
+                        '<option value="KG">KG</option> ' +
+                        '<option value="Pack">Pack</option> ' +
+                        '<option value="Pail">Pail</option> ' +
+                        '<option value="Pcs">Pcs</option> ' +
+                        '<option value="Unit">Unit</option> ' +
+                        '</select> ' +
 
-                        '<div class="form-group  col-lg-2">' +
+                        '</div> ' +
+                        '</div> ' +
+
+                        '<div class="form-group  col-lg-3">' +
                         '<label class="text-dark font-weight-medium">ຈຳນວນ</label>' +
                         '<div class="form-group">' +
                         '<input type="number" name="item_value[]" id="item_value' + count + '" autocomplete="off" class="form-control" />' +
                         '</div>' +
                         '</div>' +
 
-                        '<div class="form-group  col-lg-2">' +
+                        '<div class="form-group  col-lg-3">' +
                         '<label class="text-dark font-weight-medium">ຈຳນວນ</label>' +
                         '<div class="form-group">' +
                         '<input type="number" name="total_price[]" id="total_price' + count + '" autocomplete="off" class="form-control" />' +
