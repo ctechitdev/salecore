@@ -78,7 +78,7 @@ $header_click = "5";
 
                                     $day_name = date('D');
                                     $stmt4 = $conn->prepare(" 
-                                    select staff_name,sbo_number,a.sbo_id,c_shop_name,c.cus_code,count(item_name) as item_group,a.date_register,sbo_price,
+                                    select staff_name,sbo_number,a.sbo_id,c_shop_name,c.cus_code,vd_id,count(item_name) as item_group,a.date_register,sbo_price,
                                     (case when sbo_b1_status = 1 then 'ອອກບິນແລ້ວ' else 'ລໍຖ້າອອກບິນ' end) as sbo_b1_status
                                     from tbl_shell_bill_order a
                                     left join tbl_shell_sale_order b on a.sbo_id = b.sbo_id
@@ -92,6 +92,7 @@ $header_click = "5";
                                             $sbo_id = $row4['sbo_id'];
                                             $c_shop_name = $row4['c_shop_name'];
                                             $cus_code = $row4['cus_code'];
+                                            $vd_id = $row4['vd_id'];
                                             $item_group = $row4['item_group'];
                                             $date_register = $row4['date_register'];
                                             $sbo_number = $row4['sbo_number'];
@@ -114,16 +115,16 @@ $header_click = "5";
                                                 <td><?php echo number_format($sbo_price); ?></td>
                                                 <td><?php echo "$sbo_b1_status"; ?></td>
                                                 <td><?php echo "$date_register"; ?></td>
-                                               
+
                                                 <td>
                                                     <div class="dropdown">
                                                         <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                                         </a>
 
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                                            <a class="dropdown-item" href="shell_view_order_detail.php?order_id=<?php echo "$sbo_id"; ?>&&cus_id=<?php echo "$cus_code"; ?>">ສະແດງຂໍ້ມູນ</a>
+                                                            <a class="dropdown-item" href="shell_view_order_detail.php?order_id=<?php echo "$sbo_id"; ?>&&vd_id=<?php echo "$vd_id"; ?>">ສະແດງຂໍ້ມູນ</a>
 
-                                                          
+
                                                         </div>
                                                     </div>
                                                 </td>

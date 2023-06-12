@@ -5,7 +5,7 @@ include("../setting/conn.php");
 $header_name = "ຕິດຕາມອໍເດີ້";
 $header_click = "5";
 
-$cus_id = $_GET['cus_id'];
+$vd_id = $_GET['vd_id'];
 $bill_id = $_GET['order_id'];
 
 ?>
@@ -65,21 +65,19 @@ $bill_id = $_GET['order_id'];
 
 
 
-                                    $cusrows = $conn->query(" SELECT c_code,c_shop_name,c_name, pv_name as provinces,
-                                        distict_name as district,village,street,h_unit,h_number,phone1 
-                                        FROM tbl_customer a
-                                        left join tbl_provinces b on a.provinces = b.pv_id
-                                        left join tbl_districts c on a.district = c.dis_id where c_code = '$cus_id' ")->fetch(PDO::FETCH_ASSOC);
-                                    $c_code = $cusrows['c_code'];
+                                    $cusrows = $conn->query(" 
+                                    select cus_code,c_shop_name,pv_name,distict_name,village_name,phone_number 
+                                    from tbl_visit_dairy a
+                                    left join tbl_provinces b on a.provinces = b.pv_id
+                                    left join tbl_districts c on a.district = c.dis_id 
+                                    where vd_id = '$vd_id'  ")->fetch(PDO::FETCH_ASSOC);
+
+                                    $c_code = $cusrows['cus_code'];
                                     $c_shop_name = $cusrows['c_shop_name'];
-                                    $c_name = $cusrows['c_name'];
-                                    $provinces = $cusrows['provinces'];
-                                    $district = $cusrows['district'];
-                                    $village = $cusrows['village'];
-                                    $street = $cusrows['street'];
-                                    $h_unit = $cusrows['h_unit'];
-                                    $h_number = $cusrows['h_number'];
-                                    $phone1 = $cusrows['phone1'];
+                                    $provinces = $cusrows['pv_name'];
+                                    $district = $cusrows['distict_name'];
+                                    $village = $cusrows['village_name'];
+                                    $phone1 = $cusrows['phone_number'];
 
 
                                     ?>
@@ -104,41 +102,12 @@ $bill_id = $_GET['order_id'];
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label for="firstName">
-                                                    <h4> ຊື່ລູກຄ້າ: <?php echo "$c_name"; ?></h4>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ຖະໜົນ: $street ບ້ານ:$village ເມືອງ: $district ແຂວງ:$provinces "; ?> </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ເຮືອນເລກທີ: $h_number / ໜ່ວຍ: $h_unit "; ?> </label>
+                                                <h4> ເບີໂທຕິດຕໍ່: <?php echo "$phone1"; ?></h4>
                                             </div>
                                         </div>
 
 
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ເບີໂທຕິດຕໍ່: $phone1"; ?> </label>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ເວລາເຂົ້າ: $phone1"; ?> </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="firstName"> <?php echo "ເວລາອອກ: $phone1"; ?> </label>
-                                            </div>
-                                        </div>
 
                                     </div>
 
@@ -248,8 +217,9 @@ $bill_id = $_GET['order_id'];
                                                                 <thead>
                                                                     <tr>
                                                                         <th style="width:50%;">ຊື່ສິນຄ້າ</th>
-                                                                        <th style="width:25%;">ຈຳນວນ</th>
-                                                                        <th style="width:25%;">ລາຄາ</th>
+                                                                        <th style="width:20%;">ຫົວໜ່ວຍ</th>
+                                                                        <th style="width:10%;">ຈຳນວນ</th>
+                                                                        <th style="width:20%;">ລາຄາ</th>
 
                                                                     </tr>
                                                                 </thead>
@@ -276,7 +246,11 @@ $bill_id = $_GET['order_id'];
                                                                                         <input type="text" name="itemname[]" id="itemname<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $row3['item_name']; ?>" readonly />
                                                                                     </div>
                                                                                 </td>
-
+                                                                                <td>
+                                                                                    <div class="form-group">
+                                                                                        <input type="text" name="sale_unit[]" id="sale_unit<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $row3['item_cate_type']; ?>" readonly />
+                                                                                    </div>
+                                                                                </td>
 
                                                                                 <td>
                                                                                     <div class="form-group">
