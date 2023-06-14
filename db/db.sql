@@ -400,6 +400,8 @@ create or replace table tbl_shell_bill_order (
     sbo_price float,
     sbo_type int,
     sbo_ccy varchar(5),
+    credit_day int,
+    sbo_b1_status int,
     order_by int,
     date_register date
 );

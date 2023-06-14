@@ -216,10 +216,10 @@ $bill_id = $_GET['order_id'];
                                                             <table class="table" id="productTable">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th style="width:50%;">ຊື່ສິນຄ້າ</th>
-                                                                        <th style="width:20%;">ຫົວໜ່ວຍ</th>
-                                                                        <th style="width:10%;">ຈຳນວນ</th>
-                                                                        <th style="width:20%;">ລາຄາ</th>
+                                                                        <th>ຊື່ສິນຄ້າ</th>
+                                                                        <th>ຫົວໜ່ວຍ</th>
+                                                                        <th>ຈຳນວນ</th>
+                                                                        <th>ລາຄາ</th>
 
                                                                     </tr>
                                                                 </thead>
@@ -243,23 +243,28 @@ $bill_id = $_GET['order_id'];
 
                                                                                 <td>
                                                                                     <div class="form-group">
-                                                                                        <input type="text" name="itemname[]" id="itemname<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $row3['item_name']; ?>" readonly />
+
+                                                                                        <label for="firstName"><?php echo $row3['item_name']; ?></label>
+                                                                                        <input type="hidden" name="itemname[]" id="itemname<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $row3['item_name']; ?>" readonly />
                                                                                     </div>
                                                                                 </td>
                                                                                 <td>
                                                                                     <div class="form-group">
-                                                                                        <input type="text" name="sale_unit[]" id="sale_unit<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $row3['item_cate_type']; ?>" readonly />
+                                                                                        <label for="firstName"><?php echo $row3['item_cate_type']; ?></label>
+                                                                                        <input type="hidden" name="sale_unit[]" id="sale_unit<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $row3['item_cate_type']; ?>" readonly />
                                                                                     </div>
                                                                                 </td>
 
                                                                                 <td>
                                                                                     <div class="form-group">
-                                                                                        <input type="number" step="any" name="item_price[]" id="item_price<?php echo $x; ?>" value="<?php echo $row3['item_unit']; ?>" autocomplete="off" class="form-control" readonly />
+                                                                                        <label for="firstName"><?php echo $row3['item_unit']; ?></label>
+                                                                                        <input type="hidden" step="any" name="item_price[]" id="item_price<?php echo $x; ?>" value="<?php echo $row3['item_unit']; ?>" autocomplete="off" class="form-control" readonly />
                                                                                     </div>
                                                                                 </td>
                                                                                 <td>
                                                                                     <div class="form-group">
-                                                                                        <input type="number" step="any" name="item_price[]" id="item_price<?php echo $x; ?>" value="<?php echo $row3['item_total_price']; ?>" autocomplete="off" class="form-control" readonly />
+                                                                                        <label for="firstName"><?php echo number_format($row3['item_total_price']); ?></label>
+                                                                                        <input type="hidden" step="any" name="item_price[]" id="item_price<?php echo $x; ?>" value="<?php echo $row3['item_total_price']; ?>" autocomplete="off" class="form-control" readonly />
                                                                                     </div>
                                                                                 </td>
 

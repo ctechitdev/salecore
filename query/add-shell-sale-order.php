@@ -37,11 +37,12 @@ if ($box_values == "yes") {
     $res = array("res" => "nocashtype");
 } else if (($paytype == 1) and ($ccy == "")) {
     $res = array("res" => "noccy");
+}else if (($paytype == 2) and ($credit_day <= 0 )) {
+    $res = array("res" => "nocreditday");
 } else {
 
-    if ($paytype == 2) {
-        $cashtype = 0;
-        $ccy = "ccy";
+    if ($paytype == 1) {
+        $credit_day = 0; 
     }
     $gbrow = $conn->query(" SELECT count(sbo_id)+1 as count_bill FROM tbl_shell_bill_order
     where date_register =  CURDATE()   ")->fetch(PDO::FETCH_ASSOC);
@@ -59,8 +60,8 @@ if ($box_values == "yes") {
 
 
     $insertbill = $conn->query(" 
-        insert into tbl_shell_bill_order (cus_code,sbo_number,sbo_status,sbo_type,sbo_ccy,order_by,date_register) 
-        values ('$cus_code_order','$bill_number','$paytype','$cashtype','$ccy','$id_users',CURDATE())
+        insert into tbl_shell_bill_order (cus_code,sbo_number,sbo_status,sbo_type,sbo_ccy,credit_day,order_by,date_register) 
+        values ('$cus_code_order','$bill_number','$paytype','$cashtype','$ccy','$credit_day','$id_users',CURDATE())
           ");
 
     $last_bill = $conn->lastInsertId();
@@ -70,15 +71,15 @@ if ($box_values == "yes") {
         for ($i = 0; $i < ($countbox); $i++) {
 
             extract($_POST);
-            $price_item = $total_price[$i] / $item_value[$i];
+            $total_price = $item_price[$i] * $item_value[$i];
 
 
             $insertbilldetail = $conn->query(" 
     insert into tbl_shell_sale_order ( sbo_id,item_name,item_unit,item_price,item_total_price,item_cate_type,order_by,date_register) 
-    values ('$last_bill','$item_name[$i]','$item_value[$i]','$price_item','$total_price[$i]','$sale_unit[$i]','$id_users',CURDATE())
+    values ('$last_bill','$item_name[$i]','$item_value[$i]','$item_price[$i]','$total_price','$sale_unit[$i]','$id_users',CURDATE())
       ");
 
-      $bill_price += $total_price[$i];
+            $bill_price += $total_price;
         }
     }
 

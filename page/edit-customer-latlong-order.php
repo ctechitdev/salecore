@@ -173,7 +173,7 @@ $bill_id = $_GET['order_id'];
                                             $sbo_status = $billrows['sbo_status'];
                                             $sbo_type = $billrows['sbo_type'];
                                             $sbo_ccy = $billrows['sbo_ccy'];
-
+                                            $credit_day = $billrows['credit_day'];
                                             ?>
 
                                             <input type="hidden" class="form-control" name="cus_code_order" id="cus_code_order" value='<?php echo "$c_code" ?>' required>
@@ -193,7 +193,7 @@ $bill_id = $_GET['order_id'];
 
                                                                     </div>
 
-                                                                    <div class="col-lg-4 text-center">
+                                                                    <div class="col-lg-6 text-center">
 
                                                                         <label for="firstName">ການຊຳລະ</label><br>
 
@@ -213,7 +213,7 @@ $bill_id = $_GET['order_id'];
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-lg-4 text-center">
+                                                                    <div class="col-lg-6 text-center">
 
                                                                         <label for="firstName">ປະເພດການຊຳລະ</label><br>
 
@@ -235,7 +235,7 @@ $bill_id = $_GET['order_id'];
 
 
 
-                                                                    <div class="form-group  col-lg-4">
+                                                                    <div class="form-group  col-lg-6">
                                                                         <label class="text-dark font-weight-medium">ສະກຸນເງິນ</label>
                                                                         <div class="form-group">
                                                                             <select class=" form-control font" name="ccy" id="ccy">
@@ -253,7 +253,13 @@ $bill_id = $_GET['order_id'];
                                                                         </div>
                                                                     </div>
 
+                                                                    <div class="form-group  col-lg-6">
+                                                                        <label class="text-dark font-weight-medium">ຕິດໜີ້</label>
+                                                                        <div class="form-group">
+                                                                            <input type="number" name="credit_day" id="credit_day" autocomplete="off" class="form-control" value='<?php echo "$credit_day"; ?>' />
 
+                                                                        </div>
+                                                                    </div>
 
 
                                                                 </div>
@@ -346,7 +352,7 @@ $bill_id = $_GET['order_id'];
                                                                                             <div class="form-group  col-lg-3">
                                                                                                 <label class="text-dark font-weight-medium">ຈຳນວນ</label>
                                                                                                 <div class="form-group">
-                                                                                                    <input type="number" name="total_price[]" id="total_price<?php echo $x; ?>" value='<?php echo $row3['item_total_price']; ?>' autocomplete="off" class="form-control" />
+                                                                                                    <input type="number" name="item_price[]" id="item_price<?php echo $x; ?>" value='<?php echo $row3['item_price']; ?>' autocomplete="off" class="form-control" />
                                                                                                 </div>
                                                                                             </div>
 
@@ -556,6 +562,12 @@ $bill_id = $_GET['order_id'];
                         'ກະລຸນາເລືອກສະກຸນເງິນ',
                         'error'
                     )
+                } else if (data.res == "nocreditday") {
+                    Swal.fire(
+                        'ແຈ້ງເຕືອນ',
+                        'ກະລຸນາກວດສອບວັນຕິດໜີ້',
+                        'error'
+                    )
                 } else if (data.res == "success") {
 
                     Swal.fire(
@@ -694,7 +706,7 @@ $bill_id = $_GET['order_id'];
                         '<div class="form-group  col-lg-3">' +
                         '<label class="text-dark font-weight-medium">ຈຳນວນ</label>' +
                         '<div class="form-group">' +
-                        '<input type="number" name="total_price[]" id="total_price' + count + '" autocomplete="off" class="form-control" />' +
+                        '<input type="number" name="item_price[]" id="item_price' + count + '" autocomplete="off" class="form-control" />' +
                         '</div>' +
                         '</div>' +
 

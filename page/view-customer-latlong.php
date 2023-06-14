@@ -104,10 +104,10 @@ $vd_id = $_GET['vd_id'];
                                         where vd_id = '$vd_id'  ")->fetch(PDO::FETCH_ASSOC);
 
                                         $c_code = $cusrows['cus_code'];
-                                        $c_shop_name = $cusrows['c_shop_name']; 
+                                        $c_shop_name = $cusrows['c_shop_name'];
                                         $provinces = $cusrows['pv_name'];
                                         $district = $cusrows['distict_name'];
-                                        $village = $cusrows['village_name']; 
+                                        $village = $cusrows['village_name'];
                                         $phone1 = $cusrows['phone_number'];
 
 
@@ -257,7 +257,7 @@ $vd_id = $_GET['vd_id'];
                                                             <div class="form-group">
                                                                 <div class="row">
 
-                                                                    <div class="col-lg-4 text-center">
+                                                                    <div class="col-lg-6 text-center">
 
                                                                         <label for="firstName">ການຊຳລະ</label><br>
 
@@ -273,7 +273,7 @@ $vd_id = $_GET['vd_id'];
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-lg-4 text-center">
+                                                                    <div class="col-lg-6 text-center">
 
                                                                         <label for="firstName">ປະເພດການຊຳລະ</label><br>
 
@@ -291,7 +291,7 @@ $vd_id = $_GET['vd_id'];
 
 
 
-                                                                    <div class="form-group  col-lg-4">
+                                                                    <div class="form-group  col-lg-6">
                                                                         <label class="text-dark font-weight-medium">ສະກຸນເງິນ</label>
                                                                         <div class="form-group">
                                                                             <select class=" form-control font" name="ccy" id="ccy">
@@ -303,6 +303,13 @@ $vd_id = $_GET['vd_id'];
                                                                         </div>
                                                                     </div>
 
+                                                                    <div class="form-group  col-lg-6">
+                                                                        <label class="text-dark font-weight-medium">ຕິດໜີ້</label>
+                                                                        <div class="form-group">
+                                                                            <input type="number" name="credit_day" id="credit_day" autocomplete="off" class="form-control" value="0" />
+
+                                                                        </div>
+                                                                    </div>
 
 
 
@@ -380,7 +387,7 @@ $vd_id = $_GET['vd_id'];
                                                                                         <div class="form-group  col-lg-3">
                                                                                             <label class="text-dark font-weight-medium">ລາຄາຂາຍ</label>
                                                                                             <div class="form-group">
-                                                                                                <input type="number" name="total_price[]" id="total_price<?php echo $x; ?>" autocomplete="off" class="form-control" />
+                                                                                                <input type="number" name="item_price[]" id="item_price<?php echo $x; ?>" autocomplete="off" class="form-control" />
                                                                                             </div>
                                                                                         </div>
 
@@ -642,6 +649,12 @@ $vd_id = $_GET['vd_id'];
                         'ກະລຸນາເລືອກສະກຸນເງິນ',
                         'error'
                     )
+                } else if (data.res == "nocreditday") {
+                    Swal.fire(
+                        'ແຈ້ງເຕືອນ',
+                        'ກະລຸນາກວດສອບວັນຕິດໜີ້',
+                        'error'
+                    )
                 } else if (data.res == "success") {
 
                     Swal.fire(
@@ -754,7 +767,7 @@ $vd_id = $_GET['vd_id'];
                         '<div class="col-lg-3"> ' +
                         '<div class="form-group"> ' +
                         '<label for="firstName">ຫົວໜ່ວຍນ້ອຍ</label> ' +
-                        '<select class="form-control" name="sale_unit[]" id="sale_unit' + count + '" >' + 
+                        '<select class="form-control" name="sale_unit[]" id="sale_unit' + count + '" >' +
                         '<option value="">ຫົວໜ່ວຍ</option> ' +
                         '<option value="Bottle">Bottle</option> ' +
                         '<option value="Case">Case</option> ' +
@@ -780,7 +793,7 @@ $vd_id = $_GET['vd_id'];
                         '<div class="form-group  col-lg-3">' +
                         '<label class="text-dark font-weight-medium">ຈຳນວນ</label>' +
                         '<div class="form-group">' +
-                        '<input type="number" name="total_price[]" id="total_price' + count + '" autocomplete="off" class="form-control" />' +
+                        '<input type="number" name="item_price[]" id="item_price' + count + '" autocomplete="off" class="form-control" />' +
                         '</div>' +
                         '</div>' +
 
