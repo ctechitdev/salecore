@@ -51,7 +51,13 @@ if (empty($Acc_id)) {
 			}
 
 			$gen_number = str_pad($last_number, $code_lenght, '0', STR_PAD_LEFT);
-			$rc_check = "$gen_number";
+
+			if($com_code_type){
+				$rc_check = "KPD$gen_number";
+			}else{
+				$rc_check = "$gen_number";
+			}
+			
 		} else {
 
 			$checkitem = $conn->query("SELECT  max(last_number)+1 as last_number 
