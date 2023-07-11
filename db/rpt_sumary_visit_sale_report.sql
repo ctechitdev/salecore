@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE or replace PROCEDURE rpt_sumary_visit_sale_report(`startdate` VARCHAR(20), `enddate` VARCHAR(20))
+CREATE or replace PROCEDURE rpt_sumary_visit_sale_report(`startdate` VARCHAR(20), `enddate` VARCHAR(20),`startmonth` VARCHAR(20), `endmonth` VARCHAR(20))
 BEGIN
 
 create TEMPORARY table tmp_count_visit
@@ -24,11 +24,10 @@ create TEMPORARY table tmp_count_new
 
 SELECT  count(vd_id) as new_count ,customer_type
 FROM  tbl_visit_dairy
-WHERE MONTH(register_date) = MONTH(CURRENT_DATE())  
+WHERE MONTH(register_date) BETWEEN  startmonth and endmonth
 group by customer_type;
     
  
-
 
 create TEMPORARY table tmp_join
 

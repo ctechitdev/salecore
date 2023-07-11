@@ -13,13 +13,19 @@ if (isset($_POST['btn_view'])) {
     $date_request_from = $_POST['date_request_from'];
     $request_date_from = str_replace('/', '-', $date_request_from);
     $date_view_from = date('Y-m-d', strtotime($request_date_from));
+    $month_view_from = date('m', strtotime($request_date_from));
+
 
     $date_request_to = $_POST['date_request_to'];
     $request_date_to = str_replace('/', '-', $date_request_to);
     $date_view_to = date('Y-m-d', strtotime($request_date_to));
+    $month_view_to = date('m', strtotime($request_date_to));
 } else {
     $date_view_from = date("Y-m-d");
     $date_view_to = date("Y-m-d");
+
+    $month_view_from = date("m");
+    $month_view_to = date("m");
 }
 
 ?>
@@ -74,7 +80,7 @@ if (isset($_POST['btn_view'])) {
                                         <h4 class="text-dark"> ລາຍການຢ້ຽມຢາມ</h4>
                                         <?php
 
-                                        //   echo "$date_view and $id_staff";
+                                         echo "$date_view_from - $month_view_from and  $date_view_to - $month_view_to";
                                         ?>
 
 
@@ -128,7 +134,7 @@ if (isset($_POST['btn_view'])) {
                                                     $i = 1;
  
 
-                                                    $stmt4 = $conn->prepare("call rpt_sumary_visit_sale_report('$date_view_from','$date_view_to') ");
+                                                    $stmt4 = $conn->prepare("call rpt_sumary_visit_sale_report('$date_view_from','$date_view_to','$month_view_from','$month_view_to') ");
                                                     $stmt4->execute();
 
                                                     if ($stmt4->rowCount() > 0) {
