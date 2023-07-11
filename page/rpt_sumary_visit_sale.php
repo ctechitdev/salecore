@@ -80,7 +80,7 @@ if (isset($_POST['btn_view'])) {
                                         <h4 class="text-dark"> ລາຍການຢ້ຽມຢາມ</h4>
                                         <?php
 
-                                         echo "$date_view_from - $month_view_from and  $date_view_to - $month_view_to";
+                                        // echo "$date_view_from - $month_view_from and  $date_view_to - $month_view_to";
                                         ?>
 
 
