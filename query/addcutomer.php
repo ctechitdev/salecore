@@ -52,7 +52,7 @@ if (empty($Acc_id)) {
 
 			$gen_number = str_pad($last_number, $code_lenght, '0', STR_PAD_LEFT);
 
-			if($com_code_type){
+			if($Acc_id == '579'){
 				$rc_check = "KPD$gen_number";
 			}else{
 				$rc_check = "$gen_number";
