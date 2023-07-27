@@ -65,7 +65,16 @@ $date_report = date("d/m/Y");
 				$bank_code = $cusrows['bank_code'];
 				$ccy = $cusrows['ccy'];
 				$bank_acc_name = $cusrows['bank_acc_name'];
-				
+
+
+				$first_char = substr("$c_code", 0, 1);
+
+
+
+				if ($first_char == "R" || $first_char == "r") {
+					$acc_name  = "Retail";
+				}
+
 
 			?>
 
@@ -77,7 +86,7 @@ $date_report = date("d/m/Y");
 						<tr>
 							<?php
 
-					 
+
 
 
 							//echo " $staff_company";
@@ -103,7 +112,7 @@ $date_report = date("d/m/Y");
 							<td align="center"><b>
 									<h1> ຟອມລູກຄ້າ </h1>
 								</b>
-								<h4>ກູ່ມສິນຄ້າ <?php echo "$acc_name"; ?></h4> <br> 
+								<h4>ກູ່ມສິນຄ້າ <?php echo "$acc_name"; ?></h4> <br>
 							</td>
 							<td align="right"><b> ເລກທີ: <?php echo "$ref_number"; ?> <br> ວັນທີພິມ: <?php echo "$date_report"; ?></td>
 						</tr>
@@ -213,7 +222,7 @@ $date_report = date("d/m/Y");
 							<td>
 								<label class="m-l-4" for="fname">ສະກຸນເງິນ
 									<?php
-									 echo "$ccy";  
+									echo "$ccy";
 									?></label>
 							</td>
 
@@ -229,7 +238,7 @@ $date_report = date("d/m/Y");
 							<td>
 								<label for="fname">service type: <?php echo "$service_type" ?></label>
 							</td>
-							 
+
 						</tr>
 
 
