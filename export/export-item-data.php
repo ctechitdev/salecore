@@ -11,7 +11,7 @@ $objPHPExcel  =  new  PHPExcel();
 
 
 $objPHPExcel->setActiveSheetIndex(0);
- 
+
 
 
 $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'ItemCode');
@@ -41,7 +41,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue('X1', 'CostAccountingMethod');
 $objPHPExcel->getActiveSheet()->SetCellValue('Y1', 'Valid');
 $objPHPExcel->getActiveSheet()->SetCellValue('Z1', 'ValidFrom');
 $objPHPExcel->getActiveSheet()->SetCellValue('AA1', 'Frozen');
-$objPHPExcel->getActiveSheet()->SetCellValue('AB1', 'FrozenFrom'); 
+$objPHPExcel->getActiveSheet()->SetCellValue('AB1', 'FrozenFrom');
 $objPHPExcel->getActiveSheet()->SetCellValue('AC1', 'U_Brand');
 
 
@@ -95,14 +95,14 @@ $stmt1->execute();
 if ($stmt1->rowCount() > 0) {
   while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
 
- 
+
 
     $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, mb_strtoupper($row1['full_code'], 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, mb_strtoupper($row1['item_code'], 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, mb_strtoupper('', 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, mb_strtoupper($row1['item_group_code_b1'], 'UTF-8'));
-    $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, mb_strtoupper($row1['item_name'], 'UTF-8'));
-    $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, mb_strtoupper($row1['item_name'], 'UTF-8'));
+    $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, ($row1['item_name']));
+    $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, ($row1['item_name']));
     $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, mb_strtoupper($row1['u_packing'], 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('H' . $rowCount, mb_strtoupper('Pcs', 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('I' . $rowCount, mb_strtoupper($row1['buy_unit'], 'UTF-8'));
@@ -125,7 +125,7 @@ if ($stmt1->rowCount() > 0) {
     $objPHPExcel->getActiveSheet()->SetCellValue('Z' . $rowCount, mb_strtoupper($row1['date_use'], 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('AA' . $rowCount, mb_strtoupper('N', 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $rowCount, mb_strtoupper('', 'UTF-8'));
-    $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $rowCount, mb_strtoupper($row1['brand_name'], 'UTF-8')); 
+    $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $rowCount, mb_strtoupper($row1['brand_name'], 'UTF-8'));
     $rowCount++;
   }
 }
@@ -166,7 +166,7 @@ if ($stmt2->rowCount() > 0) {
   while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
 
     $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount2, mb_strtoupper($row2['full_code'], 'UTF-8'));
-    $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount2, mb_strtoupper($row2['pl_id']-1, 'UTF-8'));
+    $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount2, mb_strtoupper($row2['pl_id'] - 1, 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount2, mb_strtoupper($row2['pl_id'], 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount2, mb_strtoupper($row2['item_price'], 'UTF-8'));
     $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount2, mb_strtoupper($row2['ccy'], 'UTF-8'));
@@ -191,5 +191,3 @@ header('Content-Disposition: attachment;filename="Add-Item.xlsx"'); //tell brows
 header('Cache-Control: max-age=0'); //no cache
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save('php://output');
-
-?>

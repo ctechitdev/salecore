@@ -107,8 +107,8 @@ if ($stmt1->rowCount() > 0) {
         $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, mb_strtoupper($row1['item_code'], 'UTF-8'));
         $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, mb_strtoupper('', 'UTF-8'));
         $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, mb_strtoupper($row1['item_group_code_b1'], 'UTF-8'));
-        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, mb_strtoupper($row1['item_name'], 'UTF-8'));
-        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, mb_strtoupper($row1['item_name'], 'UTF-8'));
+        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, ($row1['item_name']));
+        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, ($row1['item_name']));
         $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, mb_strtoupper($row1['u_packing'], 'UTF-8'));
         $objPHPExcel->getActiveSheet()->SetCellValue('H' . $rowCount, mb_strtoupper('Pcs', 'UTF-8'));
         $objPHPExcel->getActiveSheet()->SetCellValue('I' . $rowCount, mb_strtoupper($row1['buy_unit'], 'UTF-8'));
@@ -237,4 +237,3 @@ header('Content-Disposition: attachment;filename="Add-Item.xlsx"'); //tell brows
 header('Cache-Control: max-age=0'); //no cache
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save('php://output');
-?>
