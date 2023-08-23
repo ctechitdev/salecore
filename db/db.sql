@@ -52,6 +52,9 @@ alter table tbl_account_company add column code_type varchar(50);
 
 alter table tbl_account_company add column code_lenght varchar(50);
 
+alter table tbl_account_company add column vendor_code varchar(50);
+
+
 create table tbl_staff_sale (
     ss_id int not null PRIMARY KEY AUTO_INCREMENT,
     staff_code varchar(10),
@@ -474,4 +477,35 @@ create or replace table tbl_visit_dairy(
 );
 
 
+create table tbl_vendor (
+    vendor_id int not null PRIMARY KEY AUTO_INCREMENT,
+    acc_code varchar(5),
+    vendor_name varchar(150),
+    vendor_shop_name varchar(150),
+    vendor_code varchar(30),
+    vendor_code_type  varchar(10),
+    last_number int,
+    company_register_code varchar(30),
+    vat_register_code varchar(30),
+    phone_office varchar(15),
+    phone_mobile varchar(15),
+    email varchar(100),
+    province_id int,
+    district_id int,
+    village varchar(300),
+    contact_type varchar(30),
+    contact_expire_date date,
+    add_by int,
+    register_date date
+);
 
+create table tbl_vendor_bank_account(
+    vendor_bank_account_id int not null PRIMARY KEY AUTO_INCREMENT,
+    vendor_id int,
+    account_currency varchar(10),
+    bank_name varchar(150),
+    bank_account_name varchar(150),
+    bank_account_number varchar(50)
+);
+
+    
