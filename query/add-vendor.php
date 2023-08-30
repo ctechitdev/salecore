@@ -25,20 +25,39 @@ $gen_number = str_pad($last_number, 4, '0', STR_PAD_LEFT);
 
 $rc_check = "$vendor_code_type-$gen_number";
 
-$insCourse = $conn->query(" insert into tbl_vendor 
+$insert_vendor = $conn->query(" insert into tbl_vendor 
 (acc_code,vendor_name,vendor_shop_name,vendor_code,vendor_code_type,last_number,company_register_code,
-vat_register_code,phone_office,phone_mobile,email,province_id,district_id,village,contact_type,contact_expire_date,add_by,register_date) 
+vat_register_code,phone_office,phone_mobile,email,province_id,district_id,village,contact_type,contact_expire_date,cash_type,add_by,register_date) 
 values 
 ('$Acc_id','$contact_name','$shopname','$rc_check','$vendor_code_type','$last_number','$company_reg_number','$vat_reg_number','$phone_office','$phone_mobile','$email',
-'$province_id','$dis_id','$village_name','$contactRadio','$contact_expire_date','$id_users',now()) ");
-if ($insCourse) {
-	$res = array("res" => "success");
+'$province_id','$dis_id','$village_name','$contactRadio','$contact_expire_date','$cashRadio','$id_users',now()) ");
+
+
+
+$lastid = $conn->lastInsertId();
+
+if ($insert_vendor) {
+	 
+
+	$countbox = count($_POST['ccy']);
+
+	for ($i = 0; $i < ($countbox); $i++) {
+
+		$insertItem = $conn->query(" insert into tbl_vendor_bank_account (vendor_id,account_currency,bank_name,bank_account_name,bank_account_number)
+		 values 
+		 ('$lastid','$ccy[$i]','$bank_code[$i]','$bank_account_name[$i]','$bank_account_number[$i]') ");
+
+
+		 $res = array("res" => "success");
+	}
+
+
+
 } else {
 	$res = array("res" => "invalid");
 }
 
 
 
-$res = array("res" => "success");
 
 echo json_encode($res);

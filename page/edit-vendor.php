@@ -2,9 +2,11 @@
 include("../setting/checksession.php");
 include("../setting/conn.php");
 
+$vendor_id = $_GET['vendor_id'];
+
+
 $header_name = "ຜູ້ສະໜອງ";
 $header_click = "1";
-
 
 ?>
 
@@ -25,28 +27,28 @@ $header_click = "1";
 
     ?>
 
-
-</head>
-<script src="../plugins/nprogress/nprogress.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<script>
-    $(function() {
+    <script src="../plugins/nprogress/nprogress.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script>
+        $(function() {
 
 
 
-        $('#province_id').change(function() {
-            var pv_id = $('#province_id').val();
-            $.post('../function/dynamic_dropdown/get_district_name.php', {
-                    pv_id: pv_id
-                },
-                function(output) {
-                    $('#dis_id').html(output).show();
-                });
+            $('#province_id').change(function() {
+                var pv_id = $('#province_id').val();
+                $.post('../function/dynamic_dropdown/get_district_name.php', {
+                        pv_id: pv_id
+                    },
+                    function(output) {
+                        $('#dis_id').html(output).show();
+                    });
+            });
+
+
         });
+    </script>
+</head>
 
-
-    });
-</script>
 
 <body class="navbar-fixed sidebar-fixed" id="body">
 
@@ -60,7 +62,7 @@ $header_click = "1";
         <div class="page-wrapper">
 
             <?php
-
+            $header_name = "ລະຫັດສິນຄ້າ";
             include "header.php";
             ?>
             <div class="content-wrapper">
@@ -73,10 +75,12 @@ $header_click = "1";
 
                             <div class="    ">
                                 <div class="email-right-column  email-body p-4 p-xl-5">
-                                    <div class="email-body-head mb-5 text-center ">
-                                        <h2 class="text-dark">ຂື້ນຖະບຽນຜູ້ຂາຍ</h2>
+                                    <div class="email-body-head mb-6 ">
+                                        <h4 class="text-dark">ເພິ່ມລະຫັດສິນຄ້າ</h4>
+
                                     </div>
-                                    <form method="post" id="addvendorform">
+                                    <form method="post" id="edititemfrm">
+
                                         <div class="row">
 
 
@@ -91,35 +95,21 @@ $header_click = "1";
                                                         <div class="input-states">
                                                             <div class="form-group">
                                                                 <div class="row">
+                                                                    <?php
 
+                                                                    $vender_row = $conn->query("SELECT  * FROM tbl_vendor where vendor_id = '$vendor_id' ")->fetch(PDO::FETCH_ASSOC);
+                                                                    $acc_code = $vender_row['acc_code'];
+                                                                    $province_id = $vender_row['province_id'];
+                                                                    $district_id = $vender_row['district_id'];
+                                                                    ?>
 
-                                                                    <div class="form-group  col-lg-12">
-                                                                        <label class="text-dark font-weight-medium">ລະຫັດກຸ່ມລູກຄ້າ</label>
-                                                                        <div class="form-group">
-                                                                            <select class=" form-control font" name="Acc_id" >
-                                                                                <option value=""> ເລືອກລະຫັດກຸ່ມສິນຄ້າ </option>
+                                                                    <input type="hidden" class="form-control" id="vendor_id" name="vendor_id" autocomplete="off" value="<?php echo $vendor_id ?>" />
 
-                                                                                <?php
+                                                                    <div class="form-group  col-lg-12 text-center">
+                                                                        <label class="text-dark font-weight-medium">
+                                                                            <h2> ລະຫັດຜູ້ສະໜອງ: <?php echo $vender_row['vendor_code'];; ?></h2>
+                                                                        </label>
 
-
-                                                                                $stmt1 = $conn->prepare(" SELECT company_code ,concat(acc_name ,' (',vendor_code, ') ') as full_code 
-                                                                                from tbl_staff_company a
-                                                                                left join tbl_account_company b on a.company_id = b.ac_ic
-                                                                                where depart_id = '$depart_id'
-                                                                                order by company_code ");
-                                                                                $stmt1->execute();
-                                                                                if ($stmt1->rowCount() > 0) {
-                                                                                    while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-                                                                                ?> <option value="<?php echo $row1['company_code']; ?>"> <?php echo $row1['full_code']; ?></option>
-                                                                                <?php
-                                                                                    }
-                                                                                }
-
-
-
-                                                                                ?>
-                                                                            </select>
-                                                                        </div>
                                                                     </div>
 
 
@@ -127,27 +117,27 @@ $header_click = "1";
                                                                     <div class="col-lg-12">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ຊື່ຮ້ານ/ຊື່ບໍລິສັດ</label>
-                                                                            <input type="text" class="form-control"  name="shopname" required>
+                                                                            <input type="text" class="form-control" name="shopname" value='<?php echo $vender_row['vendor_shop_name']; ?>' required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ເລກທະບຽນບໍລິສັດ</label>
-                                                                            <input type="text" class="form-control"  name="company_reg_number" required>
+                                                                            <input type="text" class="form-control" name="company_reg_number" value='<?php echo $vender_row['company_register_code']; ?>' required>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ເລກອາກອນຜູ້ເສບພາສີ</label>
-                                                                            <input type="text" class="form-control" name="vat_reg_number" required>
+                                                                            <input type="text" class="form-control" name="vat_reg_number" value='<?php echo $vender_row['vat_register_code']; ?>' required>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ຜູ້ຕິດຕໍ່</label>
-                                                                            <input type="text" class="form-control"   name="contact_name" required>
+                                                                            <input type="text" class="form-control" name="contact_name" value='<?php echo $vender_row['vendor_name']; ?>' required>
                                                                         </div>
                                                                     </div>
 
@@ -155,35 +145,37 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ເບີຕິດຕໍ່ (Office)</label>
-                                                                            <input type="text" class="form-control" name="phone_office">
+                                                                            <input type="text" class="form-control" name="phone_office" value='<?php echo $vender_row['phone_office']; ?>'>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ເບີຕິດຕໍ່ (Mobile)</label>
-                                                                            <input type="text" class="form-control" name="phone_mobile">
+                                                                            <input type="text" class="form-control" name="phone_mobile" value='<?php echo $vender_row['phone_mobile']; ?>'>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">Email</label>
-                                                                            <input type="text" class="form-control" name="email">
+                                                                            <input type="text" class="form-control" name="email" value='<?php echo $vender_row['email']; ?>'>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-group  col-lg-4">
                                                                         <label class="text-dark font-weight-medium">ແຂວງ</label>
                                                                         <div class="form-group">
-                                                                            <select class=" form-control font" name="province_id" id ="province_id" >
+                                                                            <select class=" form-control font" name="province_id" id="province_id">
                                                                                 <option value=""> ເລືອກແຂວງ </option>
                                                                                 <?php
                                                                                 $stmt = $conn->prepare(" SELECT pv_id,pv_name FROM tbl_provinces order by pv_name");
                                                                                 $stmt->execute();
                                                                                 if ($stmt->rowCount() > 0) {
                                                                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                                                ?> <option value="<?php echo $row['pv_id']; ?>"> <?php echo $row['pv_name']; ?></option>
+                                                                                ?> <option value="<?php echo $row['pv_id']; ?>" <?php if ($row['pv_id'] ==  $province_id) {
+                                                                                                                                    echo "selected";
+                                                                                                                                } ?>> <?php echo $row['pv_name']; ?></option>
                                                                                 <?php
                                                                                     }
                                                                                 }
@@ -198,6 +190,20 @@ $header_click = "1";
 
                                                                             <select class="form-control  font" name="dis_id" id="dis_id">
                                                                                 <option value=""> ເລືອກເມືອງ </option>
+                                                                                <?php
+                                                                                $stmt2 = $conn->prepare(" SELECT dis_id,distict_name FROM tbl_districts where pv_id ='$province_id' ");
+                                                                                $stmt2->execute();
+                                                                                if ($stmt2->rowCount() > 0) {
+
+                                                                                    while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                                                                                        $edit_dt_id = $row2["dis_id"];
+                                                                                ?> <option value='<?php echo $row2["dis_id"];  ?>' <?php if ($district_id == "$edit_dt_id") {
+                                                                                                                                        echo "selected";
+                                                                                                                                    } ?>> <?php echo $row2['distict_name'];  ?></option>
+                                                                                <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -205,7 +211,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName"> ບ້ານ </label>
-                                                                            <input type="text" class="form-control" name="village_name">
+                                                                            <input type="text" class="form-control" name="village_name" value='<?php echo $vender_row['village']; ?>'>
                                                                         </div>
                                                                     </div>
 
@@ -214,7 +220,9 @@ $header_click = "1";
                                                                         <label for="firstName">ສັນຍາການຊື້ຂາຍ</label>
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="noncontact" name="contactRadio" value="non-contacted" class="custom-control-input">
+                                                                                <input type="radio" id="noncontact" name="contactRadio" value="non-contacted" class="custom-control-input" <?php if ($vender_row['contact_type'] == "non-contacted") {
+                                                                                                                                                                                                echo "checked";
+                                                                                                                                                                                            } ?>>
                                                                                 <label class="custom-control-label" for="noncontact">ບໍ່ມີສັນຍາ</label>
                                                                             </div>
 
@@ -226,7 +234,9 @@ $header_click = "1";
                                                                         <label for="firstName">ສັນຍາການຊື້ຂາຍ</label>
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="iscontact" name="contactRadio" value="contacted" class="custom-control-input">
+                                                                                <input type="radio" id="iscontact" name="contactRadio" value="contacted" class="custom-control-input" <?php if ($vender_row['contact_type'] == "contacted") {
+                                                                                                                                                                                            echo "checked";
+                                                                                                                                                                                        } ?>>
                                                                                 <label class="custom-control-label" for="iscontact">ມີສັນຍາ ກຳນົດໄລຍະເວລາ</label>
                                                                             </div>
 
@@ -236,7 +246,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ໝົດອາຍຸວັນທີ່</label>
-                                                                            <input type="date" class="form-control" id="contact_expire_date" name="contact_expire_date">
+                                                                            <input type="date" class="form-control" id="contact_expire_date" name="contact_expire_date" value='<?php echo $vender_row['contact_expire_date']; ?>'>
                                                                         </div>
                                                                     </div>
 
@@ -253,7 +263,9 @@ $header_click = "1";
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="cash" name="cashRadio" value="cash" class="custom-control-input">
+                                                                                <input type="radio" id="cash" name="cashRadio" value="cash" class="custom-control-input" <?php if ($vender_row['cash_type'] == "cash") {
+                                                                                                                                                                                echo "checked";
+                                                                                                                                                                            } ?>>
                                                                                 <label class="custom-control-label" for="cash">ເງິນສົດ</label>
                                                                             </div>
 
@@ -264,7 +276,9 @@ $header_click = "1";
                                                                     <div class="col-lg-5">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="queck" name="cashRadio" value="queck" class="custom-control-input">
+                                                                                <input type="radio" id="queck" name="cashRadio" value="queck" class="custom-control-input" <?php if ($vender_row['cash_type'] == "queck") {
+                                                                                                                                                                                echo "checked";
+                                                                                                                                                                            } ?>>
                                                                                 <label class="custom-control-label" for="queck">ແຊັກ</label>
                                                                             </div>
 
@@ -272,15 +286,113 @@ $header_click = "1";
                                                                     </div>
 
                                                                 </div>
-
-
-
-
                                                             </div>
-                                                            <table class="table" id="productTable">
+                                                        </div>
 
-                                                                <tbody>
+                                                        <table class="table" id="productTable">
+
+                                                            <tbody>
+                                                                <?php
+                                                                $arrayNumber = 0;
+
+                                                                $stmt3 = $conn->prepare(" SELECT * FROM tbl_vendor_bank_account where vendor_id ='$vendor_id' ");
+                                                                $stmt3->execute();
+                                                                $x = 1;
+                                                                if ($stmt3->rowCount() > 0) {
+                                                                    while ($row_list = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+
+
+                                                                ?>
+
+
+                                                                        <tr id="row<?php echo $x; ?>" class="<?php echo $arrayNumber; ?>">
+
+                                                                            <td>
+
+                                                                                <div class="form-group "><?php echo "ບັນຊີທີ: $x"; ?> <br>
+                                                                                    <div class="row p-2">
+
+                                                                                        <div class="form-group  col-lg-3">
+                                                                                            <label class="text-dark font-weight-medium">ສະກຸນເງິນ</label>
+                                                                                            <div class="form-group">
+                                                                                                <select class=" form-control font" name="ccy[]" id="ccy<?php echo $x; ?>">
+                                                                                                    <option value=""> ເລືອກສະກຸນເງິນ </option>
+                                                                                                    <option value="kip" <?php if ($row_list['account_currency'] == "kip") {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>> KIP </option>
+                                                                                                    <option value="thb" <?php if ($row_list['account_currency'] == "thb") {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>> THB </option>
+                                                                                                    <option value="usd" <?php if ($row_list['account_currency'] == "usd") {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>> USD </option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-lg-4">
+                                                                                            <div class="form-group">
+                                                                                                <label for="firstName">ທະນາຄານ</label>
+                                                                                                <select class=" form-control font" name="bank_code[]" id="bank_code<?php echo $x; ?>">
+                                                                                                    <option value=""> ເລືອກທະນາຄານ </option>
+
+                                                                                                    <?php
+
+                                                                                                    $stmt1 = $conn->prepare("  select * from tbl_bank_code ");
+                                                                                                    $stmt1->execute();
+                                                                                                    if ($stmt1->rowCount() > 0) {
+                                                                                                        while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+                                                                                                    ?> <option value="<?php echo $row1['bc_code']; ?>" <?php if ($row1['bc_code'] == $row_list['bank_name']) {
+                                                                                                                                                            echo "selected";
+                                                                                                                                                        } ?>> <?php echo $row1['bc_name']; ?></option>
+                                                                                                    <?php
+                                                                                                        }
+                                                                                                    }
+
+                                                                                                    ?>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group  col-lg-5">
+                                                                                            <label class="text-dark font-weight-medium">ຊື່ບັນຊີ</label>
+                                                                                            <div class="form-group">
+                                                                                                <input type="text" step="any" name="bank_account_name[]" id="bank_account_name<?php echo $x; ?>" autocomplete="off" class="form-control" value='<?php echo $row_list['bank_account_name']; ?>' />
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group  col-lg-9">
+                                                                                            <label class="text-dark font-weight-medium">ເລກບັນຊີ</label>
+                                                                                            <div class="form-group">
+                                                                                                <input type="text" step="any" name="bank_account_number[]" id="bank_account_number<?php echo $x; ?>" autocomplete="off" class="form-control" value='<?php echo $row_list['bank_account_number']; ?>' />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="d-flex justify-content-end mt-2 ">
+
+                                                                                            <div class="form-group p-4">
+                                                                                                <button type="button" class="btn btn-primary btn-flat " onclick="addRow()" id="addRowBtn" data-loading-text="Loading...">
+                                                                                                    <i class="mdi mdi-briefcase-plus"></i>
+                                                                                                </button>
+                                                                                            </div>
+
+
+                                                                                            <div class="form-group p-4">
+                                                                                                <button type="button" class="btn btn-danger  removeProductRowBtn" type="button" id="removeProductRowBtn" onclick="removeProductRow(<?php echo $x; ?>)">
+                                                                                                    <i class="mdi mdi-briefcase-remove"></i>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
                                                                     <?php
+                                                                        $arrayNumber++;
+                                                                        $x++;
+                                                                    }
+                                                                } else {
+
                                                                     $arrayNumber = 0;
                                                                     for ($x = 1; $x < 2; $x++) { ?>
                                                                         <tr id="row<?php echo $x; ?>" class="<?php echo $arrayNumber; ?>">
@@ -366,13 +478,16 @@ $header_click = "1";
                                                                             </td>
                                                                         </tr>
 
-                                                                    <?php
+                                                                <?php
                                                                         $arrayNumber++;
-                                                                    } // /for
-                                                                    ?>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                                    }
+                                                                }
+                                                                ?>
+
+
+
+                                                            </tbody>
+                                                        </table>
                                                     </div>
 
 
@@ -384,7 +499,7 @@ $header_click = "1";
 
 
                                         <div class="d-flex justify-content-end mt-6">
-                                            <button type="submit" class="btn btn-primary mb-2 btn-pill">ເພີ່ມຂໍ້ມູນ</button>
+                                            <button type="submit" class="btn btn-primary mb-2 btn-pill">ແກ້ໄຂຂໍ້ມູນ</button>
                                         </div>
 
                                     </form>
@@ -399,7 +514,6 @@ $header_click = "1";
                 </div>
 
             </div>
-
             <div class="content-wrapper">
                 <div class="content">
                     <!-- For Components documentaion -->
@@ -415,7 +529,7 @@ $header_click = "1";
                                         <th>ເລກທີ</th>
                                         <th>ລະຫັດຜູ້ສະໜອງ</th>
                                         <th>ຊື່ຜູ້ສະໜອງ</th>
-                                        <th>ຊື່ຮ້ານ</th> 
+                                        <th>ຊື່ຮ້ານ</th>
                                         <th>ເບີຕິດຕໍ່</th>
                                         <th>ກຸ່ມສິນຄ້າ</th>
                                         <th>ວັນລົງທະບຽນ</th>
@@ -443,7 +557,7 @@ $header_click = "1";
                                             $phone_office = $row4['phone_office'];
                                             $acc_name = $row4['acc_name'];
                                             $register_date = $row4['register_date'];
-                                             
+
 
                                     ?>
 
@@ -481,14 +595,6 @@ $header_click = "1";
                                         }
                                     }
                                     ?>
-
-
-
-
-
-
-
-
                                 </tbody>
                             </table>
 
@@ -500,15 +606,21 @@ $header_click = "1";
 
             </div>
 
+
             <?php include "footer.php"; ?>
         </div>
     </div>
 
+
+
+
+
     <?php include("../setting/calljs.php"); ?>
+
     <script>
-        // add item Data 
-        $(document).on("submit", "#addvendorform", function() {
-            $.post("../query/add-vendor.php", $(this).serialize(), function(data) {
+        // add Customer Data 
+        $(document).on("submit", "#edititemfrm", function() {
+            $.post("../query/edit-vendor.php", $(this).serialize(), function(data) {
                 if (data.res == "invalid") {
                     Swal.fire(
                         'ແຈ້ງເຕືອນ',
@@ -519,55 +631,18 @@ $header_click = "1";
 
                     Swal.fire(
                         'ສຳເລັດ',
-                        'ລົງທະບຽນສຳເລັດ',
+                        'ແກ້ໄຂສຳເລັດ',
                         'success'
                     )
 
                     setTimeout(
                         function() {
+
                             location.reload();
                         }, 1000);
 
                 }
             }, 'json');
-
-            return false;
-        });
-
-
-        // Delete item
-        $(document).on("click", "#deleteitem", function(e) {
-            e.preventDefault();
-            var id = $(this).data("id");
-            $.ajax({
-                type: "post",
-                url: "../query/deleteitem.php",
-                dataType: "json",
-                data: {
-                    id: id
-                },
-                cache: false,
-                success: function(data) {
-                    if (data.res == "success") {
-                        Swal.fire(
-                            'ສຳເລັດ',
-                            'ລຶບຂໍ້ມູນລະຫັດສິນຄ້າສຳເລັດ',
-                            'success'
-                        )
-                        setTimeout(
-                            function() {
-                                window.location.href = 'items.php';
-                            }, 1000);
-
-                    }
-                },
-                error: function(xhr, ErrorStatus, error) {
-                    console.log(status.error);
-                }
-
-            });
-
-
 
             return false;
         });

@@ -495,6 +495,7 @@ create table tbl_vendor (
     village varchar(300),
     contact_type varchar(30),
     contact_expire_date date,
+    cash_type varchar(20),
     add_by int,
     register_date date
 );
@@ -508,4 +509,30 @@ create table tbl_vendor_bank_account(
     bank_account_number varchar(50)
 );
 
-    
+
+create table tbl_evaluation_question(
+    evaluation_question_id int not null PRIMARY KEY AUTO_INCREMENT,
+    evaluation_question_title text,
+    evaluation_question_data text,
+    question_status int,
+    evaluation_point int
+);
+
+
+create table tbl_vender_evaluated(
+    vender_evaluated_id int not null PRIMARY KEY AUTO_INCREMENT,
+    vender_id int,
+    evaluated_total_score int,
+    evaluated_date date,
+    evaluated_by int,
+    commend_from_evaluator text,
+    approve_by int
+);
+
+create table tbl_vender_evaluated_detail (
+    vender_evaluated_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
+    vender_evaluated_id int,
+    evaluation_question_id int,
+    evaluation_score int,
+    evaluation_multi_score int
+);
