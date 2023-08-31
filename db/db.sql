@@ -519,19 +519,20 @@ create table tbl_evaluation_question(
 );
 
 
-create table tbl_vender_evaluated(
-    vender_evaluated_id int not null PRIMARY KEY AUTO_INCREMENT,
-    vender_id int,
+create table tbl_vendor_evaluated(
+    vendor_evaluated_id int not null PRIMARY KEY AUTO_INCREMENT,
+    vendor_id int,
     evaluated_total_score int,
     evaluated_date date,
     evaluated_by int,
     commend_from_evaluator text,
+    evaluated_month date,
     approve_by int
 );
 
-create table tbl_vender_evaluated_detail (
-    vender_evaluated_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
-    vender_evaluated_id int,
+create table tbl_vendor_evaluated_detail (
+    vendor_evaluated_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
+    vendor_evaluated_id int,
     evaluation_question_id int,
     evaluation_score int,
     evaluation_multi_score int
