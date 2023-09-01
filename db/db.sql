@@ -521,8 +521,7 @@ create table tbl_evaluation_question(
 
 create table tbl_vendor_evaluated(
     vendor_evaluated_id int not null PRIMARY KEY AUTO_INCREMENT,
-    vendor_id int,
-    evaluated_total_score int,
+    vendor_id int, 
     evaluated_date date,
     evaluated_by int,
     commend_from_evaluator text,

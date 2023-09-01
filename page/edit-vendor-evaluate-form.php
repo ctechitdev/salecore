@@ -5,7 +5,7 @@ include("../setting/conn.php");
 $header_name = "ປະເມິນຜູ້ສະໜອງ";
 $header_click = "1";
 
-$vendor_id = $_GET['vendor_id'];
+$vendor_evaluated_id = $_GET['vendor_evaluated_id'];
 
 
 ?>
@@ -67,31 +67,35 @@ $vendor_id = $_GET['vendor_id'];
 
 
                                     </div>
-                                    <form method="post" id="addform">
+                                    <form method="post" id="editform">
 
 
 
                                         <?php
 
-
-
-
                                         $cusrows = $conn->query(" 
-                                        SELECT vendor_id,vendor_name,vendor_shop_name,acc_name
+                                        SELECT vendor_evaluated_id,vendor_name,vendor_shop_name,acc_name,commend_from_evaluator,a.vendor_id,
+                                        DATE_FORMAT(evaluated_date, '%d / %m / %y') as evaluated_date,
+                                        DATE_FORMAT(evaluated_month, '%Y-%m') as evaluated_month
                                         FROM  tbl_vendor a
                                         left join tbl_account_company b on a.acc_code = b.company_code
-                                        WHERE vendor_id ='$vendor_id' ")->fetch(PDO::FETCH_ASSOC);
+                                        left join tbl_vendor_evaluated c on a.vendor_id = c.vendor_id
+                                        WHERE vendor_evaluated_id ='$vendor_evaluated_id' ")->fetch(PDO::FETCH_ASSOC);
 
-                                        $vendor_id = $cusrows['vendor_id'];
+                                        $vendor_evaluated_id = $cusrows['vendor_evaluated_id'];
                                         $vendor_name = $cusrows['vendor_name'];
                                         $vendor_shop_name = $cusrows['vendor_shop_name'];
                                         $acc_name = $cusrows['acc_name'];
+                                        $evaluated_date = $cusrows['evaluated_date'];
+                                        $evaluated_month = $cusrows['evaluated_month'];
+                                        $commend_from_evaluator = $cusrows['commend_from_evaluator'];
+                                        $vendor_id = $cusrows['vendor_id'];
 
-
+                                        
                                         ?>
 
-                                        <input type="hidden" class="form-control" name="vendor_id" id="vendor_id" value='<?php echo "$vendor_id" ?>' required>
-
+                                        <input type="hidden" class="form-control" name="vendor_evaluated_id" id="vendor_evaluated_id" value='<?php echo "$vendor_evaluated_id" ?>' required>
+                                     
                                         <div class="row text-center">
 
                                             <div class="col-lg-6">
@@ -115,7 +119,7 @@ $vendor_id = $_GET['vendor_id'];
                                                     <label for="firstName">
                                                         <h4> ວັນທີ່ປະເມີນ </h4>
                                                     </label>
-                                                    <h4> <?php echo date("d / m / Y"); ?> </h4>
+                                                    <h4> <?php echo "$evaluated_date"; ?> </h4>
                                                 </div>
                                             </div>
 
@@ -124,7 +128,7 @@ $vendor_id = $_GET['vendor_id'];
                                                     <label for="firstName">
                                                         <h4> ຊ່ວງປໃນການປະເມີນ </h4>
                                                     </label>
-                                                    <input type="month" class="form-control" name="evaluated_month">
+                                                    <input type="month" class="form-control" name="evaluated_month" value='<?php echo "$evaluated_month"; ?>'>
                                                 </div>
                                             </div>
 
@@ -148,7 +152,10 @@ $vendor_id = $_GET['vendor_id'];
                                                                     <?php
 
                                                                     $i = 1;
-                                                                    $stmt1 = $conn->prepare("SELECT * from tbl_evaluation_question ");
+                                                                    $stmt1 = $conn->prepare("select evaluation_score, a.evaluation_question_id,evaluation_question_title,evaluation_question_data,evaluation_point
+                                                                    from tbl_vendor_evaluated_detail a
+                                                                    left join tbl_evaluation_question b on a.evaluation_question_id = b.evaluation_question_id
+                                                                    where vendor_evaluated_id = '$vendor_evaluated_id' ");
                                                                     $stmt1->execute();
                                                                     if ($stmt1->rowCount() > 0) {
                                                                         while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
@@ -171,23 +178,33 @@ $vendor_id = $_GET['vendor_id'];
                                                                                 <label for="firstName">ລະດັບຄະແນນ </label><br>
 
                                                                                 <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                    <input type="radio" id='score1_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="1" class="custom-control-input">
+                                                                                    <input type="radio" id='score1_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="1" <?php if ($row1['evaluation_score'] == 1) {
+                                                                                                                                                                                        echo "checked";
+                                                                                                                                                                                    } ?> class="custom-control-input">
                                                                                     <label class="custom-control-label" for='score1_<?php echo "$i"; ?>'>1</label>
                                                                                 </div>
                                                                                 <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                    <input type="radio" id='score2_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="2" class="custom-control-input">
+                                                                                    <input type="radio" id='score2_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="2" <?php if ($row1['evaluation_score'] == 2) {
+                                                                                                                                                                                        echo "checked";
+                                                                                                                                                                                    } ?> class="custom-control-input">
                                                                                     <label class="custom-control-label" for='score2_<?php echo "$i"; ?>'>2</label>
                                                                                 </div>
                                                                                 <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                    <input type="radio" id='score3_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="3" class="custom-control-input">
+                                                                                    <input type="radio" id='score3_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="3" <?php if ($row1['evaluation_score'] == 3) {
+                                                                                                                                                                                        echo "checked";
+                                                                                                                                                                                    } ?> class="custom-control-input">
                                                                                     <label class="custom-control-label" for='score3_<?php echo "$i"; ?>'>3</label>
                                                                                 </div>
                                                                                 <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                    <input type="radio" id='score4_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="4" class="custom-control-input">
+                                                                                    <input type="radio" id='score4_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="4" <?php if ($row1['evaluation_score'] == 4) {
+                                                                                                                                                                                        echo "checked";
+                                                                                                                                                                                    } ?> class="custom-control-input">
                                                                                     <label class="custom-control-label" for='score4_<?php echo "$i"; ?>'>4</label>
                                                                                 </div>
                                                                                 <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                    <input type="radio" id='score5_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="5" class="custom-control-input">
+                                                                                    <input type="radio" id='score5_<?php echo "$i"; ?>' name='score_<?php echo "$i"; ?>' value="5" <?php if ($row1['evaluation_score'] == 5) {
+                                                                                                                                                                                        echo "checked";
+                                                                                                                                                                                    } ?> class="custom-control-input">
                                                                                     <label class="custom-control-label" for='score5_<?php echo "$i"; ?>'>5</label>
                                                                                 </div>
 
@@ -206,7 +223,7 @@ $vendor_id = $_GET['vendor_id'];
                                                                             <label for="firstName">
                                                                                 <h4> ຂໍ້ສະເໜີແນະ </h4>
                                                                             </label>
-                                                                            <textarea class="form-control" name="commend_from_evaluator"></textarea>
+                                                                            <textarea class="form-control" name="commend_from_evaluator"><?php echo "$commend_from_evaluator"; ?></textarea>
                                                                         </div>
                                                                     </div>
 
@@ -226,7 +243,7 @@ $vendor_id = $_GET['vendor_id'];
 
 
                                         <div class="d-flex justify-content-end mt-6">
-                                            <button type="submit" class="btn btn-primary mb-2 btn-pill">ເພີ່ມຂໍ້ມູນ</button>
+                                            <button type="submit" class="btn btn-primary mb-2 btn-pill">ແກ້ໄຂ</button>
                                         </div>
 
                                     </form>
@@ -293,6 +310,9 @@ $vendor_id = $_GET['vendor_id'];
 
 
                                                 ?>
+
+
+
                                                         <tr>
                                                             <td><?php echo "$acc_name"; ?></td>
                                                             <td><?php echo "$vendor_code"; ?></td>
@@ -352,24 +372,24 @@ $vendor_id = $_GET['vendor_id'];
 
     <script>
         // check in out customer
-        $(document).on("submit", "#addform", function() {
-            $.post("../query/add-evaluate.php", $(this).serialize(), function(data) {
+        $(document).on("submit", "#editform", function() {
+            $.post("../query/edit-evaluate.php", $(this).serialize(), function(data) {
                 if (data.res == "success") {
                     Swal.fire(
                         'ສຳເລັດ',
-                        'ເພິ່ມຂໍ້ມູນສຳເລັດ',
+                        'ແກ້ໄຂສຳເລັດ',
                         'success'
                     )
 
                     setTimeout(
                         function() {
-                            window.location.href = 'vendor-evaluate-list.php';
+                            location.reload();
                         }, 1000);
                 }
             }, 'json')
             return false;
         });
- 
+
 
         $(document).on("click", "#delchecklocate", function(e) {
             e.preventDefault();
@@ -400,10 +420,9 @@ $vendor_id = $_GET['vendor_id'];
                     console.log(status.error);
                 }
 
-            }); 
+            });
             return false;
         });
- 
     </script>
 
 

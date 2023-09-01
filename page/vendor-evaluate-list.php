@@ -55,11 +55,6 @@ $header_click = "1";
                             <div class="  col-xxl-12">
                                 <div class="email-right-column  email-body p-4 p-xl-5">
                                     <form method="post">
-
-
-
-
-
                                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                                             <thead>
                                                 <tr>
@@ -76,18 +71,13 @@ $header_click = "1";
                                             <tbody>
 
                                                 <?php
-
-
-
-
-
-
-                                                $stmt4 = $conn->prepare("select  a.vendor_id,acc_name,vendor_name,vendor_shop_name,a.vendor_code,
-                                                phone_office,company_register_code,register_date
+                                                $stmt4 = $conn->prepare("select vendor_evaluated_id, a.vendor_id,acc_name,vendor_name,vendor_shop_name,a.vendor_code,
+                                                phone_office,company_register_code,register_date,
+                                                (case when c.vendor_id is null then 'ລໍຖ້າປະເມີນ' else 'ປະເມີນແລ້ວ' end) as status_evaluate
                                                 from tbl_vendor a
                                                 left join tbl_account_company b on a.acc_code = b.company_code
                                                 left join tbl_vendor_evaluated c on a.vendor_id = c.vendor_id
-                                                where c.vendor_id is null ");
+                                                 ");
 
 
                                                 $stmt4->execute();
@@ -99,8 +89,9 @@ $header_click = "1";
                                                         $vendor_name = $row4['vendor_name'];
                                                         $acc_name = $row4['acc_name'];
                                                         $phone_office = $row4['phone_office'];
-                                                        $company_register_code = $row4['company_register_code'];
+                                                        $vendor_evaluated_id = $row4['vendor_evaluated_id'];
                                                         $register_date = $row4['register_date'];
+                                                        $status_evaluate = $row4['status_evaluate'];
 
 
                                                 ?>
@@ -113,7 +104,7 @@ $header_click = "1";
                                                             <td><?php echo "$vendor_shop_name"; ?></td>
                                                             <td><?php echo "$vendor_name"; ?></td>
                                                             <td><?php echo "$phone_office"; ?></td>
-                                                            <td><?php echo "$company_register_code"; ?></td>
+                                                            <td><?php echo "$status_evaluate"; ?></td>
                                                             <td><?php echo "$register_date"; ?></td>
 
 
@@ -123,28 +114,30 @@ $header_click = "1";
                                                                     </a>
 
                                                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                                                        <a class="dropdown-item" href="vendor-evaluate-form.php?vendor_id=<?php echo "$vendor_id"; ?>">ສະແດງຂໍ້ມູນ</a>
-                                                                        <a class="dropdown-item" type="button" id="delchecklocate" data-id='<?php echo $row4['vendor_id']; ?>' class="btn btn-danger btn-sm">ຍົກເລີກລາຍການ</a>
+                                                                        <?php
+                                                                        if ($status_evaluate == 'ປະເມີນແລ້ວ') {
+                                                                        ?>
+                                                                            <a class="dropdown-item" href="edit-vendor-evaluate-form.php?vendor_evaluated_id=<?php echo $row4['vendor_evaluated_id']; ?>">ແກ້ໄຂ</a>
+                                                                            <a class="dropdown-item" type="button" id="delete-evaluate" data-id='<?php echo $row4['vendor_evaluated_id']; ?>' class="btn btn-danger btn-sm">ຍົກເລີກລາຍການ</a>
+
+                                                                        <?php
+                                                                        } else {
+                                                                        ?>
+                                                                            <a class="dropdown-item" href="vendor-evaluate-form.php?vendor_id=<?php echo "$vendor_id"; ?>">ສະແດງຂໍ້ມູນ</a>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+
 
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
-
-
                                                 <?php
 
                                                     }
                                                 }
                                                 ?>
-
-
-
-
-
-
-
-
                                             </tbody>
                                         </table>
 
@@ -159,7 +152,6 @@ $header_click = "1";
             </div>
 
 
-
             <?php include "footer.php"; ?>
         </div>
     </div>
@@ -168,12 +160,12 @@ $header_click = "1";
 
     <script>
         // Delete Customer
-        $(document).on("click", "#delchecklocate", function(e) {
+        $(document).on("click", "#delete-evaluate", function(e) {
             e.preventDefault();
             var id = $(this).data("id");
             $.ajax({
                 type: "post",
-                url: "../query/delete-check-in-location.php",
+                url: "../query/delete-evaluate.php",
                 dataType: "json",
                 data: {
                     id: id
@@ -183,12 +175,12 @@ $header_click = "1";
                     if (data.res == "success") {
                         Swal.fire(
                             'ສຳເລັດ',
-                            'ຍົກເລີກລາຍການຢ້ຽມຢາມສຳເລັດ',
+                            'ຍົກເລີກສຳເລັດ',
                             'success'
                         )
                         setTimeout(
                             function() {
-                                window.location.href = 'visit-customer-location.php';
+                                location.reload();
                             }, 1000);
 
                     }

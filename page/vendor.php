@@ -541,7 +541,7 @@ $header_click = "1";
             var id = $(this).data("id");
             $.ajax({
                 type: "post",
-                url: "../query/deleteitem.php",
+                url: "../query/delete-vendor.php",
                 dataType: "json",
                 data: {
                     id: id
@@ -551,12 +551,12 @@ $header_click = "1";
                     if (data.res == "success") {
                         Swal.fire(
                             'ສຳເລັດ',
-                            'ລຶບຂໍ້ມູນລະຫັດສິນຄ້າສຳເລັດ',
+                            'ລືຶບຂໍ້ມູນສຳເລັດ',
                             'success'
                         )
                         setTimeout(
                             function() {
-                                window.location.href = 'items.php';
+                                location.reload();
                             }, 1000);
 
                     }

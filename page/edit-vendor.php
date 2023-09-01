@@ -583,7 +583,6 @@ $header_click = "1";
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                                             <a class="dropdown-item" href="edit-vendor.php?vendor_id=<?php echo "$vendor_id"; ?>">ແກ້ໄຂ</a>
 
-                                                            <a class="dropdown-item" type="button" id="deleteitem" data-id='<?php echo $row4['vendor_id']; ?>' class="btn btn-danger btn-sm">ລຶບ</a>
                                                         </div>
                                                     </div>
                                                 </td>
