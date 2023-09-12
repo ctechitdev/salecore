@@ -13,27 +13,29 @@ $date_report = date("d/m/Y");
     <link id="main-css-href" rel="stylesheet" href="../css/style-pdf-customer.css" />
 </head>
 
+<?php
 
+include("../setting/callcss.php");
+
+?>
 
 <style>
     .table-list {
         text-align: center;
         border-collapse: collapse;
         width: 100%;
+        font-size: 23px;
     }
 
     .td-list,
     .th-list {
-        border: 1px solid #dddddd;
- 
+        border: 1px solid black;
+
     }
 
-    .tr-list {
-        background-color: #dddddd;
-    }
 
     .td-list-left {
-        border: 1px solid #dddddd;
+        border: 1px solid black;
         text-align: left;
         padding: 8px;
     }
@@ -56,7 +58,7 @@ $date_report = date("d/m/Y");
 
 
                 $cusrows = $conn->query(" 
-				select vendor_shop_name,evaluated_date,acc_number,
+				select vendor_shop_name,evaluated_date,acc_name,
 				DATE_FORMAT(evaluated_month,'%m-%Y') as evaluated_month
 				from tbl_vendor_evaluated a
 				left join tbl_vendor b on a.vendor_id = b.vendor_id
@@ -66,7 +68,7 @@ $date_report = date("d/m/Y");
                 $vendor_shop_name = $cusrows['vendor_shop_name'];
                 $evaluated_date = $cusrows['evaluated_date'];
                 $evaluated_month = $cusrows['evaluated_month'];
-                $acc_number = $cusrows['acc_number'];
+                $acc_name = $cusrows['acc_name'];
 
 
 
@@ -78,7 +80,7 @@ $date_report = date("d/m/Y");
 
                         <tr>
 
-                            <td align="left"> <img src='../images/kpicon.png' width='100px' height='100px'></td>
+                            <td align="left"> <img src='../images/kpicon.png' width='150px' height='150px'></td>
 
                             <td align="left"><b>
                                     <h1> ໃບປະເມີນຜູ້ຂາຍ </h1>
@@ -93,25 +95,24 @@ $date_report = date("d/m/Y");
                     </table>
                 </div>
 
-                <div>
-                    <table width="100%" style="border:none;">
+                <div class="m-4">
+                    <table width="100%" style="border:none;" class="h3">
 
                         <tr>
-                            <td align="left">ຊື່ຜູ້ຂາຍ</td>
-                            <td align="left">ວັນທີປະເມີນ</td>
+                            <td align="left">ຊື່ຜູ້ຂາຍ <?php echo "$vendor_shop_name";?></td>
+                            <td align="left">ວັນທີປະເມີນ <?php echo "$evaluated_date";?></td>
                         </tr>
                         <tr>
-                            <td align="left">ຊ່ວງໃນການປະເມີນ</td>
-                            <td align="left">ປະເພດສິນຄ້າ</td>
+                            <td align="left">ຊ່ວງໃນການປະເມີນ <?php echo "$evaluated_month";?></td>
+                            <td align="left">ປະເພດສິນຄ້າ <?php echo "$acc_name";?></td>
                         </tr>
 
                     </table>
                 </div>
 
 
-                <div class="container ridge ">
-
-                    <table class="table-list text-center">
+                <div class="row">
+                    <table class="table-list text-center m-5">
                         <tr class="tr-list">
                             <th class="th-list" rowspan="2" width="5%">ລຳດັບ</th>
                             <th class="th-list" rowspan="2" width="45%">ຂໍ້ກຳນົດການປະເມີນ</th>
@@ -189,12 +190,9 @@ $date_report = date("d/m/Y");
 
                     </table>
 
-
                 </div>
-                <br>
-
-                <div>
-                    <table width="100%" style="border:none;">
+                <div class="row mt-1 h3">
+                    <table width="100%">
 
                         <tr>
                             <td align="left">ຂໍ້ສະເໜີ:</td>
@@ -203,53 +201,72 @@ $date_report = date("d/m/Y");
 
                     </table>
                 </div>
+                <br><br><br>
 
-                <div class="row">
-                    <table width="50%" style="border:none;">
-                        <tr>
-                            <td align="left"><b>
-                                    <p align="center"> ຜູ້ສະເໜີ </p>
-                                </b>
+                <div class="row m-4   text-center h5">
+                    <table width="50%">
 
-                            </td>
+                        <tr class="tr-list">
+                            <td class="td-list"> ຜົນປະເມີນ </td>
+                            <td class="td-list"> ເກນ </td>
+                            <td class="td-list"> ຄຳອາທິບາຍ </td>
+                        </tr>
+                        <tr class="tr-list ">
+                            <td class="td-list"> A </td>
+                            <td class="td-list"> 80 - 100 </td>
+                            <td class="td-list"> ຜູ້ສົງມອບໃນເກນດີ </td>
+                        </tr>
+                        <tr class="tr-list">
+                            <td class="td-list"> B </td>
+                            <td class="td-list"> 70 - 79 </td>
+                            <td class="td-list"> ຜູ້ສົງມອບໃນເກນໃຊ້ </td>
+                        </tr>
+                        <tr class="tr-list">
+                            <td class="td-list"> C </td>
+                            <td class="td-list"> 60 - 69 </td>
+                            <td class="td-list"> ຄົງໄວ້ລົງທະບຽນ </td>
+                        </tr>
+                        <tr class="tr-list">
+                            <td class="td-list"> D </td>
+                            <td class="td-list"> below 60 </td>
+                            <td class="td-list"> ແຈ້ງປັບປຸງຍົກເລີກ </td>
+                        </tr>
                     </table>
 
-                    <table width="50%" style="border:none;">
-                        <tr>
-                            <td align="left"><b>
-                                    <p align="center"> ຜູ້ສະເໜີ </p>
-                                </b>
+                    <table width="20%">
+                        <tr></tr>
+                    </table>
 
-                            </td>
+                    <table width="30%">
+
+
+                    
+                        <tr class="tr-list">
+                            <td class="td-list" rowspan="2" width="30%">ຜູ້ປະເມີນ</td>
+                            <td class="td-list" width="70%"></td>
+                        </tr>
+                        <tr class="tr-list">
+                            <td class="td-list"></td> 
+                        </tr>
+                        <tr class="tr-list">
+                            <td class="td-list"  rowspan="2">ຜູ້ອານຸມັດ</td>
+                            <td class="td-list">   </td>
+                        </tr>
+                        <tr class="tr-list">
+                            <td class="td-list"> </td> 
+                        </tr>
+                       
                     </table>
                 </div>
 
                 <table width="100%" style="border:none;">
                     <tr>
-                      
-                        <td align="right"> 
-                                <p align="right"> FM-GA-HR-PC-01-07<br>19/07/17-00</p>
+
+                        <td align="right">
+                            <p align="right"> FM-GA-HR-PC-01-07<br>19/07/17-00</p>
                         </td>
                 </table>
 
-                <div>
-                    <table width="100%" style="border:none;">
-
-                        <tr>
-
-                            <td align="left"> <img src='../images/kpicon.png' width='100px' height='100px'></td>
-
-                            <td align="left">
-                                <h3>ສະຫຼຸບການປະເມີນຜູ້ຂາຍປະຈຳປີ 555 (ເດຶອນ 555) </h3>
-                            </td>
-
-                        </tr>
-
-
-
-                    </table>
-                </div>
- 
 
             <?php
                 $i++;
