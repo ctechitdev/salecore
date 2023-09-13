@@ -88,6 +88,7 @@ $header_click = "1";
                                                 from tbl_vendor_evaluated_detail a
                                                 left join tbl_vendor_evaluated b on a.vendor_evaluated_id = b.vendor_evaluated_id
                                                 left join tbl_vendor c on b.vendor_id = c.vendor_id
+                                                where evaluated_by = '$id_users'
                                                 group by a.vendor_evaluated_id,evaluated_month,vendor_code,vendor_shop_name,vendor_name,evaluated_date ");
                                                 $stmt4->execute();
                                                 if ($stmt4->rowCount() > 0) {

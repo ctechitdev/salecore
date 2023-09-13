@@ -256,6 +256,7 @@ $vendor_id = $_GET['vendor_id'];
                                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                                             <thead>
                                                 <tr>
+                                                    <th>ເລກທີ</th>
                                                     <th>ກຸ່ມສິນຄ້າ</th>
                                                     <th>ລະຫັດລູກຄ້າ</th>
                                                     <th>ຊື່ຮ້ານ</th>
@@ -275,6 +276,8 @@ $vendor_id = $_GET['vendor_id'];
                                                 from tbl_vendor a
                                                 left join tbl_account_company b on a.acc_code = b.company_code
                                                 left join tbl_vendor_evaluated c on a.vendor_id = c.vendor_id
+                                                left join tbl_staff_company d on b.ac_ic = d.company_id
+                                                where depart_id = '$depart_id'
                                                  ");
 
 
@@ -293,7 +296,11 @@ $vendor_id = $_GET['vendor_id'];
 
 
                                                 ?>
+
+
+
                                                         <tr>
+                                                            <td><?php echo "$vendor_id"; ?></td>
                                                             <td><?php echo "$acc_name"; ?></td>
                                                             <td><?php echo "$vendor_code"; ?></td>
                                                             <td><?php echo "$vendor_shop_name"; ?></td>
@@ -313,7 +320,7 @@ $vendor_id = $_GET['vendor_id'];
                                                                         if ($status_evaluate == 'ປະເມີນແລ້ວ') {
                                                                         ?>
                                                                             <a class="dropdown-item" href="edit-vendor-evaluate-form.php?vendor_evaluated_id=<?php echo $row4['vendor_evaluated_id']; ?>">ແກ້ໄຂ</a>
-                                                                            <a class="dropdown-item" type="button" id="delchecklocate" data-id='<?php echo $row4['vendor_id']; ?>' class="btn btn-danger btn-sm">ຍົກເລີກລາຍການ</a>
+                                                                            <a class="dropdown-item" type="button" id="delete-evaluate" data-id='<?php echo $row4['vendor_evaluated_id']; ?>' class="btn btn-danger btn-sm">ຍົກເລີກລາຍການ</a>
 
                                                                         <?php
                                                                         } else {
@@ -369,7 +376,7 @@ $vendor_id = $_GET['vendor_id'];
             }, 'json')
             return false;
         });
- 
+
 
         $(document).on("click", "#delchecklocate", function(e) {
             e.preventDefault();
@@ -400,10 +407,9 @@ $vendor_id = $_GET['vendor_id'];
                     console.log(status.error);
                 }
 
-            }); 
+            });
             return false;
         });
- 
     </script>
 
 

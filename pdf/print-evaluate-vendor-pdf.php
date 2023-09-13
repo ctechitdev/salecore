@@ -59,7 +59,7 @@ include("../setting/callcss.php");
 
                 $cusrows = $conn->query(" 
 				select vendor_shop_name,evaluated_date,acc_name,
-				DATE_FORMAT(evaluated_month,'%m-%Y') as evaluated_month
+				DATE_FORMAT(evaluated_month,'%m-%Y') as evaluated_month,commend_from_evaluator
 				from tbl_vendor_evaluated a
 				left join tbl_vendor b on a.vendor_id = b.vendor_id
 				left join tbl_account_company c on b.acc_code = c.company_code
@@ -69,8 +69,8 @@ include("../setting/callcss.php");
                 $evaluated_date = $cusrows['evaluated_date'];
                 $evaluated_month = $cusrows['evaluated_month'];
                 $acc_name = $cusrows['acc_name'];
-
-
+                $commend_from_evaluator = $cusrows['commend_from_evaluator'];
+                
 
 
             ?>
@@ -80,11 +80,9 @@ include("../setting/callcss.php");
 
                         <tr>
 
-                            <td align="left"> <img src='../images/kpicon.png' width='150px' height='150px'></td>
+                            <td align="left"> <img src='../images/kpicon.png' width='175px' height='175px'></td>
 
-                            <td align="left"><b>
-                                    <h1> ໃບປະເມີນຜູ້ຂາຍ </h1>
-                                </b>
+                            <td align="left" class="h1"><b> ໃບປະເມີນຜູ້ຂາຍ </b>
 
                             </td>
 
@@ -95,16 +93,16 @@ include("../setting/callcss.php");
                     </table>
                 </div>
 
-                <div class="m-4">
+                <div class="m-5">
                     <table width="100%" style="border:none;" class="h3">
 
                         <tr>
-                            <td align="left">ຊື່ຜູ້ຂາຍ <?php echo "$vendor_shop_name";?></td>
-                            <td align="left">ວັນທີປະເມີນ <?php echo "$evaluated_date";?></td>
+                            <td align="left"><b>ຊື່ຜູ້ຂາຍ:</b> <?php echo "$vendor_shop_name";?></td>
+                            <td align="left"><b>ວັນທີປະເມີນ:</b> <?php echo "$evaluated_date";?></td>
                         </tr>
                         <tr>
-                            <td align="left">ຊ່ວງໃນການປະເມີນ <?php echo "$evaluated_month";?></td>
-                            <td align="left">ປະເພດສິນຄ້າ <?php echo "$acc_name";?></td>
+                            <td align="left"><b>ຊ່ວງໃນການປະເມີນ:</b> <?php echo "$evaluated_month";?></td>
+                            <td align="left"><b>ປະເພດສິນຄ້າ:</b> <?php echo "$acc_name";?></td>
                         </tr>
 
                     </table>
@@ -191,11 +189,12 @@ include("../setting/callcss.php");
                     </table>
 
                 </div>
-                <div class="row mt-1 h3">
+                <br>
+                <div class="row mt-1 h2">
                     <table width="100%">
 
                         <tr>
-                            <td align="left">ຂໍ້ສະເໜີ:</td>
+                            <td align="left">ຂໍ້ສະເໜີ: <?php echo "$commend_from_evaluator";?></td>
 
                         </tr>
 
@@ -258,15 +257,15 @@ include("../setting/callcss.php");
                        
                     </table>
                 </div>
-
-                <table width="100%" style="border:none;">
+                <br><br>
+                <table width="100%" style="border:none;" >
                     <tr>
 
                         <td align="right">
-                            <p align="right"> FM-GA-HR-PC-01-07<br>19/07/17-00</p>
+                            <p align="right" class="h2"> FM-GA-HR-PC-01-07<br>19/07/17-00</p>
                         </td>
                 </table>
-
+                <br><br>
 
             <?php
                 $i++;
@@ -280,6 +279,7 @@ include("../setting/callcss.php");
             <!-- </div> -->
         </div>
     </div>
+    
     <!-- /row -->
     <!-- </div> -->
     <!-- </div> -->

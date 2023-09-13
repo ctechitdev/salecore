@@ -32,15 +32,13 @@ $header_click = "1";
 <script>
     $(function() {
 
-
-
-        $('#province_id').change(function() {
-            var pv_id = $('#province_id').val();
-            $.post('../function/dynamic_dropdown/get_district_name.php', {
-                    pv_id: pv_id
+        $('#province_name').change(function() {
+            var province_name = $('#province_name').val();
+            $.post('../function/dynamic_dropdown/get_district_name_by_name.php', {
+                province_name: province_name
                 },
                 function(output) {
-                    $('#dis_id').html(output).show();
+                    $('#district_name').html(output).show();
                 });
         });
 
@@ -176,14 +174,14 @@ $header_click = "1";
                                                                     <div class="form-group  col-lg-4">
                                                                         <label class="text-dark font-weight-medium">ແຂວງ</label>
                                                                         <div class="form-group">
-                                                                            <select class=" form-control font" name="province_id" id ="province_id" >
+                                                                            <select class=" form-control font" name="province_name" id ="province_name" >
                                                                                 <option value=""> ເລືອກແຂວງ </option>
                                                                                 <?php
                                                                                 $stmt = $conn->prepare(" SELECT pv_id,pv_name FROM tbl_provinces order by pv_name");
                                                                                 $stmt->execute();
                                                                                 if ($stmt->rowCount() > 0) {
                                                                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                                                ?> <option value="<?php echo $row['pv_id']; ?>"> <?php echo $row['pv_name']; ?></option>
+                                                                                ?> <option value="<?php echo $row['pv_name']; ?>"> <?php echo $row['pv_name']; ?></option>
                                                                                 <?php
                                                                                     }
                                                                                 }
@@ -196,7 +194,7 @@ $header_click = "1";
                                                                         <label class="text-dark font-weight-medium">ເມືອງ</label>
                                                                         <div class="form-group">
 
-                                                                            <select class="form-control  font" name="dis_id" id="dis_id">
+                                                                            <select class="form-control  font" name="district_name" id="district_name">
                                                                                 <option value=""> ເລືອກເມືອງ </option>
                                                                             </select>
                                                                         </div>
@@ -431,6 +429,7 @@ $header_click = "1";
 									SELECT vendor_id,a.vendor_code,vendor_name,vendor_shop_name,phone_office,register_date,acc_name
                                     FROM tbl_vendor a
                                     left join tbl_account_company b on a.acc_code = b.company_code
+                                    where add_by = '$id_users'
 									order by vendor_id desc  ");
                                     $stmt4->execute();
 

@@ -32,15 +32,13 @@ $header_click = "1";
     <script>
         $(function() {
 
-
-
-            $('#province_id').change(function() {
-                var pv_id = $('#province_id').val();
-                $.post('../function/dynamic_dropdown/get_district_name.php', {
-                        pv_id: pv_id
+            $('#province_name').change(function() {
+                var province_name = $('#province_name').val();
+                $.post('../function/dynamic_dropdown/get_district_name_by_name.php', {
+                        province_name: province_name
                     },
                     function(output) {
-                        $('#dis_id').html(output).show();
+                        $('#district_name').html(output).show();
                     });
             });
 
@@ -99,8 +97,8 @@ $header_click = "1";
 
                                                                     $vender_row = $conn->query("SELECT  * FROM tbl_vendor where vendor_id = '$vendor_id' ")->fetch(PDO::FETCH_ASSOC);
                                                                     $acc_code = $vender_row['acc_code'];
-                                                                    $province_id = $vender_row['province_id'];
-                                                                    $district_id = $vender_row['district_id'];
+                                                                    $province_name = $vender_row['province_name'];
+                                                                    $district_name = $vender_row['district_name'];
                                                                     ?>
 
                                                                     <input type="hidden" class="form-control" id="vendor_id" name="vendor_id" autocomplete="off" value="<?php echo $vendor_id ?>" />
@@ -166,14 +164,14 @@ $header_click = "1";
                                                                     <div class="form-group  col-lg-4">
                                                                         <label class="text-dark font-weight-medium">ແຂວງ</label>
                                                                         <div class="form-group">
-                                                                            <select class=" form-control font" name="province_id" id="province_id">
+                                                                            <select class=" form-control font" name="province_name" id="province_name">
                                                                                 <option value=""> ເລືອກແຂວງ </option>
                                                                                 <?php
                                                                                 $stmt = $conn->prepare(" SELECT pv_id,pv_name FROM tbl_provinces order by pv_name");
                                                                                 $stmt->execute();
                                                                                 if ($stmt->rowCount() > 0) {
                                                                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                                                ?> <option value="<?php echo $row['pv_id']; ?>" <?php if ($row['pv_id'] ==  $province_id) {
+                                                                                ?> <option value="<?php echo $row['pv_name']; ?>" <?php if ($row['pv_name'] ==  $province_name) {
                                                                                                                                     echo "selected";
                                                                                                                                 } ?>> <?php echo $row['pv_name']; ?></option>
                                                                                 <?php
@@ -188,16 +186,19 @@ $header_click = "1";
                                                                         <label class="text-dark font-weight-medium">ເມືອງ</label>
                                                                         <div class="form-group">
 
-                                                                            <select class="form-control  font" name="dis_id" id="dis_id">
+                                                                            <select class="form-control  font" name="district_name" id="district_name">
                                                                                 <option value=""> ເລືອກເມືອງ </option>
                                                                                 <?php
-                                                                                $stmt2 = $conn->prepare(" SELECT dis_id,distict_name FROM tbl_districts where pv_id ='$province_id' ");
+                                                                                $stmt2 = $conn->prepare("SELECT dis_id,distict_name
+                                                                                FROM tbl_districts a
+                                                                                left join tbl_provinces b on a.pv_id = b.pv_id
+                                                                                where pv_name  = '$province_name' order by distict_name  ");
                                                                                 $stmt2->execute();
                                                                                 if ($stmt2->rowCount() > 0) {
 
                                                                                     while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-                                                                                        $edit_dt_id = $row2["dis_id"];
-                                                                                ?> <option value='<?php echo $row2["dis_id"];  ?>' <?php if ($district_id == "$edit_dt_id") {
+                                                                                        $edit_dt_id = $row2["distict_name"];
+                                                                                ?> <option value='<?php echo $row2["dis_id"];  ?>' <?php if ($district_name == "$edit_dt_id") {
                                                                                                                                         echo "selected";
                                                                                                                                     } ?>> <?php echo $row2['distict_name'];  ?></option>
                                                                                 <?php
@@ -545,6 +546,7 @@ $header_click = "1";
 									SELECT vendor_id,a.vendor_code,vendor_name,vendor_shop_name,phone_office,register_date,acc_name
                                     FROM tbl_vendor a
                                     left join tbl_account_company b on a.acc_code = b.company_code
+                                    where add_by = '$id_users'
 									order by vendor_id desc  ");
                                     $stmt4->execute();
 

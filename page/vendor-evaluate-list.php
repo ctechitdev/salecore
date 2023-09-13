@@ -58,6 +58,7 @@ $header_click = "1";
                                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                                             <thead>
                                                 <tr>
+                                                    <th>ເລກທີ</th>
                                                     <th>ກຸ່ມສິນຄ້າ</th>
                                                     <th>ລະຫັດລູກຄ້າ</th>
                                                     <th>ຊື່ຮ້ານ</th>
@@ -77,6 +78,8 @@ $header_click = "1";
                                                 from tbl_vendor a
                                                 left join tbl_account_company b on a.acc_code = b.company_code
                                                 left join tbl_vendor_evaluated c on a.vendor_id = c.vendor_id
+                                                left join tbl_staff_company d on b.ac_ic = d.company_id
+                                                where depart_id = '$depart_id'
                                                  ");
 
 
@@ -99,6 +102,7 @@ $header_click = "1";
 
 
                                                         <tr>
+                                                            <td><?php echo "$vendor_id"; ?></td>
                                                             <td><?php echo "$acc_name"; ?></td>
                                                             <td><?php echo "$vendor_code"; ?></td>
                                                             <td><?php echo "$vendor_shop_name"; ?></td>
