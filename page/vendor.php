@@ -72,7 +72,7 @@ $header_click = "1";
                             <div class="    ">
                                 <div class="email-right-column  email-body p-4 p-xl-5">
                                     <div class="email-body-head mb-5 text-center ">
-                                        <h2 class="text-dark">ຂື້ນຖະບຽນຜູ້ຂາຍ</h2>
+                                        <h2 class="text-dark">ໃບຂື້ນຖະບຽນຜູ້ຂາຍ</h2>
                                     </div>
                                     <form method="post" id="addvendorform">
                                         <div class="row">

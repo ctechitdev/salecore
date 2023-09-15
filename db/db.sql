@@ -497,7 +497,19 @@ create table tbl_vendor (
     contact_expire_date date,
     cash_type varchar(20),
     add_by int,
-    register_date date
+    register_date date,
+    account_currency_kip varchar(10),
+    bank_name_kip varchar(150),
+    bank_account_name_kip varchar(150),
+    bank_account_number_kip varchar(50),
+    account_currency_thb varchar(10),
+    bank_name_thb varchar(150),
+    bank_account_name_thb varchar(150),
+    bank_account_number_thb varchar(50),
+    account_currency_usd varchar(10),
+    bank_name_usd varchar(150),
+    bank_account_name_usd varchar(150),
+    bank_account_number_usd varchar(50)
 );
 
 create table tbl_vendor_bank_account(
