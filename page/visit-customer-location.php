@@ -118,7 +118,7 @@ $header_click = "6";
                                                 $i = 1;
 
 
-                                                if ($week_visit == 5) {
+                                                if ($week_visit >= 5) {
 
                                                     $stmt4 = $conn->prepare("
                                                     call stp_check_visit_week_5('$day_name','$month_now','$year_now','$id_users')   ");

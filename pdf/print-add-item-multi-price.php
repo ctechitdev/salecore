@@ -113,8 +113,8 @@ $item_id = $_GET['item_id'];
 
                 <tr class="table">
                     <th width="3%" class="table">ລ/ດ</th>
-                    <th width="14%" class="table">ລະຫັດສິນຄ້າ</th>
-                    <th width="22%" class="table">ຊື່ສິນຄ້າ</th>
+                    <th width="12%" class="table">ລະຫັດສິນຄ້າ</th>
+                    <th width="24%" class="table">ຊື່ສິນຄ້າ</th>
                     <th width="9%" class="table">ການຫໍ່ຫຸ້ມ</th>
                     <th width="10%" class="table">ຫົວໜ່ວຍໃຫຍ່</th>
                     <th width="10%" class="table">ຫົວໜ່ວຍນ້ອຍ</th>
@@ -147,7 +147,7 @@ $item_id = $_GET['item_id'];
 
                             <td class="table"> <?php echo $i; ?> </td>
                             <td class="table"> <?php echo $row3['item_code']; ?> </td>
-                            <td class="table"><?php echo mb_strimwidth($row3['item_name'], 0, 30, "..."); ?></td>
+                            <td class="table"><?php echo mb_strimwidth($row3['item_name'], 0, 25, "..."); ?></td>
                             <td class="table"><?php echo $row3['packing']; ?></td>
                             <td class="table"><?php echo $row3['buy_unit']; ?></td>
                             <td class="table"><?php echo $row3['sale_unit']; ?></td>
