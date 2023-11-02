@@ -144,8 +144,8 @@ $item_id = $_GET['item_id'];
 
 
 							<td class="table"> <?php echo $i; ?> </td>
-							<td class="table"> <?php echo $row3['item_code']; ?> </td>
-							<td class="table"><?php echo $row3['item_name']; ?></td>
+							<td class="table"> <?php echo $row3['item_code']; ?> </td> 
+							<td class="table"><?php echo mb_strimwidth($row3['item_name'], 0, 25, "..."); ?></td>
 							<td class="table"><?php echo $row3['packing']; ?></td>
 							<td class="table"><?php echo $row3['buy_unit']; ?></td>
 							<td class="table"><?php echo $row3['sale_unit']; ?></td>
