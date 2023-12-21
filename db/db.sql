@@ -548,3 +548,73 @@ create table tbl_vendor_evaluated_detail (
     evaluation_score int,
     evaluation_multi_score int
 );
+
+
+
+---- customer module --------
+
+
+create table tbl_customer_user(
+    customer_user_id int not null PRIMARY KEY AUTO_INCREMENT,
+    customer_name varchar(150),
+    customer_user_name varchar(30),
+    customer_user_password varchar(30),
+    customer_status int,
+    role_id int,
+    add_by int,
+    add_date date
+);
+
+create table tbl_customer_shop_holder(
+    customer_shop_holder_id int not null PRIMARY KEY AUTO_INCREMENT,
+    customer_user_id int,
+    customer_id int,
+    add_by int,
+    date_add date
+);
+
+
+create table tbl_customer_product_used(
+    customer_product_used int PRIMARY KEY AUTO_INCREMENT,
+    customer_user_id int,
+    item_company_code_id int,
+    add_by int,
+    date_add date
+);
+
+
+create table tbl_customer_order_status (
+    customer_order_status_id int not null PRIMARY KEY AUTO_INCREMENT,
+    customer_order_status_name varchar(60)
+);
+
+insert into tbl_customer_order_status (customer_order_status_name) values ('ສັ່ງສຳເລັດ');
+insert into tbl_customer_order_status (customer_order_status_name) values ('ຮັບອໍເດີ້ແລ້ວ'); ;
+insert into tbl_customer_order_status (customer_order_status_name) values ('ຍົກເລີກ');
+
+create table tbl_customer_order(
+    customer_order_id int not null PRIMARY KEY AUTO_INCREMENT,
+    customer_order_bill varchar(20),
+    total_price decimal(20,4),
+    order_status int,
+    order_by int,
+    order_date date, 
+    recieve_order_date date
+);
+
+create table tbl_customer_order_detail(
+    customer_order_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
+    customer_order_id int,
+    item_code_list_id int,
+    item_name varchar(300),
+    order_values int,
+    item_pack_unit varchar(10),
+    item_price_unit decimal(20,4),
+    item_total_price decimal(30,4),
+    order_by int,
+    date_order date
+);
+
+ 
+alter table tbl_item_code_list add column show_staff_status_id int;
+alter table tbl_item_code_list add column show_customer_status_id int;

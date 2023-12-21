@@ -2,8 +2,8 @@
 include("../setting/checksession.php");
 include("../setting/conn.php");
 
-$header_name = "ຈັດການກຸ່ມສິນຄ້າ";
-$header_click = "4";
+$header_name = "ຜູກສິນຄ້າກັບລູກຄ້າ";
+$header_click = "2";
 
 ?>
 
@@ -35,13 +35,13 @@ $header_click = "4";
 
 
 
-        $('#dp_id').change(function() {
-            var dp_id = $('#dp_id').val();
-            $.post('../function/dynamic_dropdown/get_depart_item_group.php', {
-                    dp_id: dp_id
+        $('#customer_user_id').change(function() {
+            var customer_user_id = $('#customer_user_id').val();
+            $.post('../function/dynamic_dropdown/customer_get_product_item.php', {
+                    customer_user_id: customer_user_id
                 },
                 function(output) {
-                    $('#dis_id').html(output).show();
+                    $('#list_product_group').html(output).show();
                 });
         });
 
@@ -86,16 +86,17 @@ $header_click = "4";
                                             <div class="form-group  col-lg-12">
                                                 <label class="text-dark font-weight-medium">ພະແນກ</label>
                                                 <div class="form-group">
-                                                    <select class=" form-control font" name="dp_id" id="dp_id">
+                                                    <select class=" form-control font" name="customer_user_id" id="customer_user_id">
                                                         <option value=""> ເລຶອກພະແນກ </option>
                                                         <?php
-                                                        $stmt = $conn->prepare(" select dp_id, concat(dp_name,' (', gc_name, ') ') as dp_name
-                                                        from tbl_depart a
-                                                        left join tbl_group_company b on a.group_id = b.gc_id order by dp_name");
+                                                        $stmt = $conn->prepare("
+                                                        SELECT  customer_user_id,customer_name 
+                                                        FROM tbl_customer_user 
+                                                        WHERE customer_status = '1' ");
                                                         $stmt->execute();
                                                         if ($stmt->rowCount() > 0) {
                                                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                        ?> <option value="<?php echo $row['dp_id']; ?>"> <?php echo $row['dp_name']; ?></option>
+                                                        ?> <option value="<?php echo $row['customer_user_id']; ?>"> <?php echo $row['customer_name']; ?></option>
                                                         <?php
                                                             }
                                                         }
@@ -106,7 +107,7 @@ $header_click = "4";
 
                                         </div>
 
-                                        <div class="row" id="dis_id">
+                                        <div class="row" id="list_product_group">
 
 
 
@@ -143,7 +144,7 @@ $header_click = "4";
     <script>
         // join staff and company code
         $(document).on("submit", "#adddpitem", function() {
-            $.post("../query/depart-manage-item.php", $(this).serialize(), function(data) {
+            $.post("../query/add-customer-product-used.php", $(this).serialize(), function(data) {
                 if (data.res == "exist") {
                     Swal.fire(
                         'ບໍ່ສາມາດຜູກໄດ້',
