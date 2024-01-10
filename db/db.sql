@@ -618,3 +618,18 @@ create table tbl_customer_order_detail(
  
 alter table tbl_item_code_list add column show_staff_status_id int;
 alter table tbl_item_code_list add column show_customer_status_id int;
+
+
+create  table tbl_item_post_customer(
+    item_post_customer_id int not null PRIMARY KEY AUTO_INCREMENT,
+    item_post_pic varchar(100),
+    item_code_list_id int,
+    full_code varchar(100),
+    item_name varchar(300),
+    item_pack_sale varchar(30),
+    item_status_sale int,
+    item_price float,
+    add_by int,
+    add_date date
+);
+
