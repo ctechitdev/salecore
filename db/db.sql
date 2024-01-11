@@ -371,23 +371,8 @@ create table tbl_item_transaction (
 );
 
 
-create table tbl_customer_order (
-    co_id int not null AUTO_INCREMENT PRIMARY KEY,
-    total_price float,
-    vat_percent int,
-    wh_id int,
-    pv_id int,
-    order_by int,
-    date_order date
-);
-
-create table tbl_customer_order_detail_list (
-    codl_id int not null AUTO_INCREMENT PRIMARY KEY,
-    co_id int,
-    item_code varchar(100),
-    item_values int,
-    item_price float
-);
+ 
+ 
 
 create table tbl_item_transaction_type
 (
@@ -606,6 +591,8 @@ create table tbl_customer_order_detail(
     customer_order_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
     customer_order_id int,
     item_code_list_id int,
+    item_company_code_id int,
+    item_post_id int,
     item_name varchar(300),
     order_values int,
     item_pack_unit varchar(10),
@@ -624,6 +611,7 @@ create  table tbl_item_post_customer(
     item_post_customer_id int not null PRIMARY KEY AUTO_INCREMENT,
     item_post_pic varchar(100),
     item_code_list_id int,
+    item_company_code_id int,
     full_code varchar(100),
     item_name varchar(300),
     item_pack_sale varchar(30),
@@ -633,3 +621,12 @@ create  table tbl_item_post_customer(
     add_date date
 );
 
+create table tbl_customer_order_cart (
+    customer_order_cart_id int not null PRIMARY KEY AUTO_INCREMENT, 
+    item_post_id int,
+    item_name varchar(300),
+    price_per_item float,
+    item_values int,
+    total_price float, 
+    add_by int 
+);

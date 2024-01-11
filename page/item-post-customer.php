@@ -29,12 +29,26 @@ $vd_id = $_GET['vd_id'];
 
 
 </head>
+
+
 <script src="../plugins/nprogress/nprogress.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script> <!-- jQuery -->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
 
+<script>
+    $(document).on("click", "#editmodal", function(e) {
+        e.preventDefault();
+        var item_post_id = $(this).data("item_post_id");
 
+        $.post('../function/modal/get_item_post_info.php', {
+                item_post_id: item_post_id
+            },
+            function(output) {
+                $('.show_data_edit').html(output).show();
+            });
+    });
+</script>
 
-<body class="navbar-fixed sidebar-fixed" id="body" onload="getLocation()">
+<body class="navbar-fixed sidebar-fixed">
 
 
 
@@ -67,10 +81,6 @@ $vd_id = $_GET['vd_id'];
 
 
                                     </div>
-
-
-
-
 
                                     <form id="addform" enctype="multipart/form-data">
 
@@ -203,16 +213,13 @@ $vd_id = $_GET['vd_id'];
                             <table id="productsTable" class="table table-hover table-product" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>ເລກບິນ</th>
-                                        <th>ລະຫັດລູກຄ້າ</th>
-                                        <th>ຊື່ຮ້ານ</th>
-                                        <th>ລາຍການສິນຄ້າ</th>
-                                        <th>ຍອດສັ່ງ</th>
-                                        <th>ສະກຸນເງິນ</th>
+                                        <th>ເລກທີ</th>
+                                        <th>B1 Code</th>
+                                        <th>ຊື່ສິນຄ້າ</th>
+                                        <th>ຫົວໜ່ວຍ</th>
+                                        <th>ລາຄາຂາຍ</th>
                                         <th>ສະຖານະ</th>
-                                        <th>ວັນທີ</th>
-
-
+                                        <th>ວັນລົງທະບຽນ</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -222,45 +229,25 @@ $vd_id = $_GET['vd_id'];
 
 
                                     $day_name = date('D');
-                                    $stmt4 = $conn->prepare("
-                                    select sbo_number,a.sbo_id,c_shop_name,c.cus_code,count(item_name) as item_group,a.date_register,sum(item_total_price) as item_total_price,
-                                    sbo_ccy, (case when sbo_status = 1 then 'ເງິນສົດ' else 'ຕິດໜີ້' end ) sbo_status
-                                    from tbl_shell_bill_order a
-                                    left join tbl_shell_sale_order b on a.sbo_id = b.sbo_id 
-                                    left join tbl_visit_dairy c on a.cus_code = c.vd_id  
-                                    where a.order_by = '$id_users' and a.cus_code = '$vd_id'
-                                    group by b.sbo_id    ");
+                                    $stmt4 = $conn->prepare("SELECT item_post_customer_id, full_code,item_name,item_pack_sale,item_price,add_date,
+                                    (case when item_status_sale = '1' then 'ເປີດຂາຍ' else 'ປິດຂາຍ' end) as item_status_sale
+                                    
+                                    FROM tbl_item_post_customer WHERE add_by ='$id_users' ");
                                     $stmt4->execute();
                                     if ($stmt4->rowCount() > 0) {
                                         while ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
 
-                                            $sbo_id = $row4['sbo_id'];
-                                            $c_shop_name = $row4['c_shop_name'];
-                                            $cus_code = $row4['cus_code'];
-                                            $item_group = $row4['item_group'];
-                                            $date_register = $row4['date_register'];
-                                            $sbo_number = $row4['sbo_number'];
-                                            $item_total_price = $row4['item_total_price'];
-                                            $sbo_ccy = $row4['sbo_ccy'];
-                                            $sbo_status = $row4['sbo_status'];
-
                                     ?>
 
 
-
                                             <tr>
-                                                <td><?php echo "$sbo_number"; ?></td>
-                                                <td><?php echo "$cus_code"; ?></td>
-                                                <td><?php echo "$c_shop_name"; ?></td>
-                                                <td><?php echo "$item_group"; ?></td>
-                                                <td>
-                                                    <?php
-                                                    echo number_format($item_total_price);
-                                                    ?>
-                                                </td>
-                                                <td><?php echo "$sbo_ccy"; ?></td>
-                                                <td><?php echo "$sbo_status"; ?></td>
-                                                <td><?php echo "$date_register"; ?></td>
+                                                <td><?php echo  $row4['item_post_customer_id']; ?></td>
+                                                <td><?php echo  $row4['full_code']; ?></td>
+                                                <td><?php echo  $row4['item_name']; ?></td>
+                                                <td><?php echo  $row4['item_pack_sale']; ?></td>
+                                                <td><?php echo  number_format($row4['item_price']); ?></td>
+                                                <td><?php echo  $row4['item_status_sale']; ?></td>
+                                                <td><?php echo  $row4['add_date']; ?></td>
 
                                                 <td>
                                                     <div class="dropdown">
@@ -268,7 +255,9 @@ $vd_id = $_GET['vd_id'];
                                                         </a>
 
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                                            <a class="dropdown-item" href="edit-customer-latlong-order.php?order_id=<?php echo "$sbo_id"; ?>&&vd_id=<?php echo "$vd_id"; ?>">ສະແດງຂໍ້ມູນ</a>
+                                                            <a href="javascript:0" class="dropdown-item" id="editmodal" data-item_post_id='<?php echo $row4['item_post_customer_id']; ?>' data-toggle="modal" data-target="#modal-edit">ແກ້ໄຂ</a>
+                                                            <a class="dropdown-item" type="button" id="delete_item_post" data-item_post_id='<?php echo $row4['item_post_customer_id']; ?>' class="btn btn-danger btn-sm">ລືບ</a>
+
                                                         </div>
                                                     </div>
                                                 </td>
@@ -287,7 +276,27 @@ $vd_id = $_GET['vd_id'];
                         </div>
                     </div>
 
+                    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header justify-content-end border-bottom-0">
 
+
+                                    <button type="button" class="btn-close-icon" data-dismiss="modal" aria-label="Close">
+                                        <i class="mdi mdi-close"></i>
+                                    </button>
+                                </div>
+
+                                <div class="show_data_edit">
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -332,19 +341,19 @@ $vd_id = $_GET['vd_id'];
                 error: function(er) {}
             });
         });
- 
+
 
 
         // delete 
-        $(document).on("click", "#delete_staff", function(e) {
+        $(document).on("click", "#delete_item_post", function(e) {
             e.preventDefault();
-            var staff_id = $(this).data("staff_id");
+            var item_post_id = $(this).data("item_post_id");
             $.ajax({
                 type: "post",
-                url: "../query/delete-staff-info.php",
+                url: "../query/delete-item-post.php",
                 dataType: "json",
                 data: {
-                    staff_id: staff_id
+                    item_post_id: item_post_id
                 },
                 cache: false,
                 success: function(data) {
@@ -361,7 +370,7 @@ $vd_id = $_GET['vd_id'];
                     } else if (data.res == "exist") {
                         Swal.fire(
                             'ຜິດພາດ',
-                            'ບໍ່ສາມາດລຶບຂໍ້ມູນໄດ້ເນື່ອງຈາກລົງທະບຽນເງິນເດືອນແລ້ວ',
+                            'ບໍ່ສາມາດລຶບຂໍ້ມູນໄດ້ເນື່ອງຈາກມີການນຳໃຊ້ຂໍ້ມູນແລ້ວ',
                             'error'
                         )
                     }

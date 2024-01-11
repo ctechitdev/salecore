@@ -1,7 +1,7 @@
 <?php
 include('../../setting/conn.php');
 
-$customer_user_id = 4;
+$customer_user_id = $_POST['customer_user_id'];
 
 
 $i = 1;
