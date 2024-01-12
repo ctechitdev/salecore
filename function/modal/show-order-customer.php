@@ -1,4 +1,3 @@
-
 <?php
 include("../../setting/checksession.php");
 include("../../setting/conn.php");
@@ -7,26 +6,14 @@ include("../../setting/conn.php");
 ?>
 
 
-<div class="card-body" data-simplebar style="height: 580px;">
-
-
+<div class="card-body" data-simplebar style="height: 600px;">
     <?php
-
-
-
-    $stmt_his = $conn->prepare(" 
-                                            select sale_id,buyer_lottery,sale_bill_number,  total_sale,currency_code
-                                            from tbl_sale  
-                                            where draw_number = '$last_draw' and add_by ='$id_users' and sale_status_id = '1'
-                                            order by sale_id asc 
-                                           ");
+    $stmt_his = $conn->prepare(" select * from tbl_customer_order where order_by = '$id_users' order by customer_order_id desc ");
     ?>
     <tbody>
         <?php
 
-
-        $total_his_sale_lak = 0;
-        $total_his_sale_thb = 0;
+ 
 
         $stmt_his->execute();
         if ($stmt_his->rowCount() > 0) {
@@ -36,22 +23,26 @@ include("../../setting/conn.php");
 
 
                 <div class="media ">
-                    <div class="media-body mt-1">
-                        <span class="title"><b><?php echo  $his_row['sale_bill_number']; ?></b></span>
+
+                    <div class="row  ">
+
+                        <div class="col-lg-12">
+                            <label class="text-dark font-weight-medium"><?php echo  $his_row['customer_order_bill']; ?></label>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <label class="text-dark font-weight-medium">ລວມ: <?php echo number_format($his_row['total_price']); ?></label>
+                        </div>
                     </div>
-                    <div class="media-body mt-1">
-                        <span class="title"><b><?php echo number_format($his_row['total_sale']) . " " . $his_row['currency_code']; ?></b></span>
-                    </div>
-                    <a href="javascript:0" class="btn btn-danger btn-pill  mb-1" id="editmodal" data-sale_id='<?php echo $his_row['sale_id']; ?>' data-toggle="modal" data-target="#modal-edit">ຍົກເລີກ</a>
+
+                    <a href="javascript:0" class="btn btn-info btn-pill  mb-1" id="show-bill" data-customer_order_id='<?php echo $his_row['customer_order_id']; ?>' data-toggle="modal" data-target="#modal-edit">ສະແດງ</a>
+
+
+
                 </div>
 
         <?php
-
-                if ($his_row['currency_code'] == "LAK") {
-                    $total_his_sale_lak += $his_row['total_sale'];
-                } else {
-                    $total_his_sale_thb += $his_row['total_sale'];
-                }
+                 
             }
         }
 
@@ -59,17 +50,4 @@ include("../../setting/conn.php");
         ?>
 
 </div>
-<div class="card-footer">
-    <div class="media media-sm">
-        <div class="media-body">
-
-            <span class="title">ລວມ</span>
-
-        </div>
-        <div class="media-body">
-
-            <span class="title"><?php echo number_format($total_his_sale_lak); ?> LAK </span>
-            <span class="title"> <?php echo number_format($total_his_sale_thb); ?> THB</span>
-        </div>
-    </div>
-</div>
+ 

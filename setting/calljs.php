@@ -46,7 +46,6 @@
 
 
 
-					<script src="../plugins/toaster/toastr.min.js"></script>
 
 
 

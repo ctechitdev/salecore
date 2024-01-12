@@ -45,6 +45,30 @@ $header_click = "2";
                 $('.show_order_bill').html(output).show();
             });
     });
+
+    $(document).on("click", "#item-modal", function(e) {
+        e.preventDefault();
+        var item_post_id = $(this).data("item_post_id");
+
+        $.post('../function/modal/show-item-detail.php', {
+                item_post_id: item_post_id
+            },
+            function(output) {
+                $('.show_item_detail').html(output).show();
+            });
+    });
+
+    $(document).on("click", "#show-bill", function(e) {
+        e.preventDefault();
+        var customer_order_id = $(this).data("customer_order_id");
+
+        $.post('../function/modal/show-order-bill-list.php', {
+                customer_order_id: customer_order_id
+            },
+            function(output) {
+                $('.show_item_detail').html(output).show();
+            });
+    });
 </script>
 
 <body class="navbar-fixed sidebar-fixed" id="body">
@@ -61,68 +85,62 @@ $header_click = "2";
                 <div class="content">
 
 
-                    <form id="add-cart" method="post">
-                        <div class="card-body px-3 px-md-5">
-                            <div class="row">
+                    <div class="card-body px-3 px-md-5">
+                        <div class="row">
 
-                                <?php
+                            <?php
 
-                                $stmt = $conn->prepare(" 
+                            $stmt = $conn->prepare(" 
                             SELECT item_post_pic,item_name,item_pack_sale,item_price,item_post_customer_id
                             from tbl_item_post_customer a
                             left join tbl_customer_product_used b on a.item_company_code_id = b.item_company_code_id
                             where item_status_sale = '1' and b.customer_user_id = '$id_users' ");
-                                $stmt->execute();
-                                if ($stmt->rowCount() > 0) {
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                ?>
-                                        <div class="col-lg-6 col-xl-6">
-                                            <div class="card card-default p-4">
+                            $stmt->execute();
+                            if ($stmt->rowCount() > 0) {
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            ?>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <div class="card card-default p-4">
 
-                                                <div class="media">
-                                                    <img src='../images/item_post/<?php echo $row['item_post_pic']; ?>' width="50%" class="mr-3 img-fluid rounded" alt="Avatar Image" />
+                                            <div class="media">
+                                                <img src='../images/item_post/<?php echo $row['item_post_pic']; ?>' width="20%" class="mr-3 img-fluid rounded" alt="Avatar Image" />
 
-                                                    <div class="media-body">
-                                                        <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?></h5>
-                                                        <ul class="list-unstyled h4">
-                                                            <li class="d-flex p-1">
-                                                                <i class="mdi mdi-package mr-1"></i>
-                                                                <span><?php echo $row['item_pack_sale']; ?></span>
-                                                            </li>
-                                                            <li class="d-flex p-1">
-                                                                <i class="mdi mdi-cash mr-1 "></i>
-                                                                <span><?php echo number_format($row['item_price']); ?></span>
-                                                            </li>
-                                                            <li class="d-flex p-1">
-                                                                <div class="form-group">
-                                                                    <i class="mdi b"></i><span>ຈຳນວນຊື້</span>
-                                                                    <input type="number" class="form-control" name="item_values">
-                                                                </div>
-                                                            </li>
+                                                <div class="media-body">
+                                                    <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?></h5>
+                                                    <ul class="list-unstyled h4">
+                                                        <li class="d-flex p-1">
+                                                            <i class="mdi mdi-package mr-1"></i>
+                                                            <span><?php echo $row['item_pack_sale']; ?></span>
+                                                        </li>
+                                                        <li class="d-flex p-1">
+                                                            <i class="mdi mdi-cash mr-1 "></i>
+                                                            <span><?php echo number_format($row['item_price']); ?></span>
+                                                        </li>
 
-                                                        </ul>
-                                                        <div class="d-flex justify-content-center ">
-                                                            <a id="toaster-info" href="javascript:" data-item_post_id='<?php echo $row['item_post_customer_id']; ?>' class="btn btn-info btn-pill">ເພີ່ມເຂົ້າ</a>
-                                                        </div>
 
+                                                    </ul>
+                                                    <div class="d-flex justify-content-center ">
+                                                        <a href="javascript:0" class="btn btn-info btn-pill" id="item-modal" data-item_post_id='<?php echo $row['item_post_customer_id']; ?>' data-toggle="modal" data-target="#modal-edit">ສັງສິນຄ້າ</a>
                                                     </div>
+
                                                 </div>
-
                                             </div>
+
                                         </div>
+                                    </div>
 
-                                <?php
-                                    }
+                            <?php
                                 }
-                                ?>
+                            }
+                            ?>
 
 
 
-                            </div>
+
                         </div>
+                    </div>
 
 
-                    </form>
 
 
 
@@ -144,7 +162,7 @@ $header_click = "2";
 
             <div class="card card-offcanvas" id="sale-list">
                 <div class="card-header">
-                    <h2>ປະຫວັດຂາຍ</h2>
+                    <h2>ປະຫວັດສັ່ງສິນຄ້າ</h2>
                 </div>
                 <div class="show_order_bill">
 
@@ -152,6 +170,28 @@ $header_click = "2";
                 </div>
 
 
+            </div>
+
+            <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-end border-bottom-0">
+
+
+                            <button type="button" class="btn-close-icon" data-dismiss="modal" aria-label="Close">
+                                <i class="mdi mdi-close"></i>
+                            </button>
+                        </div>
+
+                        <div class="show_item_detail">
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
 
             <?php include "footer.php"; ?>
@@ -165,31 +205,26 @@ $header_click = "2";
     <?php include("../setting/calljs.php"); ?>
 
     <script>
-        $(document).ready(function($) {
-            $(document).on('click', '#toaster-info', function(event) {
-                event.preventDefault();
-
-                var item_post_id = $(this).data("item_post_id"); 
-
-                $.ajax({
-                    type: "post",
-                    url: "../query/add-cart-customer.php",
-                    dataType: "json",
-                    data: {
-                        item_post_id: item_post_id
-                    },
-                    cache: false, 
-                    error: function(xhr, ErrorStatus, error) {
-                        console.log(status.error);
-                    }
-
-                });
-
- 
-                return false;
-
-            });
+        $(document).on("submit", "#add-cart", function(event) {
+            $.post("../query/add-cart-customer.php", $(this).serialize(), function(data) {
+                if (data.res == "success") {
+                    Swal.fire(
+                        'ສຳເລັດ',
+                        'ເພີ່ມຂໍ້ມູນສຳເລັດ',
+                        'success'
+                    )
+                    setTimeout(
+                        function() {
+                            location.reload();
+                        }, 1000);
+                }
+            }, 'json')
+            return false;
         });
+
+
+
+
 
         $(document).on("submit", "#add-bill", function() {
             $.post("../query/add-bill-order.php", $(this).serialize(), function(data) {
@@ -207,6 +242,78 @@ $header_click = "2";
             }, 'json')
             return false;
         });
+
+        // delete 
+        $(document).on("click", "#delete-cart", function(e) {
+            e.preventDefault();
+            var cart_id = $(this).data("cart_id");
+            Swal.fire({
+                title: 'ແຈ້ງເຕືອນ',
+                text: "ແນ່ໃນຈະລົບລາຍຫຼືບໍ່",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ລົບ',
+                cancelButtonText: 'ຍົກເລີກ'
+            }).then((result) => {
+                if (result.value) {
+
+                    $.ajax({
+                        type: "post",
+                        url: "../query/delete-bill-cart-item.php",
+                        dataType: "json",
+                        data: {
+                            cart_id: cart_id
+                        },
+                        cache: false,
+                        success: function(data) {
+                            if (data.res == "success") {
+                                Swal.fire(
+                                    'ສຳເລັດ',
+                                    'ລືບສຳເລັດ',
+                                    'success'
+                                )
+                                setTimeout(
+                                    function() {
+                                        location.reload();
+                                    }, 1000);
+
+                            }
+                        },
+                        error: function(xhr, ErrorStatus, error) {
+                            console.log(status.error);
+                        }
+
+                    });
+                }
+            });
+
+
+
+
+
+            return false;
+        });
+
+        // update
+        $(document).on("submit", "#cancel-bill", function() {
+            $.post("../query/../query/cancle-order-customer.php", $(this).serialize(), function(data) {
+                if (data.res == "success") {
+                    Swal.fire(
+                        'ສຳເລັດ',
+                        'ແກ້ໄຂສຳເລັດ',
+                        'success'
+                    )
+                    setTimeout(
+                        function() {
+                            location.reload();
+                        }, 1000);
+                }
+            }, 'json')
+            return false;
+        });
+ 
     </script>
 
 

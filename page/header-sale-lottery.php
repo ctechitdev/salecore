@@ -7,26 +7,35 @@
 
         <span class="page-title"><?php echo "$header_name"; ?></span>
 
-        <div class="navbar-right "> 
+        <div class="navbar-right ">
+
+            <?php
+            $count_cart = $conn->query("  
+            select count(customer_order_cart_id) as count_cart 
+            from tbl_customer_order_cart 
+                where add_by = '$id_users'  
+                ")->fetch(PDO::FETCH_ASSOC);
+
+            ?>
 
             <ul class="nav navbar-nav">
                 <!-- Offcanvas -->
                 <li class="custom-dropdown">
                     <a class="offcanvas-toggler active custom-dropdown-toggler" id="cart-show" data-offcanvas="cart-buy" href="javascript:">
-                        <i class="mdi mdi-cart icon"></i> 
+                        <i class="mdi mdi-cart icon"></i>
+                        <span class="badge badge-xs rounded-circle"><?php echo $count_cart['count_cart']; ?></span>
                     </a>
-                </li> 
-                <?php 
+                </li>
+                <?php
                 $bill_count = $conn->query("  
                 select count(customer_order_id) as count_bill_sale 
                 from tbl_customer_order  
-                where order_by = '$id_users' 
-                order by customer_order_id desc 
+                where order_by = '$id_users'  
                 ")->fetch(PDO::FETCH_ASSOC);
 
                 ?>
                 <li class="custom-dropdown">
-                    <a class="offcanvas-toggler active custom-dropdown-toggler" id="bill-show"  data-offcanvas="sale-list" href="javascript:">
+                    <a class="offcanvas-toggler active custom-dropdown-toggler" id="bill-show" data-offcanvas="sale-list" href="javascript:">
                         <i class="mdi mdi-history icon"></i>
                         <span class="badge badge-xs rounded-circle"><?php echo $bill_count['count_bill_sale']; ?></span>
                     </a>

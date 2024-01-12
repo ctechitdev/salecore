@@ -624,9 +624,12 @@ create  table tbl_item_post_customer(
 create table tbl_customer_order_cart (
     customer_order_cart_id int not null PRIMARY KEY AUTO_INCREMENT, 
     item_post_id int,
+    item_code_list_id int,
     item_name varchar(300),
+    item_pack_sale varchar(30),
     price_per_item float,
     item_values int,
     total_price float, 
-    add_by int 
+    add_by int,
+    add_date date
 );
