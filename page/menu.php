@@ -1,4 +1,4 @@
-<aside class="left-sidebar sidebar-dark" id="left-sidebar">
+<aside class="left-sidebar sidebar-primary" id="left-sidebar">
   <div id="sidebar" class="sidebar sidebar-with-footer">
     <!-- Aplication Brand -->
     <div class="app-brand">
