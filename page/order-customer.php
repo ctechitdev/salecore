@@ -210,7 +210,7 @@ $header_click = "2";
                 if (data.res == "success") {
                     Swal.fire(
                         'ສຳເລັດ',
-                        'ເພີ່ມຂໍ້ມູນສຳເລັດ',
+                        'ເພິ່ມລາຍການສຳເລັດ',
                         'success'
                     )
                     setTimeout(
@@ -231,7 +231,7 @@ $header_click = "2";
                 if (data.res == "success") {
                     Swal.fire(
                         'ສຳເລັດ',
-                        'ເພີ່ມຂໍ້ມູນສຳເລັດ',
+                        'ສັ່ງສິນຄ້າສຳເລັດ',
                         'success'
                     )
                     setTimeout(
@@ -302,7 +302,7 @@ $header_click = "2";
                 if (data.res == "success") {
                     Swal.fire(
                         'ສຳເລັດ',
-                        'ແກ້ໄຂສຳເລັດ',
+                        'ຍົກເລີກສຳເລັດ',
                         'success'
                     )
                     setTimeout(
