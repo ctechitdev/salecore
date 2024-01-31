@@ -35,7 +35,7 @@ $header_click = "1";
         $('#province_name').change(function() {
             var province_name = $('#province_name').val();
             $.post('../function/dynamic_dropdown/get_district_name_by_name.php', {
-                province_name: province_name
+                    province_name: province_name
                 },
                 function(output) {
                     $('#district_name').html(output).show();
@@ -94,7 +94,7 @@ $header_click = "1";
                                                                     <div class="form-group  col-lg-12">
                                                                         <label class="text-dark font-weight-medium">ລະຫັດກຸ່ມລູກຄ້າ</label>
                                                                         <div class="form-group">
-                                                                            <select class=" form-control font" name="Acc_id" >
+                                                                            <select class=" form-control font" name="Acc_id">
                                                                                 <option value=""> ເລືອກລະຫັດກຸ່ມສິນຄ້າ </option>
 
                                                                                 <?php
@@ -125,13 +125,13 @@ $header_click = "1";
                                                                     <div class="col-lg-12">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ຊື່ຮ້ານ/ຊື່ບໍລິສັດ</label>
-                                                                            <input type="text" class="form-control"  name="shopname" required>
+                                                                            <input type="text" class="form-control" name="shopname" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ເລກທະບຽນບໍລິສັດ</label>
-                                                                            <input type="text" class="form-control"  name="company_reg_number" required>
+                                                                            <input type="text" class="form-control" name="company_reg_number" required>
                                                                         </div>
                                                                     </div>
 
@@ -145,7 +145,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <label for="firstName">ຜູ້ຕິດຕໍ່</label>
-                                                                            <input type="text" class="form-control"   name="contact_name" required>
+                                                                            <input type="text" class="form-control" name="contact_name" required>
                                                                         </div>
                                                                     </div>
 
@@ -174,7 +174,7 @@ $header_click = "1";
                                                                     <div class="form-group  col-lg-4">
                                                                         <label class="text-dark font-weight-medium">ແຂວງ</label>
                                                                         <div class="form-group">
-                                                                            <select class=" form-control font" name="province_name" id ="province_name" >
+                                                                            <select class=" form-control font" name="province_name" id="province_name">
                                                                                 <option value=""> ເລືອກແຂວງ </option>
                                                                                 <?php
                                                                                 $stmt = $conn->prepare(" SELECT pv_id,pv_name FROM tbl_provinces order by pv_name");
@@ -272,8 +272,108 @@ $header_click = "1";
                                                                 </div>
 
 
+                                                                <div class="col-lg-12">
+                                                                    <label class="text-dark font-weight-medium">ຈຳນວນວັນຕິດໜີ້</label>
+                                                                    <div class="form-group">
+                                                                        <select class=" form-control font" name="paymentterm" id="paymentterm">
+                                                                            <option value="0"> ເລືອກວັນຕິດໜີ້ </option>
+                                                                            <?php
+                                                                            $stmt5 = $conn->prepare(" SELECT b1_number,pt_name FROM tbl_payment_term order by pt_name");
+                                                                            $stmt5->execute();
+                                                                            if ($stmt5->rowCount() > 0) {
+                                                                                while ($row5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
+                                                                            ?> <option value="<?php echo $row5['b1_number']; ?>"> <?php echo $row5['pt_name']; ?></option>
+                                                                            <?php
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12 text-center">
+                                                                    <div class="form-group">
+                                                                        <label for="firstName">ລາຍລະອຽດຂອງສິນຄ້າ ແລະ ບໍລິການ</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row  ">
 
 
+
+                                                                    <div class="col-lg-4">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
+                                                                                <input type="radio" id="sale" name="cashRadio" value="sale" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="sale">ສິນຄ້າທີ່ຊື້ມາເພືື່ອຈັດຈຳໜ່າຍ</label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
+                                                                                <input type="radio" id="office" name="cashRadio" value="office" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="office">ເຄື່ອງໃຊ້ສຳນັກງານ</label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
+                                                                                <input type="radio" id="market" name="cashRadio" value="market" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="market">ການວ່າຈ້າງເພື່ອການຕະຫຼາດ</label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
+                                                                                <input type="radio" id="furniture" name="cashRadio" value="furniture" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="furniture">Furniture ແລະ ອຸປະກອນຕົກແຕ່ງ</label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
+                                                                                <input type="radio" id="electronic" name="cashRadio" value="electronic" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="electronic">ອຸປະກອນອິເລັກໂທນິກ</label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-4">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
+                                                                                <input type="radio" id="contractor" name="cashRadio" value="contractor" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="contractor">ການວ່າຈ້າງ ແລະ ຮັບເໝົາ </label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <label for="firstName">ກະລຸນາລະບຸລາຍລະອຽດຂອງສິນຄ້າ ແລະ ບໍລິການ</label>
+                                                                        <textarea class="form-control" name="" id="" cols="30" rows="3"></textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <label for="firstName">ການຈັດສົ່ງສິນຄ້າ</label>
+                                                                        <textarea class="form-control" name="" id="" cols="30" rows="3"></textarea>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <table class="table" id="productTable">
 
@@ -413,7 +513,7 @@ $header_click = "1";
                                         <th>ເລກທີ</th>
                                         <th>ລະຫັດຜູ້ສະໜອງ</th>
                                         <th>ຊື່ຜູ້ສະໜອງ</th>
-                                        <th>ຊື່ຮ້ານ</th> 
+                                        <th>ຊື່ຮ້ານ</th>
                                         <th>ເບີຕິດຕໍ່</th>
                                         <th>ກຸ່ມສິນຄ້າ</th>
                                         <th>ວັນລົງທະບຽນ</th>
@@ -442,7 +542,7 @@ $header_click = "1";
                                             $phone_office = $row4['phone_office'];
                                             $acc_name = $row4['acc_name'];
                                             $register_date = $row4['register_date'];
-                                             
+
 
                                     ?>
 
