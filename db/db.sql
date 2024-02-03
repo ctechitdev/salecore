@@ -461,7 +461,6 @@ create or replace table tbl_visit_dairy(
     register_date date
 );
 
-
 create table tbl_vendor (
     vendor_id int not null PRIMARY KEY AUTO_INCREMENT,
     acc_code varchar(5),
