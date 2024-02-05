@@ -275,7 +275,7 @@ $header_click = "1";
                                                                 <div class="col-lg-12">
                                                                     <label class="text-dark font-weight-medium">ຈຳນວນວັນຕິດໜີ້</label>
                                                                     <div class="form-group">
-                                                                        <select class=" form-control font" name="paymentterm" id="paymentterm">
+                                                                        <select class=" form-control font" name="payment_term"  >
                                                                             <option value="0"> ເລືອກວັນຕິດໜີ້ </option>
                                                                             <?php
                                                                             $stmt5 = $conn->prepare(" SELECT b1_number,pt_name FROM tbl_payment_term order by pt_name");
@@ -303,7 +303,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="sale" name="cashRadio" value="sale" class="custom-control-input">
+                                                                                <input type="radio" id="sale" name="ServiceRadio" value="sale" class="custom-control-input">
                                                                                 <label class="custom-control-label" for="sale">ສິນຄ້າທີ່ຊື້ມາເພືື່ອຈັດຈຳໜ່າຍ</label>
                                                                             </div>
 
@@ -313,7 +313,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="office" name="cashRadio" value="office" class="custom-control-input">
+                                                                                <input type="radio" id="office" name="ServiceRadio" value="office" class="custom-control-input">
                                                                                 <label class="custom-control-label" for="office">ເຄື່ອງໃຊ້ສຳນັກງານ</label>
                                                                             </div>
 
@@ -323,7 +323,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="market" name="cashRadio" value="market" class="custom-control-input">
+                                                                                <input type="radio" id="market" name="ServiceRadio" value="market" class="custom-control-input">
                                                                                 <label class="custom-control-label" for="market">ການວ່າຈ້າງເພື່ອການຕະຫຼາດ</label>
                                                                             </div>
 
@@ -333,7 +333,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="furniture" name="cashRadio" value="furniture" class="custom-control-input">
+                                                                                <input type="radio" id="furniture" name="ServiceRadio" value="furniture" class="custom-control-input">
                                                                                 <label class="custom-control-label" for="furniture">Furniture ແລະ ອຸປະກອນຕົກແຕ່ງ</label>
                                                                             </div>
 
@@ -343,7 +343,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="electronic" name="cashRadio" value="electronic" class="custom-control-input">
+                                                                                <input type="radio" id="electronic" name="ServiceRadio" value="electronic" class="custom-control-input">
                                                                                 <label class="custom-control-label" for="electronic">ອຸປະກອນອິເລັກໂທນິກ</label>
                                                                             </div>
 
@@ -353,7 +353,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="contractor" name="cashRadio" value="contractor" class="custom-control-input">
+                                                                                <input type="radio" id="contractor" name="ServiceRadio" value="contractor" class="custom-control-input">
                                                                                 <label class="custom-control-label" for="contractor">ການວ່າຈ້າງ ແລະ ຮັບເໝົາ </label>
                                                                             </div>
 
@@ -364,14 +364,14 @@ $header_click = "1";
                                                                 <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label for="firstName">ກະລຸນາລະບຸລາຍລະອຽດຂອງສິນຄ້າ ແລະ ບໍລິການ</label>
-                                                                        <textarea class="form-control" name="" id="" cols="30" rows="3"></textarea>
+                                                                        <textarea class="form-control" name="service_detail" cols="30" rows="3"></textarea>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label for="firstName">ການຈັດສົ່ງສິນຄ້າ</label>
-                                                                        <textarea class="form-control" name="" id="" cols="30" rows="3"></textarea>
+                                                                        <textarea class="form-control" name="transport_detail"  cols="30" rows="3"></textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>

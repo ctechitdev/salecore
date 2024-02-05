@@ -27,10 +27,10 @@ $rc_check = "$vendor_code_type-$gen_number";
 
 $insert_vendor = $conn->query(" insert into tbl_vendor 
 (acc_code,vendor_name,vendor_shop_name,vendor_code,vendor_code_type,last_number,company_register_code,
-vat_register_code,phone_office,phone_mobile,email,province_name,district_name,village,contact_type,contact_expire_date,cash_type,add_by,register_date) 
+vat_register_code,phone_office,phone_mobile,email,province_name,district_name,village,contact_type,term_payment,service_type,service_detail,transport_detail,contact_expire_date,cash_type,add_by,register_date) 
 values 
 ('$Acc_id','$contact_name','$shopname','$rc_check','$vendor_code_type','$last_number','$company_reg_number','$vat_reg_number','$phone_office','$phone_mobile','$email',
-'$province_name','$district_name','$village_name','$contactRadio','$contact_expire_date','$cashRadio','$id_users',now()) ");
+'$province_name','$district_name','$village_name','$contactRadio','$payment_term','$ServiceRadio','$service_detail','$transport_detail','$contact_expire_date','$cashRadio','$id_users',now()) ");
 
 
 

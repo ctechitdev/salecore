@@ -483,6 +483,7 @@ create table tbl_vendor (
     term_payment varchar(50),
     service_type varchar(150),
     service_detail text,
+    transport_detail text,
     add_by int,
     register_date date
 );
