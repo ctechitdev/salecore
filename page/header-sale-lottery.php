@@ -9,6 +9,10 @@
 
         <div class="navbar-right ">
 
+
+
+
+
             <?php
             $count_cart = $conn->query("  
             select count(customer_order_cart_id) as count_cart 
@@ -19,6 +23,7 @@
             ?>
 
             <ul class="nav navbar-nav">
+
                 <!-- Offcanvas -->
                 <li class="custom-dropdown">
                     <a class="offcanvas-toggler active custom-dropdown-toggler" id="cart-show" data-offcanvas="cart-buy" href="javascript:">

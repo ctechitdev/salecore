@@ -298,7 +298,7 @@ $header_click = "1";
                                                                             $stmt5->execute();
                                                                             if ($stmt5->rowCount() > 0) {
                                                                                 while ($row5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
-                                                                            ?> <option value="<?php echo $row5['b1_number']; ?>"> <?php echo $row5['pt_name']; ?></option>
+                                                                            ?> <option value="<?php echo $row5['b1_number']; ?>" <?php  if( $vender_row['term_payment'] == $row5['b1_number'] ){echo "selected";}?>><?php echo $row5['pt_name']; ?></option>
                                                                             <?php
                                                                                 }
                                                                             }
@@ -319,7 +319,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="sale" name="ServiceRadio" value="sale" class="custom-control-input">
+                                                                                <input type="radio" id="sale" name="ServiceRadio" value="sale" class="custom-control-input" <?php if ($vender_row['service_type'] == "sale") { echo "checked";  } ?>>
                                                                                 <label class="custom-control-label" for="sale">ສິນຄ້າທີ່ຊື້ມາເພືື່ອຈັດຈຳໜ່າຍ</label>
                                                                             </div>
 
@@ -329,7 +329,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="office" name="ServiceRadio" value="office" class="custom-control-input">
+                                                                                <input type="radio" id="office" name="ServiceRadio" value="office" class="custom-control-input" <?php if ($vender_row['service_type'] == "office") { echo "checked";  } ?>>
                                                                                 <label class="custom-control-label" for="office">ເຄື່ອງໃຊ້ສຳນັກງານ</label>
                                                                             </div>
 
@@ -339,7 +339,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="market" name="ServiceRadio" value="market" class="custom-control-input">
+                                                                                <input type="radio" id="market" name="ServiceRadio" value="market" class="custom-control-input" <?php if ($vender_row['service_type'] == "market") { echo "checked";  } ?>>
                                                                                 <label class="custom-control-label" for="market">ການວ່າຈ້າງເພື່ອການຕະຫຼາດ</label>
                                                                             </div>
 
@@ -349,7 +349,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="furniture" name="ServiceRadio" value="furniture" class="custom-control-input">
+                                                                                <input type="radio" id="furniture" name="ServiceRadio" value="furniture" class="custom-control-input" <?php if ($vender_row['service_type'] == "furniture") { echo "checked";  } ?>>
                                                                                 <label class="custom-control-label" for="furniture">Furniture ແລະ ອຸປະກອນຕົກແຕ່ງ</label>
                                                                             </div>
 
@@ -359,7 +359,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="electronic" name="ServiceRadio" value="electronic" class="custom-control-input">
+                                                                                <input type="radio" id="electronic" name="ServiceRadio" value="electronic" class="custom-control-input" <?php if ($vender_row['service_type'] == "electronic") { echo "checked";  } ?>>
                                                                                 <label class="custom-control-label" for="electronic">ອຸປະກອນອິເລັກໂທນິກ</label>
                                                                             </div>
 
@@ -369,7 +369,7 @@ $header_click = "1";
                                                                     <div class="col-lg-4">
                                                                         <div class="form-group">
                                                                             <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                                                <input type="radio" id="contractor" name="ServiceRadio" value="contractor" class="custom-control-input">
+                                                                                <input type="radio" id="contractor" name="ServiceRadio" value="contractor" class="custom-control-input" <?php if ($vender_row['service_type'] == "contractor") { echo "checked";  } ?>>
                                                                                 <label class="custom-control-label" for="contractor">ການວ່າຈ້າງ ແລະ ຮັບເໝົາ </label>
                                                                             </div>
 
@@ -380,14 +380,14 @@ $header_click = "1";
                                                                 <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label for="firstName">ກະລຸນາລະບຸລາຍລະອຽດຂອງສິນຄ້າ ແລະ ບໍລິການ</label>
-                                                                        <textarea class="form-control" name="service_detail" cols="30" rows="3"></textarea>
+                                                                        <textarea class="form-control" name="service_detail" cols="30" rows="3"><?php echo $vender_row['service_detail']; ?></textarea>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label for="firstName">ການຈັດສົ່ງສິນຄ້າ</label>
-                                                                        <textarea class="form-control" name="transport_detail" cols="30" rows="3"></textarea>
+                                                                        <textarea class="form-control" name="transport_detail" cols="30" rows="3"><?php echo $vender_row['transport_detail']; ?></textarea>
                                                                     </div>
                                                                 </div>
 

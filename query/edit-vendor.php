@@ -12,7 +12,8 @@ $update_vendor = $conn->query(" update tbl_vendor
 set 
 vendor_name = '$contact_name', vendor_shop_name = '$shopname', company_register_code = '$company_reg_number', vat_register_code = '$vat_reg_number',
 phone_office = '$phone_office', phone_mobile = '$phone_mobile', email = '$email', province_name = '$province_name', district_name = '$district_name',
-village = '$village_name', contact_type = '$contactRadio' , contact_expire_date = '$contact_expire_date', cash_type = '$cashRadio'
+village = '$village_name', contact_type = '$contactRadio' , contact_expire_date = '$contact_expire_date', cash_type = '$cashRadio',
+term_payment = '$payment_term' ,service_type = '$ServiceRadio' ,service_detail = '$service_detail' , transport_detail = '$transport_detail' 
 where vendor_id = '$vendor_id' ");
 
 

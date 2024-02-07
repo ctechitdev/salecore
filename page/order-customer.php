@@ -85,16 +85,34 @@ $header_click = "2";
                 <div class="content">
 
 
+                    <form action="" method="post">
+                        <div class="input-group  ">
+                            <input type="text" autocomplete="off" name="search_key" class="form-control" placeholder="ຄຳຄົ້ນຫາ..." />
+                            <div class="input-group-append">
+                                <button type="submit" name="btn_search" class="btn btn-primary">ຄົ້ນຫາ</button>
+                            </div>
+                        </div>
+                    </form>
+
+
                     <div class="card-body px-3 px-md-5">
                         <div class="row">
 
                             <?php
 
+
+                            if (isset($_POST['btn_search'])) {
+                                $search_key = $_POST['search_key'];
+                                $syntaxy = " and item_name like '%$search_key%' ";
+                            } else {
+                                $syntaxy = "";
+                            }
+
                             $stmt = $conn->prepare(" 
                             SELECT item_post_pic,item_name,item_pack_sale,item_price,item_post_customer_id
                             from tbl_item_post_customer a
                             left join tbl_customer_product_used b on a.item_company_code_id = b.item_company_code_id
-                            where item_status_sale = '1' and b.customer_user_id = '$id_users' ");
+                            where item_status_sale = '1' and b.customer_user_id = '$id_users' $syntaxy ");
                             $stmt->execute();
                             if ($stmt->rowCount() > 0) {
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -231,7 +249,7 @@ $header_click = "2";
                 if (data.res == "success") {
                     Swal.fire(
                         'ສຳເລັດ',
-                        'ສັ່ງສິນຄ້າສຳເລັດ',
+                        'ຢືນຢັນສັ່ງຊື້ສິນຄ້າສຳເລັດ',
                         'success'
                     )
                     setTimeout(
@@ -313,7 +331,6 @@ $header_click = "2";
             }, 'json')
             return false;
         });
- 
     </script>
 
 
