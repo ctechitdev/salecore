@@ -83,10 +83,12 @@ $header_click = "3";
 
 										<div class="row">
 
+										 
+
 											<div class="col-lg-12">
 												<div class="form-group">
 													<label for="firstName">ຊື່ເຈົ້າຂອງຮ້ານ</label>
-													<input type="text" class="form-control"  name="customer_name" required>
+													<input type="text" class="form-control" name="customer_name" required>
 												</div>
 											</div>
 
@@ -98,9 +100,9 @@ $header_click = "3";
 											</div>
 
 
- 
 
-									  
+
+
 
 
 										</div>
@@ -142,10 +144,8 @@ $header_click = "3";
 										<th>ເລກລຳດັບ</th>
 										<th>ຊື່ຜູ້ໃຊ້</th>
 										<th>ຢູສເຊີ້</th>
-										<th>ພະແນກ</th>
-
 										<th>ສະຖານະ</th>
-										<th>ສິດຈັດການ</th>
+										<th>ລົງທະບຽນ</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -153,20 +153,18 @@ $header_click = "3";
 
 
 									<?php
-									$stmt4 = $conn->prepare(" select usid,full_name,user_name,dp_name,role_name,
-									(case when user_status = 1 then 'ເປີດນຳໃຊ້' else 'ປິດນຳໃຊ້' end) as user_status,date_register
-									from tbl_user_staff a
-									LEFT JOIN tbl_depart b on a.depart_id = b.dp_id
-									LEFT join tbl_roles c on a.role_id = c.r_id ");
+									$stmt4 = $conn->prepare("  SELECT  customer_user_id,customer_name,customer_user_name, 
+									(case when customer_status = 1 then 'ເປີດນຳໃຊ້' else 'ປິດນຳໃຊ້' end) as customer_status,add_date
+									FROM tbl_customer_user  
+									where company_depart_id = '$depart_id'  ");
 									$stmt4->execute();
 									if ($stmt4->rowCount() > 0) {
 										while ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
-											$usid = $row4['usid'];
-											$full_name = $row4['full_name'];
-											$user_name = $row4['user_name'];
-											$dp_name = $row4['dp_name'];
-											$user_status = $row4['user_status'];
-											$role_name = $row4['role_name'];
+											$usid = $row4['customer_user_id'];
+											$full_name = $row4['customer_name'];
+											$user_name = $row4['customer_user_name'];
+											$user_status = $row4['customer_status'];
+											$add_date = $row4['add_date'];
 
 									?>
 
@@ -176,7 +174,6 @@ $header_click = "3";
 												<td><?php echo "$usid"; ?></td>
 												<td><?php echo "$full_name"; ?></td>
 												<td><?php echo "$user_name"; ?></td>
-												<td><?php echo "$dp_name"; ?></td>
 												<td> <span class="badge <?php
 																		if ($user_status == 'ປິດນຳໃຊ້') {
 																			echo "badge-secondary";
@@ -185,10 +182,10 @@ $header_click = "3";
 																		}
 
 																		?>">
-														<?php echo "$user_status"; ?></span></td>
-												<td><?php echo "$role_name"; ?></td>
+														<?php echo "$user_status"; ?></span>
+												</td>
 
-
+												<td><?php echo "$add_date"; ?></td>
 
 												<td>
 													<div class="dropdown">
@@ -196,9 +193,8 @@ $header_click = "3";
 														</a>
 
 														<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-															<a class="dropdown-item" href="edit-staff-user.php?us_id=<?php echo "$usid"; ?>">ແກ້ໄຂ</a>
-															<a class="dropdown-item" type="button" id="activestaffuser" data-id='<?php echo $row4['usid']; ?>' class="btn btn-danger btn-sm">ເປິດນຳໃຊ້</a>
-															<a class="dropdown-item" type="button" id="inactivestaffuser" data-id='<?php echo $row4['usid']; ?>' class="btn btn-danger btn-sm">ປິດນຳໃຊ້</a>
+															<a class="dropdown-item" type="button" id="ative-user" data-customer_user_id='<?php echo $row4['customer_user_id']; ?>' class="btn btn-danger btn-sm">ເປິດນຳໃຊ້</a>
+															<a class="dropdown-item" type="button" id="disable-user" data-customer_user_id='<?php echo $row4['customer_user_id']; ?>' class="btn btn-danger btn-sm">ປິດນຳໃຊ້</a>
 														</div>
 													</div>
 												</td>
@@ -255,15 +251,16 @@ $header_click = "3";
 
 
 		// active user
-		$(document).on("click", "#activestaffuser", function(e) {
+		$(document).on("click", "#ative-user", function(e) {
 			e.preventDefault();
-			var id = $(this).data("id");
+			var customer_user_id = $(this).data("customer_user_id");
 			$.ajax({
 				type: "post",
-				url: "../query/activestaffuser.php",
+				url: "../query/update-customer-user.php",
 				dataType: "json",
 				data: {
-					id: id
+					customer_user_id: customer_user_id,
+					customer_status_id : 1
 				},
 				cache: false,
 				success: function(data) {
@@ -275,7 +272,7 @@ $header_click = "3";
 						)
 						setTimeout(
 							function() {
-								window.location.href = 'user-staff.php';
+								location.reload();
 							}, 1000);
 
 					}
@@ -293,15 +290,16 @@ $header_click = "3";
 
 
 		// inactive user
-		$(document).on("click", "#inactivestaffuser", function(e) {
+		$(document).on("click", "#disable-user", function(e) {
 			e.preventDefault();
-			var id = $(this).data("id");
+			var customer_user_id = $(this).data("customer_user_id");
 			$.ajax({
 				type: "post",
-				url: "../query/inactivestaffuser.php",
+				url: "../query/update-customer-user.php",
 				dataType: "json",
 				data: {
-					id: id
+					customer_user_id: customer_user_id,
+					customer_status_id : 2
 				},
 				cache: false,
 				success: function(data) {
@@ -313,7 +311,7 @@ $header_click = "3";
 						)
 						setTimeout(
 							function() {
-								window.location.href = 'user-staff.php';
+								location.reload();
 							}, 1000);
 
 					}

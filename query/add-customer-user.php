@@ -15,8 +15,8 @@ include("../setting/conn.php");
  else
  {
     
-	$insCourse = $conn->query("INSERT INTO tbl_customer_user(customer_name,customer_user_name,customer_user_password,customer_status,role_id,add_by,add_date)
-	VALUES('$customer_name','$customer_user_name','123','1','9','$id_users',now()) ");
+	$insCourse = $conn->query("INSERT INTO tbl_customer_user(company_depart_id,customer_name,customer_user_name,customer_user_password,customer_status,role_id,add_by,add_date)
+	VALUES('$depart_id','$customer_name','$customer_user_name','123','1','9','$id_users',now()) ");
 	if($insCourse)
 	{
 		$res = array("res" => "success", "user name" => $customer_user_name);

@@ -531,11 +531,12 @@ create table tbl_vendor_evaluated_detail (
 
 
 create table tbl_customer_user(
-    customer_user_id int not null PRIMARY KEY AUTO_INCREMENT,
+    customer_user_id int not null PRIMARY KEY AUTO_INCREMENT, 
     customer_name varchar(150),
     customer_user_name varchar(30),
     customer_user_password varchar(30),
     customer_status int,
+    company_depart_id int,
     role_id int,
     add_by int,
     add_date date

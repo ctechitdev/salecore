@@ -84,15 +84,15 @@ $header_click = "2";
 
                                         <div class="row">
                                             <div class="form-group  col-lg-12">
-                                                <label class="text-dark font-weight-medium">ພະແນກ</label>
+                                                <label class="text-dark font-weight-medium">ຢູສເຊີ້ຮ້ານຄ້າ</label>
                                                 <div class="form-group">
                                                     <select class=" form-control font" name="customer_user_id" id="customer_user_id">
-                                                        <option value=""> ເລຶອກພະແນກ </option>
+                                                        <option value=""> ເລຶອກຢູສເຊີ້ຮ້ານຄ້າ </option>
                                                         <?php
                                                         $stmt = $conn->prepare("
                                                         SELECT  customer_user_id,customer_name 
                                                         FROM tbl_customer_user 
-                                                        WHERE customer_status = '1' ");
+                                                        WHERE customer_status = '1' and company_depart_id = '$depart_id' ");
                                                         $stmt->execute();
                                                         if ($stmt->rowCount() > 0) {
                                                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
