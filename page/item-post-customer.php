@@ -230,8 +230,7 @@ $vd_id = $_GET['vd_id'];
 
                                     $day_name = date('D');
                                     $stmt4 = $conn->prepare("SELECT item_post_customer_id, full_code,item_name,item_pack_sale,item_price,add_date,
-                                    (case when item_status_sale = '1' then 'ເປີດຂາຍ' else 'ປິດຂາຍ' end) as item_status_sale
-                                    
+                                    (case when item_status_sale = '1' then 'ເປີດຂາຍ' else 'ປິດຂາຍ' end) as item_status_sale 
                                     FROM tbl_item_post_customer WHERE add_by ='$id_users' ");
                                     $stmt4->execute();
                                     if ($stmt4->rowCount() > 0) {

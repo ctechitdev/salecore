@@ -23,14 +23,17 @@
           <ul class="dropdown-menu dropdown-menu-right">
 
             <li>
-              <a class="dropdown-link-item" href="user-account-settings.html">
+              <a class="dropdown-link-item" href="user-account-settings.php">
                 <i class="mdi mdi-settings"></i>
-                <span class="nav-text">Account Setting</span>
+                <span class="nav-text">ຂໍ້ມູນຜູ້ໃຊ້</span>
               </a>
             </li>
 
             <li class="dropdown-footer">
-              <a class="dropdown-link-item" href="logout.php"> <i class="mdi mdi-logout"></i> Log Out </a>
+              <a class="dropdown-link-item" href="logout.php">
+                <i class="mdi mdi-logout"></i>
+                <span class="nav-text">ອອກລະບົບ</span>
+              </a>
             </li>
           </ul>
         </li>

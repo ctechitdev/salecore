@@ -204,8 +204,8 @@ $header_click = "3";
 
 
 									<?php
-									$stmt4 = $conn->prepare(" select usid,full_name,user_name,dp_name,role_name,
-									(case when user_status = 1 then 'ເປີດນຳໃຊ້' else 'ປິດນຳໃຊ້' end) as user_status,date_register
+									$stmt4 = $conn->prepare(" select usid,full_name,user_name,dp_name,role_name,user_status,
+									(case when user_status = 1 then 'ເປີດນຳໃຊ້' when user_status = 2 then 'ປິດນຳໃຊ້' else 'ປຽນລະຫັດ' end) as user_status_name,date_register
 									from tbl_user_staff a
 									LEFT JOIN tbl_depart b on a.depart_id = b.dp_id
 									LEFT join tbl_roles c on a.role_id = c.r_id ");
@@ -217,6 +217,7 @@ $header_click = "3";
 											$user_name = $row4['user_name'];
 											$dp_name = $row4['dp_name'];
 											$user_status = $row4['user_status'];
+											$user_status_name = $row4['user_status_name'];
 											$role_name = $row4['role_name'];
 
 									?>
@@ -229,14 +230,18 @@ $header_click = "3";
 												<td><?php echo "$user_name"; ?></td>
 												<td><?php echo "$dp_name"; ?></td>
 												<td> <span class="badge <?php
-																		if ($user_status == 'ປິດນຳໃຊ້') {
-																			echo "badge-secondary";
-																		} else {
+																		if ($user_status == '1') {
 																			echo "badge-success";
+																		} else if ($user_status == '2') {
+																			echo "badge-danger";
+																		} else {
+																			echo "badge-info";
 																		}
 
 																		?>">
-														<?php echo "$user_status"; ?></span></td>
+														<?php echo "$user_status_name"; ?>
+													</span>
+												</td>
 												<td><?php echo "$role_name"; ?></td>
 
 
@@ -248,8 +253,9 @@ $header_click = "3";
 
 														<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
 															<a class="dropdown-item" href="edit-staff-user.php?us_id=<?php echo "$usid"; ?>">ແກ້ໄຂ</a>
-															<a class="dropdown-item" type="button" id="activestaffuser" data-id='<?php echo $row4['usid']; ?>' class="btn btn-danger btn-sm">ເປິດນຳໃຊ້</a>
-															<a class="dropdown-item" type="button" id="inactivestaffuser" data-id='<?php echo $row4['usid']; ?>' class="btn btn-danger btn-sm">ປິດນຳໃຊ້</a>
+															<a class="dropdown-item" type="button" id="reset-password" data-id='<?php echo $row4['usid']; ?>' class="btn btn-danger btn-sm">ຣີເຊັທລະຫັດ</a>
+															<a class="dropdown-item" type="button" id="active-user" data-id='<?php echo $row4['usid']; ?>' class="btn btn-danger btn-sm">ເປິດນຳໃຊ້</a>
+															<a class="dropdown-item" type="button" id="inactive-user" data-id='<?php echo $row4['usid']; ?>' class="btn btn-danger btn-sm">ປິດນຳໃຊ້</a>
 														</div>
 													</div>
 												</td>
@@ -305,16 +311,54 @@ $header_click = "3";
 		});
 
 
-		// active user
-		$(document).on("click", "#activestaffuser", function(e) {
+		$(document).on("click", "#reset-password", function(e) {
 			e.preventDefault();
 			var id = $(this).data("id");
 			$.ajax({
 				type: "post",
-				url: "../query/activestaffuser.php",
+				url: "../query/user-status-manage.php",
 				dataType: "json",
 				data: {
-					id: id
+					id: id,
+					user_status: 3
+				},
+				cache: false,
+				success: function(data) {
+					if (data.res == "success") {
+						Swal.fire(
+							'ສຳເລັດ',
+							'ຣີເຊັດລະຫັດສຳເລັດ',
+							'success'
+						)
+						setTimeout(
+							function() {
+								location.reload();
+							}, 1000);
+
+					}
+				},
+				error: function(xhr, ErrorStatus, error) {
+					console.log(status.error);
+				}
+
+			});
+
+
+
+			return false;
+		});
+
+		// active user
+		$(document).on("click", "#active-user", function(e) {
+			e.preventDefault();
+			var id = $(this).data("id");
+			$.ajax({
+				type: "post",
+				url: "../query/user-status-manage.php",
+				dataType: "json",
+				data: {
+					id: id,
+					user_status: 1
 				},
 				cache: false,
 				success: function(data) {
@@ -326,7 +370,7 @@ $header_click = "3";
 						)
 						setTimeout(
 							function() {
-								window.location.href = 'user-staff.php';
+								location.reload();
 							}, 1000);
 
 					}
@@ -344,15 +388,16 @@ $header_click = "3";
 
 
 		// inactive user
-		$(document).on("click", "#inactivestaffuser", function(e) {
+		$(document).on("click", "#inactive-user", function(e) {
 			e.preventDefault();
 			var id = $(this).data("id");
 			$.ajax({
 				type: "post",
-				url: "../query/inactivestaffuser.php",
+				url: "../query/user-status-manage.php",
 				dataType: "json",
 				data: {
-					id: id
+					id: id,
+					user_status: 2
 				},
 				cache: false,
 				success: function(data) {
@@ -364,7 +409,7 @@ $header_click = "3";
 						)
 						setTimeout(
 							function() {
-								window.location.href = 'user-staff.php';
+								location.reload();
 							}, 1000);
 
 					}

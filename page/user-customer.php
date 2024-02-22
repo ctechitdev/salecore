@@ -83,7 +83,7 @@ $header_click = "3";
 
 										<div class="row">
 
-										 
+
 
 											<div class="col-lg-12">
 												<div class="form-group">
@@ -153,8 +153,8 @@ $header_click = "3";
 
 
 									<?php
-									$stmt4 = $conn->prepare("  SELECT  customer_user_id,customer_name,customer_user_name, 
-									(case when customer_status = 1 then 'ເປີດນຳໃຊ້' else 'ປິດນຳໃຊ້' end) as customer_status,add_date
+									$stmt4 = $conn->prepare("  SELECT  customer_user_id,customer_name,customer_user_name, customer_status,
+									(case when customer_status = 1 then 'ເປີດນຳໃຊ້' when customer_status = 2 then 'ປິດນຳໃຊ້' else 'ປຽນລະຫັດ' end) as user_status_name,add_date
 									FROM tbl_customer_user  
 									where company_depart_id = '$depart_id'  ");
 									$stmt4->execute();
@@ -164,6 +164,7 @@ $header_click = "3";
 											$full_name = $row4['customer_name'];
 											$user_name = $row4['customer_user_name'];
 											$user_status = $row4['customer_status'];
+											$user_status_name = $row4['user_status_name'];
 											$add_date = $row4['add_date'];
 
 									?>
@@ -175,14 +176,17 @@ $header_click = "3";
 												<td><?php echo "$full_name"; ?></td>
 												<td><?php echo "$user_name"; ?></td>
 												<td> <span class="badge <?php
-																		if ($user_status == 'ປິດນຳໃຊ້') {
-																			echo "badge-secondary";
-																		} else {
+																		if ($user_status == '1') {
 																			echo "badge-success";
+																		} else if ($user_status == '2') {
+																			echo "badge-danger";
+																		} else {
+																			echo "badge-info";
 																		}
 
 																		?>">
-														<?php echo "$user_status"; ?></span>
+														<?php echo "$user_status_name"; ?>
+													</span>
 												</td>
 
 												<td><?php echo "$add_date"; ?></td>
@@ -193,6 +197,8 @@ $header_click = "3";
 														</a>
 
 														<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+
+															<a class="dropdown-item" type="button" id="reset-password" data-customer_user_id='<?php echo $row4['customer_user_id']; ?>' class="btn btn-danger btn-sm">ຣີເຊັດລະຫັດ</a>
 															<a class="dropdown-item" type="button" id="ative-user" data-customer_user_id='<?php echo $row4['customer_user_id']; ?>' class="btn btn-danger btn-sm">ເປິດນຳໃຊ້</a>
 															<a class="dropdown-item" type="button" id="disable-user" data-customer_user_id='<?php echo $row4['customer_user_id']; ?>' class="btn btn-danger btn-sm">ປິດນຳໃຊ້</a>
 														</div>
@@ -249,6 +255,43 @@ $header_click = "3";
 			return false;
 		});
 
+		$(document).on("click", "#reset-password", function(e) {
+			e.preventDefault();
+			var customer_user_id = $(this).data("customer_user_id");
+			$.ajax({
+				type: "post",
+				url: "../query/update-customer-user.php",
+				dataType: "json",
+				data: {
+					customer_user_id: customer_user_id,
+					customer_status_id: 3
+				},
+				cache: false,
+				success: function(data) {
+					if (data.res == "success") {
+						Swal.fire(
+							'ສຳເລັດ',
+							'ເປີດນຳໃຊ້ສຳເລັດ',
+							'success'
+						)
+						setTimeout(
+							function() {
+								location.reload();
+							}, 1000);
+
+					}
+				},
+				error: function(xhr, ErrorStatus, error) {
+					console.log(status.error);
+				}
+
+			});
+
+
+
+			return false;
+		});
+
 
 		// active user
 		$(document).on("click", "#ative-user", function(e) {
@@ -260,7 +303,7 @@ $header_click = "3";
 				dataType: "json",
 				data: {
 					customer_user_id: customer_user_id,
-					customer_status_id : 1
+					customer_status_id: 1
 				},
 				cache: false,
 				success: function(data) {
@@ -299,7 +342,7 @@ $header_click = "3";
 				dataType: "json",
 				data: {
 					customer_user_id: customer_user_id,
-					customer_status_id : 2
+					customer_status_id: 2
 				},
 				cache: false,
 				success: function(data) {

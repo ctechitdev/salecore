@@ -10,6 +10,7 @@ session_start();
 		$full_name = $_SESSION["full_name"]; 
 		$role_id = $_SESSION["role_id"]; 
 		$depart_id = $_SESSION["depart_id"]; 
+		$user_type_id = $_SESSION["user_type"]; 
 		
 	}
  
