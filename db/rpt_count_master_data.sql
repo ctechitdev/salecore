@@ -2,6 +2,8 @@ DELIMITER $$
 CREATE or replace PROCEDURE rptcountmsdata(`startdate` VARCHAR(20), `enddate` VARCHAR(20))
 BEGIN
 
+SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
 create TEMPORARY table tmp_count_item
 
 
