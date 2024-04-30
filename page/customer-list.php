@@ -129,9 +129,8 @@ $header_click = "1";
 
 												$stmt4 = $conn->prepare("  
  												SELECT c_id,c_code,c_shop_name,c_name,(case when payment_type = '0' then 'None' else payment_type end) as payment_type,
-												phone1,staff_name,ref_number,date_register
-												FROM tbl_customer a
-												left join tbl_staff_sale b on a.staff_contact = b.staff_code
+												phone1,ref_number,date_register
+												FROM tbl_customer  
 												$syntax
 												order by c_id DESC ");
 												$stmt4->execute();
@@ -193,11 +192,7 @@ $header_click = "1";
 												?>
 
 
-
-
-
-
-
+ 
 
 											</tbody>
 										</table>
