@@ -18,6 +18,8 @@
 					<script src="../plugins/jvectormap/jquery-jvectormap-world-mill.js"></script>
 					<script src="../plugins/jvectormap/jquery-jvectormap-us-aea.js"></script>
 
+					<script src="../plugins/NTF/dist/notiflix-loading-aio-3.2.6.min.js"></script>
+					<script src="../plugins/NTF/dist/notiflix-notify-aio-3.2.6.min.js"></script>
 
 
 					<script src="../plugins/daterangepicker/moment.min.js"></script>

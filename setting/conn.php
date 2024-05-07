@@ -3,7 +3,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db   = "kpsale";
+$db   = "salecore";
 $conn = null;
 
 try {

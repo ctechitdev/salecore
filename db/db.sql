@@ -347,17 +347,7 @@ create table tbl_item_detail (
     date_register date
 );
 
-create table tbl_warehouse (
- wh_id int not null AUTO_INCREMENT PRIMARY KEY,
- wh_name varchar(150),
- wh_code varchar(20),
- com_code varchar(30),
- wh_province varchar(150),
- wh_district varchar(150),
- wh_village varchar(300),
- add_by int,
- date_register date
-);
+
 
 
 create table tbl_item_transaction (
@@ -625,3 +615,47 @@ create table tbl_customer_order_cart (
     add_by int,
     add_date date
 );
+
+create table tbl_warehouse (
+ warehouse_id int not null AUTO_INCREMENT PRIMARY KEY,
+ warehouse_name varchar(150),
+ warehouse_code varchar(20),
+ com_code_id int,
+ province_id int,
+ district_id int,
+ vallage_name varchar(300),
+ add_by int,
+ date_register date
+);
+
+
+
+create table tbl_stock_bill(
+  stock_bill_id int not null PRIMARY KEY AUTO_INCREMENT,
+  stock_bill_number varchar(30),
+  stock_type_id int, 
+  add_by int,
+  add_date datetime
+);
+
+ 
+ create or replace table tbl_stock_bill_detail(
+  stock_bill_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
+  stock_bill_id int,
+  warehouse_id int,
+  item_data_id int, 
+  credit_value int,
+  debit_value int,
+  pack_type_id int,
+  stock_type_id int,
+  add_by int,
+  add_date date
+ );
+
+ create table tbl_stock_type(
+  stock_type_id int not null PRIMARY KEY AUTO_INCREMENT,
+  stock_type_name varchar(30)
+);
+
+insert into tbl_stock_type (stock_type_name) values ('ຮັບເຄື່ອງເຂົ້າສາງ');
+insert into tbl_stock_type (stock_type_name) values ('ເບີກອໍເດີ້');
