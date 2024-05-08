@@ -9,9 +9,9 @@ include("../../setting/conn.php");
 
         <?php
         $stmt_cart = $conn->prepare(" 
-        SELECT a.item_post_id,a.item_name,item_values,total_price,item_post_pic,price_per_item,customer_order_cart_id
-        FROM tbl_customer_order_cart a
-        left join tbl_item_post_customer b on a.item_post_id = b.item_post_customer_id
+        select customer_order_cart_id,a.item_code,item_name,pack_type_name,sale_price,order_values,total_price_order
+        from tbl_customer_order_cart a
+        left join tbl_item_code_list b on a.item_code = b.full_code
         where a.add_by = '$id_users'    ");
 
         $total_sale_cart = 0;
@@ -22,10 +22,7 @@ include("../../setting/conn.php");
         ?>
 
                 <div class="media media-sm">
-                    <div class="media-sm-wrapper">
-                        <img src='../images/item_post/<?php echo $cart_row['item_post_pic']; ?>' width="100%" alt="User Image">
 
-                    </div>
                     <div class="media-body mx-1">
 
                         <div class="row  ">
@@ -35,22 +32,22 @@ include("../../setting/conn.php");
                             </div>
 
                             <div class="col-lg-12">
-                                <label class="text-dark font-weight-medium">ລາຄາຕໍ່ໜ່ວຍ: <?php echo  $cart_row['price_per_item']; ?></label>
+                                <label class="text-dark font-weight-medium">ລາຄາຕໍ່ໜ່ວຍ: <?php echo  number_format($cart_row['sale_price'],2); ?></label>
                             </div>
 
                             <div class="col-lg-12">
-                                <label class="text-dark font-weight-medium">ຈຳນວນ: <?php echo  $cart_row['item_values']; ?></label>
+                                <label class="text-dark font-weight-medium">ຈຳນວນ: <?php echo  $cart_row['order_values']; ?></label>
                             </div>
 
                             <div class="col-lg-12">
-                                <label class="text-dark font-weight-medium">ລວມ: <?php echo number_format($cart_row['total_price']); ?></label>
+                                <label class="text-dark font-weight-medium">ລວມ: <?php echo number_format($cart_row['total_price_order'],2); ?></label>
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-center">
 
                             <b>
-                                <a type="button"  id="delete-cart" data-cart_id='<?php echo $cart_row['customer_order_cart_id']; ?>' class="btn btn-danger btn-pill  ">
+                                <a type="button" id="delete-cart" data-cart_id='<?php echo $cart_row['customer_order_cart_id']; ?>' class="btn btn-danger btn-pill  ">
                                     ລົບ
                                 </a>
                             </b>
@@ -62,7 +59,7 @@ include("../../setting/conn.php");
 
         <?php
 
-                $total_sale_cart += $cart_row['total_price'];
+                $total_sale_cart += $cart_row['total_price_order'];
             }
         }
 
@@ -83,10 +80,13 @@ include("../../setting/conn.php");
 
                 <span class="title"><?php echo number_format($total_sale_cart); ?></span>
 
+
+                <input type="hidden" name="total_sale_cart" value='<?php  echo ($total_sale_cart)  ; ?>'>
+
             </div>
         </div>
         <div class="d-flex justify-content-center ">
-            <button type="submit" class="btn btn-success btn-pill" >ຢືນຢັນສັ່ງຊື້</button>
+            <button type="submit" class="btn btn-success btn-pill">ຢືນຢັນສັ່ງຊື້</button>
         </div>
     </div>
 

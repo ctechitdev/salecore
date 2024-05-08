@@ -48,10 +48,11 @@ $header_click = "2";
 
     $(document).on("click", "#item-modal", function(e) {
         e.preventDefault();
-        var item_post_id = $(this).data("item_post_id");
-
+        var item_code = $(this).data("item_code");
+        var pack_type_name = $(this).data("pack_type_name");
         $.post('../function/modal/show-item-detail.php', {
-                item_post_id: item_post_id
+                item_code: item_code,
+                pack_type_name: pack_type_name
             },
             function(output) {
                 $('.show_item_detail').html(output).show();
@@ -108,11 +109,7 @@ $header_click = "2";
                                 $syntaxy = "";
                             }
 
-                            $stmt = $conn->prepare(" 
-                            SELECT item_post_pic,item_name,item_pack_sale,item_price,item_post_customer_id
-                            from tbl_item_post_customer a
-                            left join tbl_customer_product_used b on a.item_company_code_id = b.item_company_code_id
-                            where item_status_sale = '1' and b.customer_user_id = '$id_users' $syntaxy ");
+                            $stmt = $conn->prepare(" call stp_show_item_data_remain();");
                             $stmt->execute();
                             if ($stmt->rowCount() > 0) {
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -121,24 +118,24 @@ $header_click = "2";
                                         <div class="card card-default p-4">
 
                                             <div class="media">
-                                                <img src='../images/item_post/<?php echo $row['item_post_pic']; ?>' width="20%" class="mr-3 img-fluid rounded" alt="Avatar Image" />
 
                                                 <div class="media-body">
-                                                    <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?></h5>
+                                                    <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?> (<?php echo $row['pack_type_name']; ?> <?php echo $row['weight']; ?>) </h5>
                                                     <ul class="list-unstyled h4">
-                                                        <li class="d-flex p-1">
-                                                            <i class="mdi mdi-package mr-1"></i>
-                                                            <span><?php echo $row['item_pack_sale']; ?></span>
-                                                        </li>
+                                                       
                                                         <li class="d-flex p-1">
                                                             <i class="mdi mdi-cash mr-1 "></i>
-                                                            <span><?php echo number_format($row['item_price']); ?></span>
+                                                            <span>ລາຄາ:<?php echo number_format($row['sale_price']); ?></span>
+                                                        </li>
+                                                        <li class="d-flex p-1">
+                                                            <i class="mdi mdi-store mr-1 "></i>
+                                                            <span>ໃນສາງ: <?php echo number_format($row['remain']); ?></span>
                                                         </li>
 
 
                                                     </ul>
                                                     <div class="d-flex justify-content-center ">
-                                                        <a href="javascript:0" class="btn btn-info btn-pill" id="item-modal" data-item_post_id='<?php echo $row['item_post_customer_id']; ?>' data-toggle="modal" data-target="#modal-edit">ສັງສິນຄ້າ</a>
+                                                        <a href="javascript:0" class="btn btn-info btn-pill" id="item-modal" data-item_code='<?php echo $row['item_code']; ?>' data-pack_type_name='<?php echo $row['pack_type_name']; ?>'  data-toggle="modal" data-target="#modal-edit">ສັງສິນຄ້າ</a>
                                                     </div>
 
                                                 </div>
@@ -235,13 +232,23 @@ $header_click = "2";
                         function() {
                             location.reload();
                         }, 1000);
-                }
+                }else if (data.res == "over") {
+					Swal.fire(
+						'ລົງທະບຽນຊ້ຳ',
+						'ບໍ່ສາມາດສັ່ງເກີນໄດ້',
+						'error'
+					)
+				}else if (data.res == "nozero") {
+					Swal.fire(
+						'ລົງທະບຽນຊ້ຳ',
+						'ກະລຸນາໃສ່ຈຳນວນຈິງ',
+						'error'
+					)
+				}
             }, 'json')
             return false;
         });
-
-
-
+ 
 
 
         $(document).on("submit", "#add-bill", function() {
@@ -256,7 +263,13 @@ $header_click = "2";
                         function() {
                             location.reload();
                         }, 1000);
-                }
+                }else if (data.res == "nostock") {
+					Swal.fire(
+						'ລົງທະບຽນຊ້ຳ',
+						'ມີສິນຄ້າສັ່ງເກີນ',
+						'error'
+					)
+				}
             }, 'json')
             return false;
         });

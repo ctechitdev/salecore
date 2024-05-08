@@ -569,17 +569,14 @@ create table tbl_customer_order(
     recieve_order_date date
 );
 
-create table tbl_customer_order_detail(
+create or replace table tbl_customer_order_detail(
     customer_order_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
-    customer_order_id int,
-    item_code_list_id int,
-    item_company_code_id int,
-    item_post_id int,
-    item_name varchar(300),
+    customer_order_id int, 
+    item_code varchar(50),
+    pack_type_name varchar(50),
+    sale_price decimal(20,2),
     order_values int,
-    item_pack_unit varchar(10),
-    item_price_unit decimal(20,4),
-    item_total_price decimal(30,4),
+    total_price_order decimal(20,2), 
     order_by int,
     date_order date
 );
@@ -603,15 +600,13 @@ create  table tbl_item_post_customer(
     add_date date
 );
 
-create table tbl_customer_order_cart (
+create or replace table tbl_customer_order_cart (
     customer_order_cart_id int not null PRIMARY KEY AUTO_INCREMENT, 
-    item_post_id int,
-    item_code_list_id int,
-    item_name varchar(300),
-    item_pack_sale varchar(30),
-    price_per_item float,
-    item_values int,
-    total_price float, 
+    item_code varchar(50),
+    pack_type_name varchar(50),
+    sale_price decimal(20,2),
+    order_values int,
+    total_price_order decimal(20,2), 
     add_by int,
     add_date date
 );
@@ -630,10 +625,11 @@ create table tbl_warehouse (
 
 
 
-create table tbl_stock_bill(
+create or replace table tbl_stock_bill(
   stock_bill_id int not null PRIMARY KEY AUTO_INCREMENT,
   stock_bill_number varchar(30),
   stock_type_id int, 
+  status_bill_id int,
   add_by int,
   add_date datetime
 );
@@ -643,10 +639,10 @@ create table tbl_stock_bill(
   stock_bill_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
   stock_bill_id int,
   warehouse_id int,
-  item_data_id int, 
+  item_code varchar(50),
   credit_value int,
   debit_value int,
-  pack_type_id int,
+  pack_type_name varchar(30),
   stock_type_id int,
   add_by int,
   add_date date
@@ -659,3 +655,15 @@ create table tbl_stock_bill(
 
 insert into tbl_stock_type (stock_type_name) values ('ຮັບເຄື່ອງເຂົ້າສາງ');
 insert into tbl_stock_type (stock_type_name) values ('ເບີກອໍເດີ້');
+
+create table tbl_item_price_sale (
+    item_price_sale_id int not null PRIMARY KEY AUTO_INCREMENT,
+    item_code varchar(50),
+    price_list_id int,
+    sale_price decimal(20,2),
+    pack_type_name varchar(30),
+    add_by int,
+    date_add date,
+    update_by int,
+    update_date datetime
+);

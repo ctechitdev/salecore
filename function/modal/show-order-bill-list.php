@@ -55,8 +55,9 @@ $customer_order_id = $_POST['customer_order_id'];
 
 
 
-                                    $detail = $conn->prepare("select * 
-                                    from tbl_customer_order_detail
+                                    $detail = $conn->prepare("select a.item_code,item_name,pack_type_name,sale_price,order_values,total_price_order
+                                    from tbl_customer_order_detail a
+                                    left join tbl_item_code_list b on a.item_code = b.full_code
                                     where customer_order_id ='" . $headrow['customer_order_id'] . "'
                                     ");
                                     $detail->execute();
@@ -71,9 +72,9 @@ $customer_order_id = $_POST['customer_order_id'];
 
                                             <tr>
                                                 <td><b><?php echo $detailrow['item_name']; ?></td>
-                                                <td><b><?php echo $detailrow['item_pack_unit']; ?></td>
+                                                <td><b><?php echo $detailrow['sale_price']; ?></td>
                                                 <td><b><?php echo $detailrow['order_values']; ?></td>
-                                                <td><b><?php echo number_format($detailrow['item_total_price']); ?></td>
+                                                <td><b><?php echo number_format($detailrow['total_price_order'],2); ?></td>
                                             </tr>
 
 

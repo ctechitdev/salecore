@@ -10,16 +10,18 @@
         <div class="navbar-right ">
 
 
-
-
-
             <?php
             $count_cart = $conn->query("  
-            select count(customer_order_cart_id) as count_cart 
+            select sum(order_values) as count_cart 
             from tbl_customer_order_cart 
-                where add_by = '$id_users'  
-                ")->fetch(PDO::FETCH_ASSOC);
+            where add_by = '$id_users'
+            group by add_by ")->fetch(PDO::FETCH_ASSOC);
 
+            if (empty($count_cart['count_cart'])) {
+                $cart_item = 0;
+            } else {
+                $cart_item = $count_cart['count_cart'];
+            }
             ?>
 
             <ul class="nav navbar-nav">
@@ -28,7 +30,7 @@
                 <li class="custom-dropdown">
                     <a class="offcanvas-toggler active custom-dropdown-toggler" id="cart-show" data-offcanvas="cart-buy" href="javascript:">
                         <i class="mdi mdi-cart icon"></i>
-                        <span class="badge badge-xs rounded-circle"><?php echo $count_cart['count_cart']; ?></span>
+                        <span class="badge badge-xs rounded-circle"><?php echo $cart_item; ?></span>
                     </a>
                 </li>
                 <?php

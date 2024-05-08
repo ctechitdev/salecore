@@ -3,7 +3,9 @@
 include("../../setting/checksession.php");
 include("../../setting/conn.php");
 
-$item_post_id = $_POST['item_post_id'];
+$item_code = $_POST['item_code'];
+$pack_type_name = $_POST['pack_type_name'];
+
 
 ?>
 <script src="../plugins/nprogress/nprogress.js"></script>
@@ -16,43 +18,18 @@ $item_post_id = $_POST['item_post_id'];
 
 
             <?php
-            $row_item = $conn->query("SELECT * FROM tbl_item_post_customer where item_post_customer_id = '$item_post_id' ")->fetch(PDO::FETCH_ASSOC);
+             $row_item = $conn->query(" select a.item_code,item_name,sale_price,pack_type_name,weight
+             from tbl_item_price_sale a
+             left join tbl_item_code_list b on a.item_code = b.full_code
+             where a.item_code = '$item_code' and pack_type_name = '$pack_type_name'  ")->fetch(PDO::FETCH_ASSOC);
 
             ?>
 
-            <input type="hidden" name="item_post_id" value='<?php echo "$item_post_id"; ?>'>
-          
+            <input type="hidden" name="item_code" value='<?php echo "$item_code"; ?>'>
+            <input type="hidden" name="pack_type_name" value='<?php echo "$pack_type_name"; ?>'>
+            <input type="hidden" name="sale_price" value='<?php echo number_format($row_item['sale_price'],2); ?>'>
 
-            <div class="col-md-5">
-                <div class="profile-content-left px-4">
-                    <div class="card text-center px-0 border-0">
-                        <div class="card-img mx-auto">
-
-                            <?php
-
-                            if ($row_item['item_post_pic'] == "") {
-                            ?>
-                                <img src="../images/ic_launcher.png" alt="user image" width="70%" />
-                            <?php
-                            } else {
-                            ?>
-                                <img src='../images/item_post/<?php echo $row_item['item_post_pic']; ?>' width="70%" alt="user image" />
-
-                            <?php
-                            }
-
-                            ?>
-                        </div>
-
-
-
-                    </div>
-
-
-                </div>
-            </div>
-
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <div class="contact-info px-4">
                     <h4 class="mt-3 mb-3">ຂໍ້ມູນສິນຄ້າ</h4>
                     <div class="row">
@@ -63,19 +40,19 @@ $item_post_id = $_POST['item_post_id'];
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="firstName">ຫົວໜ່ວຍ: <?php echo $row_item['item_pack_sale']; ?></label>
+                                <label for="firstName">ຫົວໜ່ວຍ: <?php echo $row_item['pack_type_name']; ?> <?php echo $row_item['weight']; ?></label>
                             </div>
                         </div>
 
                         <div class="form-group  col-lg-6">
-                            <label class="text-dark font-weight-medium">ລາຄາຂາຍ: <?php echo number_format($row_item['item_price']); ?></label>
+                            <label class="text-dark font-weight-medium">ລາຄາຂາຍ: <?php echo number_format($row_item['sale_price'],2); ?></label>
                         </div>
 
 
                         <div class="form-group  col-lg-12">
                             <label class="text-dark font-weight-medium">ຈຳນວນສັ່ງຊື້</label>
                             <div class="form-group">
-                                <input type="number" name="item_value" autocomplete="off" class="form-control"   require />
+                                <input type="number" name="order_values" autocomplete="off" class="form-control" required />
                             </div>
                         </div>
 

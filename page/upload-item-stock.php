@@ -27,54 +27,12 @@ $header_click = "2";
 <script src="../plugins/nprogress/nprogress.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script>
-    $(function() {
-        $('#company_id').change(function() {
-            var company_id = $('#company_id').val();
-            $.post('../function/dynamic_dropdown/get_depart.php', {
-                    company_id: company_id
-                },
-                function(output) {
-                    $('#depart_id').html(output).show();
-                });
-        });
-
-
-    });
-
-
-    $(function() {
-        $('#depart_id').change(function() {
-            var depart_id = $('#depart_id').val();
-            $.post('../function/dynamic_dropdown/get_position.php', {
-                    depart_id: depart_id
-                },
-                function(output) {
-                    $('#position_id').html(output).show();
-                });
-        });
-
-
-    });
-
-    $(function() {
-        $('#province_id').change(function() {
-            var province_id = $('#province_id').val();
-            $.post('../function/dynamic_dropdown/get_district.php', {
-                    province_id: province_id
-                },
-                function(output) {
-                    $('#districts_id').html(output).show();
-                });
-        });
-    });
-
-
     $(document).on("click", "#editmodal", function(e) {
         e.preventDefault();
-        var staff_id = $(this).data("staff_id");
+        var stock_bill_id = $(this).data("stock_bill_id");
 
-        $.post('../function/modal/get_staff_info.php', {
-                staff_id: staff_id
+        $.post('../function/modal/show-item-upload-stock.php', {
+                stock_bill_id: stock_bill_id
             },
             function(output) {
                 $('.show_data_edit').html(output).show();
@@ -108,11 +66,15 @@ $header_click = "2";
                                     <form id="add-bill" method="post" enctype="multipart/form-data">
 
 
+
+
+
                                         <div class="input-states">
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="firstName">ໄຟຣໂອນ</label>
-                                                    <input type="file" class="form-control" name="profile_pic" id="profile_pic" multiple>
+                                                    <input type="file" class="form-control" name="excel" required value="">
+
                                                 </div>
                                             </div>
                                         </div>
@@ -133,6 +95,109 @@ $header_click = "2";
 
 
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content-wrapper">
+                <div class="content">
+                    <!-- For Components documentaion -->
+
+
+                    <div class="card card-default">
+
+                        <div class="card-body">
+
+                            <table id="productsTable3" class="table table-hover table-product" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ເລກທີ</th>
+                                        <th>ເລກບິນຮັບ</th>
+                                        <th>ຈຳນວນລາຍການ</th>
+                                        <th>ຈຳນວນສິນຄ້າ</th>
+                                        <th>ສະຖານະ</th>
+                                        <th>ວັນທີ່ໂອນ</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                    <?php
+
+
+
+                                    $stmt4 = $conn->prepare("SELECT a.stock_bill_id,stock_bill_number,
+                                    (case when status_bill_id = 2 then 'ຮັບເຂົ້າສາງ' else 'ຖ້າກວດສອບ' end) as status_bill,
+                                    count(stock_bill_detail_id) as item_count,sum(credit_value) as credit_value,a.add_date
+                                    FROM tbl_stock_bill_detail a
+                                    left join tbl_stock_bill b on a.stock_bill_id = b.stock_bill_id
+                                    where a.add_by = '$id_users'
+                                    group by a.stock_bill_id,stock_bill_number,a.add_date ");
+                                    $stmt4->execute();
+                                    if ($stmt4->rowCount() > 0) {
+                                        while ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
+
+                                    ?>
+
+                                            <tr>
+                                                <td><?php echo $row4['stock_bill_id']; ?></td>
+                                                <td><?php echo $row4['stock_bill_number']; ?></td>
+                                                <td><?php echo $row4['item_count']; ?></td>
+                                                <td><?php echo $row4['credit_value']; ?></td>
+                                                <td><?php echo $row4['status_bill']; ?></td>
+                                                <td><?php echo $row4['add_date']; ?></td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                                        </a>
+
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                            <a href="javascript:0" class="dropdown-item" id="editmodal" data-stock_bill_id='<?php echo $row4['stock_bill_id']; ?>' data-toggle="modal" data-target="#modal-edit">ສະແດງ</a>
+                                                            <a class="dropdown-item" type="button" id="delete_upload" data-stock_bill_id='<?php echo $row4['stock_bill_id']; ?>' class="btn btn-danger btn-sm">ລືບ</a>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                    <?php
+
+
+                                        }
+                                    }
+                                    ?>
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header justify-content-end border-bottom-0">
+
+
+                                    <button type="button" class="btn-close-icon" data-dismiss="modal" aria-label="Close">
+                                        <i class="mdi mdi-close"></i>
+                                    </button>
+                                </div>
+
+                                <div class="show_data_edit">
+
+
+
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -173,24 +238,17 @@ $header_click = "2";
                     if (dataResult.statusCode == "success") {
                         Notiflix.Loading.remove();
                         document.getElementById("add-bill").reset();
-                        Notiflix.Notify.success('ອອກບິນສຳເລັດ ລໍຖ້າໂຫຼດຄືນ');
+                        Notiflix.Notify.success('ອັຟໂຫລດລາຍການສຳເລັດ');
 
                         setTimeout(
                             function() {
                                 location.reload();
                             }, 1000);
-                    } else if (dataResult.statusCode == "overstock") {
+                    } else if (dataResult.statusCode == "fail") {
                         Notiflix.Loading.remove();
                         Swal.fire(
                             'ບັນທືກບໍ່ສຳເລັດ',
-                            'ມີສິນຄ້າເບີກເກີນ',
-                            'error'
-                        )
-                    } else if (dataResult.statusCode == "overpack") {
-                        Notiflix.Loading.remove();
-                        Swal.fire(
-                            'ບັນທືກບໍ່ສຳເລັດ',
-                            'ມີສິນຄ້າເກີນແພັກ',
+                            'ບໍສາມາດອັຟໂຫລດໄດ້',
                             'error'
                         )
                     } else {
@@ -208,6 +266,64 @@ $header_click = "2";
                     console.log(xhr, resp, text);
                 }
             });
+        });
+
+        $(document).on("submit", "#update-modal", function() {
+            $.post("../query/confirm-upload-item-stock.php", $(this).serialize(), function(data) {
+                if (data.res == "success") {
+                    Swal.fire(
+                        'ສຳເລັດ',
+                        'ຢືນຢັນຮັບເຂົ້າສາງສຳເລັດ',
+                        'success'
+                    )
+                    setTimeout(
+                        function() {
+                            location.reload();
+                        }, 1000);
+                }
+            }, 'json')
+            return false;
+        });
+
+
+        $(document).on("click", "#delete_upload", function(e) {
+            e.preventDefault();
+            var stock_bill_id = $(this).data("stock_bill_id");
+            $.ajax({
+                type: "post",
+                url: "../query/delete-upload-item-stock.php",
+                dataType: "json",
+                data: {
+                    stock_bill_id: stock_bill_id
+                },
+                cache: false,
+                success: function(data) {
+                    if (data.res == "success") {
+                        Swal.fire(
+                            'ສຳເລັດ',
+                            'ລຶບສິດສຳເລັດ',
+                            'success'
+                        )
+                        setTimeout(
+                            function() {
+                                location.reload();
+                            }, 1000);
+
+                    } else if (data.res == "used") {
+                        Swal.fire(
+                            'ບໍ່ສາມາດລຶບໄດ້',
+                            'ມີການຢຶນຢັນຮັບໄປແລ້ວ',
+                            'error'
+                        )
+                    }
+                },
+                error: function(xhr, ErrorStatus, error) {
+                    console.log(status.error);
+                }
+
+            });
+
+            return false;
         });
     </script>
 
