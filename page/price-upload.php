@@ -105,78 +105,7 @@ $header_click = "5";
                     <!-- For Components documentaion -->
 
 
-                    <div class="card card-default">
-
-                        <div class="card-body">
-
-                            <table id="productsTable3" class="table table-hover table-product" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>ເລກທີ</th>
-                                        <th>ເລກບິນຮັບ</th>
-                                        <th>ຈຳນວນລາຍການ</th>
-                                        <th>ຈຳນວນສິນຄ້າ</th>
-                                        <th>ສະຖານະ</th>
-                                        <th>ວັນທີ່ໂອນ</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-
-
-                                    <?php
-
-
-
-                                    $stmt4 = $conn->prepare("SELECT a.stock_bill_id,stock_bill_number,
-                                    (case when status_bill_id = 2 then 'ຮັບເຂົ້າສາງ' else 'ຖ້າກວດສອບ' end) as status_bill,
-                                    count(stock_bill_detail_id) as item_count,sum(credit_value) as credit_value,a.add_date
-                                    FROM tbl_stock_bill_detail a
-                                    left join tbl_stock_bill b on a.stock_bill_id = b.stock_bill_id
-                                    where a.add_by = '$id_users'
-                                    group by a.stock_bill_id,stock_bill_number,a.add_date ");
-                                    $stmt4->execute();
-                                    if ($stmt4->rowCount() > 0) {
-                                        while ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
-
-                                    ?>
-
-                                            <tr>
-                                                <td><?php echo $row4['stock_bill_id']; ?></td>
-                                                <td><?php echo $row4['stock_bill_number']; ?></td>
-                                                <td><?php echo $row4['item_count']; ?></td>
-                                                <td><?php echo $row4['credit_value']; ?></td>
-                                                <td><?php echo $row4['status_bill']; ?></td>
-                                                <td><?php echo $row4['add_date']; ?></td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                                                        </a>
-
-                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                                            <a href="javascript:0" class="dropdown-item" id="editmodal" data-stock_bill_id='<?php echo $row4['stock_bill_id']; ?>' data-toggle="modal" data-target="#modal-edit">ສະແດງ</a>
-                                                            <a class="dropdown-item" type="button" id="delete_upload" data-stock_bill_id='<?php echo $row4['stock_bill_id']; ?>' class="btn btn-danger btn-sm">ລືບ</a>
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-
-                                    <?php
-
-
-                                        }
-                                    }
-                                    ?>
-
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
+                     
 
                     <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

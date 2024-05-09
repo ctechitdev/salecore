@@ -1,7 +1,8 @@
 DELIMITER $$
-CREATE or replace PROCEDURE stp_show_item_data_remain()
+CREATE  PROCEDURE stp_show_item_data_remain()
 BEGIN
 
+SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 create TEMPORARY table tmp_stock_in
 select item_code,warehouse_id, sum(credit_value) as base_in_values,pack_type_name

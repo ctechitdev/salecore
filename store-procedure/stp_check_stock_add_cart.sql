@@ -1,7 +1,8 @@
 DELIMITER $$
-CREATE or replace PROCEDURE stp_check_stock_add_cart(code_item varchar(50), name_pack varchar(50))
+CREATE PROCEDURE stp_check_stock_add_cart(code_item varchar(50), name_pack varchar(50))
 BEGIN
 
+SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 create TEMPORARY table tmp_stock_in
 select item_code,warehouse_id, sum(credit_value) as base_in_values,pack_type_name
