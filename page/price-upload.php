@@ -2,8 +2,8 @@
 include("../setting/checksession.php");
 include("../setting/conn.php");
 
-$header_name = "ອັບໂຫລດເຄື່ອງເຂົ້າສາງ";
-$header_click = "2";
+$header_name = "ອັບໂຫລດລາຄາ";
+$header_click = "5";
 
 ?>
 
@@ -65,14 +65,12 @@ $header_click = "2";
                                     <div class="email-body-head text-center text-dark h2 mb-3"><?php echo "$header_name"; ?></div>
                                     <form id="add-bill" method="post" enctype="multipart/form-data">
 
-
-
-
+ 
 
                                         <div class="input-states">
                                             <div class="col-lg-12">
                                                 <div class="form-group">
-                                                    <label for="firstName">ໄຟຣໂອນ</label>
+                                                    <label for="firstName">ໄຟຣລາຄາ</label>
                                                     <input type="file" class="form-control" name="excel" required value="">
 
                                                 </div>
@@ -223,7 +221,7 @@ $header_click = "2";
             Notiflix.Loading.hourglass();
             var formData = new FormData(this);
             $.ajax({
-                url: "../query/add-upload-item-stock.php",
+                url: "../query/upload-price-sale-online.php",
                 method: "POST",
                 data: formData,
                 cache: false,

@@ -5,8 +5,9 @@ BEGIN
 
 create TEMPORARY table tmp_stock_in
 select item_code,warehouse_id, sum(credit_value) as base_in_values,pack_type_name
-from tbl_stock_bill_detail
-where credit_value > 0
+from tbl_stock_bill_detail a
+left join tbl_stock_bill b on a.stock_bill_id = b.stock_bill_id
+where credit_value > 0 and status_bill_id = '2'
 group by item_code,warehouse_id;
 
 

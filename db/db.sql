@@ -667,3 +667,15 @@ create table tbl_item_price_sale (
     update_by int,
     update_date datetime
 );
+
+
+create or replace table tbl_price_history(
+    price_history_id int not null PRIMARY KEY AUTO_INCREMENT,
+    ref_code varchar(30),
+    item_code varchar(50),
+    pack_type_name varchar(30),
+    new_sale_price decimal(20,2),
+    old_sale_price decimal(20,2),
+    update_by int,
+    date_upload date
+);

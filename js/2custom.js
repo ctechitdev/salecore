@@ -392,8 +392,8 @@ $(document).ready(function () {
       },
     });
   }
-  
-   /*======== 14. DATA TABLE ========*/
+
+  /*======== 14. DATA TABLE ========*/
   var productsTable = $("#productsTable2");
   if (productsTable.length != 0) {
     productsTable.DataTable({
@@ -418,30 +418,55 @@ $(document).ready(function () {
     });
   }
 
-     /*======== 14. DATA TABLE ========*/
-     var productsTable = $("#productsTable3");
-     if (productsTable.length != 0) {
-       productsTable.DataTable({
-         info: false,
-         lengthChange: false,
-         lengthMenu: [
-           [5, 10, 15, -1],
-           [5, 10, 15, "All"],
-         ],
-         scrollX: true,
-         order: [[0, "asc"]],
-         columnDefs: [
-           {
-             orderable: false,
-             targets: [, 0, 3, -1],
-           },
-         ],
-         language: {
-           search: "_INPUT_",
-           searchPlaceholder: "Search...",
-         },
-       });
-     }
+  /*======== 14. DATA TABLE ========*/
+  var productsTable = $("#productsTable3");
+  if (productsTable.length != 0) {
+    productsTable.DataTable({
+      info: false,
+      lengthChange: false,
+      lengthMenu: [
+        [5, 10, 15, -1],
+        [5, 10, 15, "All"],
+      ],
+      scrollX: true,
+      order: [[0, "asc"]],
+      columnDefs: [
+        {
+          orderable: false,
+          targets: [, 0, 3, -1],
+        },
+      ],
+      language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Search...",
+      },
+    });
+  }
+
+  /*======== 14. DATA TABLE ========*/
+  var productsTable = $("#productsTable4");
+  if (productsTable.length != 0) {
+    productsTable.DataTable({
+      info: false,
+      lengthChange: false,
+      lengthMenu: [
+        [15, 20, 25, -1],
+        [15, 20, 25, "All"],
+      ],
+      scrollX: true,
+      order: [[0, "asc"]],
+      columnDefs: [
+        {
+          orderable: false,
+          targets: [, 0, 3, -1],
+        },
+      ],
+      language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Search...",
+      },
+    });
+  }
 
   var productSale = $("#product-sale");
   if (productSale.length != 0) {
