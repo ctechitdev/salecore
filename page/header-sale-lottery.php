@@ -12,8 +12,8 @@
 
             <?php
             $count_cart = $conn->query("  
-            select sum(order_values) as count_cart 
-            from tbl_customer_order_cart 
+            select count(customer_order_cart_id) as count_cart
+            from tbl_customer_order_cart
             where add_by = '$id_users'
             group by add_by ")->fetch(PDO::FETCH_ASSOC);
 
