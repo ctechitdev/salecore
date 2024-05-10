@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE  PROCEDURE stp_show_item_data_remain()
+CREATE  PROCEDURE stp_show_item_data_remain(name_item varchar(200))
 BEGIN
 
 SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
@@ -29,7 +29,7 @@ select   a.item_code,item_name,a.pack_type_name,(case when sale_price is null th
 from tmp_stock_remain a
 left join tbl_item_code_list b on a.item_code = b.full_code 
 left join tbl_item_price_sale c on a.item_code = c.item_code and a.pack_type_name = c.pack_type_name
-where remain > 0 and sale_price > 0
+where remain > 0 and sale_price > 0 and item_name like CONCAT('%', name_item , '%')
 group by a.item_code,item_name
 order by item_name asc;
 

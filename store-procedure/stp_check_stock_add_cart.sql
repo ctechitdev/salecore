@@ -26,7 +26,7 @@ left join tmp_stock_out b on a.item_code = b.item_code and a.warehouse_id = b.wa
  
 
 select * from tmp_stock_remain
-where item_code = code_item and pack_type_name = name_pack;
+where item_code = code_item COLLATE utf8mb4_general_ci and pack_type_name = name_pack COLLATE utf8mb4_general_ci;
 
 
 END$$

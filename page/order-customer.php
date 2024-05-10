@@ -103,13 +103,12 @@ $header_click = "2";
 
 
                             if (isset($_POST['btn_search'])) {
-                                $search_key = $_POST['search_key'];
-                                $syntaxy = " and item_name like '%$search_key%' ";
+                                $search_key = $_POST['search_key']; 
                             } else {
-                                $syntaxy = "";
+                                $search_key = "";
                             }
 
-                            $stmt = $conn->prepare(" call stp_show_item_data_remain();");
+                            $stmt = $conn->prepare(" call stp_show_item_data_remain('$search_key');");
                             $stmt->execute();
                             if ($stmt->rowCount() > 0) {
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

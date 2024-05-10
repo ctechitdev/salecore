@@ -27,7 +27,7 @@ $pack_type_name = $_POST['pack_type_name'];
 
             <input type="hidden" name="item_code" value='<?php echo "$item_code"; ?>'>
             <input type="hidden" name="pack_type_name" value='<?php echo "$pack_type_name"; ?>'>
-            <input type="hidden" name="sale_price" value='<?php echo number_format($row_item['sale_price'],2); ?>'>
+            <input type="hidden" name="sale_price" value='<?php echo  $row_item['sale_price']; ?>'>
 
             <div class="col-md-12">
                 <div class="contact-info px-4">
