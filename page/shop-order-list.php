@@ -94,8 +94,7 @@ $header_click = "5";
                                     left join tbl_customer_order_status b on a.order_status = b.customer_order_status_id
                                     left join tbl_customer_product_used c on a.order_by = c.customer_user_id
                                     left join tbl_staff_item_code d on c.item_company_code_id = d.icc_id
-                                    left join tbl_customer_user e on a.order_by = e.customer_user_id
-                                    where use_by = '$depart_id'
+                                    left join tbl_customer_user e on a.order_by = e.customer_user_id 
                                     order by customer_order_id asc ");
                                     $stmt4->execute();
                                     if ($stmt4->rowCount() > 0) {
