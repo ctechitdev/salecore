@@ -28,7 +28,7 @@
 
                 <!-- Offcanvas -->
                 <li class="custom-dropdown">
-                    <a class="offcanvas-toggler active custom-dropdown-toggler" id="cart-show" data-offcanvas="cart-buy" href="javascript:">
+                    <a href="javascript:0" class=" custom-dropdown-toggler" id="cart-show" data-toggle="modal" data-target="#modal-edit">
                         <i class="mdi mdi-cart icon"></i>
                         <span class="badge badge-xs rounded-circle"><?php echo $cart_item; ?></span>
                     </a>

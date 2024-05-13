@@ -1,93 +1,158 @@
 <?php
+
 include("../../setting/checksession.php");
 include("../../setting/conn.php");
 
 
 ?>
+
+
 <form id="add-bill">
-    <div class="card-body" data-simplebar style="height: 550px;">
+    <div class="modal-body ">
+        <div class="row no-gutters">
 
-        <?php
-        $stmt_cart = $conn->prepare(" 
-        select customer_order_cart_id,a.item_code,item_name,pack_type_name,sale_price,order_values,total_price_order
-        from tbl_customer_order_cart a
-        left join tbl_item_code_list b on a.item_code = b.full_code
-        where a.add_by = '$id_users'    ");
 
-        $total_sale_cart = 0;
+            <div class="form-group col-lg-12 text-center ">
+                <label class="text-dark font-weight-medium h3">ລາຍການເລືອກສິນຄ້າ</label><br>
+            </div>
 
-        $stmt_cart->execute();
-        if ($stmt_cart->rowCount() > 0) {
-            while ($cart_row = $stmt_cart->fetch(PDO::FETCH_ASSOC)) {
-        ?>
 
-                <div class="media media-sm">
 
-                    <div class="media-body mx-1">
 
-                        <div class="row  ">
+            <div class="col-md-12">
+                    <div class="card  ">
 
-                            <div class="col-lg-12">
-                                <label class="text-dark font-weight-medium"><?php echo  $cart_row['item_name']; ?></label>
-                            </div>
+                        <div class="input-states">
+                            <table class="table" id="tableEdit">
+                                <thead>
+                                    <tr>
 
-                            <div class="col-lg-12">
-                                <label class="text-dark font-weight-medium">ລາຄາຕໍ່ໜ່ວຍ: <?php echo  number_format($cart_row['sale_price'],2); ?></label>
-                            </div>
+                                        <th>ສິນຄ້າ</th> 
+                                        <th>ຈຳນວນສັ່ງ</th>
+                                        <th>ລວມ</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            <div class="col-lg-12">
-                                <label class="text-dark font-weight-medium">ຈຳນວນ: <?php echo  $cart_row['order_values']; ?></label>
-                            </div>
+                                    <?php
 
-                            <div class="col-lg-12">
-                                <label class="text-dark font-weight-medium">ລວມ: <?php echo number_format($cart_row['total_price_order'],2); ?></label>
-                            </div>
+                                    $total_sale_cart = 0;
+
+                                    $detail = $conn->prepare(" 
+                                    select customer_order_cart_id,a.item_code,item_name,pack_type_name,sale_price,order_values,total_price_order
+                                    from tbl_customer_order_cart a
+                                    left join tbl_item_code_list b on a.item_code = b.full_code
+                                    where a.add_by = '$id_users'    ");
+                                    $detail->execute();
+                                    if ($detail->rowCount() > 0) {
+                                        while ($detailrow = $detail->fetch(PDO::FETCH_ASSOC)) {
+
+
+
+                                    ?>
+
+
+
+                                            <tr>
+                                                <td><b><?php echo $detailrow['item_name']; ?> (<?php echo $detailrow['pack_type_name']; ?>) </td> 
+                                                <td><b><?php echo $detailrow['order_values']; ?></td>
+                                                <td><b><?php echo number_format($detailrow['total_price_order']); ?></td>
+
+                                                <td>
+                                                    <a type="button" id="delete-cart" data-cart_id='<?php echo $detailrow['customer_order_cart_id']; ?>' class="btn btn-danger btn-pill  ">
+                                                        ລົບ
+                                                    </a>
+                                                </td>
+
+
+                                            </tr>
+
+
+                                    <?php
+
+                                            $total_sale_cart += $detailrow['total_price_order'];
+                                        }
+                                    }
+                                    ?>
+
+                            </table>
                         </div>
 
-                        <div class="d-flex justify-content-center">
-
-                            <b>
-                                <a type="button" id="delete-cart" data-cart_id='<?php echo $cart_row['customer_order_cart_id']; ?>' class="btn btn-danger btn-pill  ">
-                                    ລົບ
-                                </a>
-                            </b>
+                        <input type="hidden" name="total_sale_cart" value='<?php echo ($total_sale_cart); ?>'>
+                        <div class="form-group col-lg-12 text-right mt-4 ">
+                            <label class="text-dark font-weight-medium h3"> ມູນຄ່າ: <?php echo number_format($total_sale_cart); ?> </label><br>
                         </div>
 
                     </div>
-                </div>
+
+                    <div class="card text-center px-0 border-0">
 
 
-        <?php
-
-                $total_sale_cart += $cart_row['total_price_order'];
-            }
-        }
-
-        ?>
+                        <div class="card-body">
+                            <button type="submit" class="btn btn-primary btn-pill">ຢືນຢັນສັ່ງຊື້</button>
+                        </div>
+                    </div>
 
 
-    </div>
-
-
-    <div class="card-footer">
-        <div class="media media-sm">
-            <div class="media-body">
-
-                <span class="title">ລວມ</span>
-
+ 
             </div>
-            <div class="media-body">
-
-                <span class="title"><?php echo number_format($total_sale_cart); ?></span>
 
 
-                <input type="hidden" name="total_sale_cart" value='<?php  echo ($total_sale_cart)  ; ?>'>
 
-            </div>
-        </div>
-        <div class="d-flex justify-content-center ">
-            <button type="submit" class="btn btn-success btn-pill">ຢືນຢັນສັ່ງຊື້</button>
+
         </div>
     </div>
-
 </form>
+
+<script>
+    $("#add-bill").on("submit", function(e) {
+        e.preventDefault();
+        Notiflix.Loading.hourglass();
+        var formData = new FormData(this);
+        $.ajax({
+            url: "../query/add-bill-order.php",
+            method: "POST",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                $('#process').css('display', 'block');
+            },
+            success: function(dataResult) {
+                console.log(dataResult);
+                var dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode == "success") {
+                    Notiflix.Loading.remove();
+                    document.getElementById("add-bill").reset();
+                    Notiflix.Notify.success('ບັນທືກຂໍ້ມູນສຳເລັດ...');
+
+                    setTimeout(
+                        function() {
+                            location.reload();
+                        }, 1000);
+                } else if (dataResult.statusCode == "failed") {
+                    Notiflix.Loading.remove();
+                    Swal.fire(
+                        'ບັນທືກບໍ່ສຳເລັດ',
+                        'ກາລູນາກວດສອບຂໍ້ມູນ',
+                        'error'
+                    )
+                } else {
+                    Notiflix.Loading.remove();
+                    Swal.fire(
+                        'ບັນທືກບໍ່ສຳເລັດ',
+                        'ກາລູນາກວດສອບຂໍ້ມູນ',
+                        'error'
+                    )
+                }
+
+            },
+            error: function(xhr, resp, text) {
+
+                console.log(xhr, resp, text);
+            }
+        });
+    });
+</script>

@@ -1,6 +1,11 @@
 <?php
 include("../setting/checksession.php");
 include("../setting/conn.php");
+
+if($user_type_id == 2){
+  header("Location:order-customer.php");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +62,7 @@ include("../setting/conn.php");
       $header_name = "Dashboard";
       include "header.php";
       ?>
+      
 
       <div class="content-wrapper">
         <div class="content">
@@ -79,51 +85,31 @@ include("../setting/conn.php");
                           <table id="productsTable2" class="table table-hover table-product" style="width:100%">
                             <thead>
                               <tr>
-                                <th>ຮູບພາບ</th>
                                 <th>ຊື່ສິນຄ້າ</th>
                                 <th>ຍອດສັ່ງ</th>
                                 <th>ສັງແລ້ວ</th>
+                                <th>ສັງລວມຮ້ານ</th>
                                 <th>ມູນຄ່າຍອດສັ່ງ</th>
                                 <th></th>
                               </tr>
                             </thead>
                             <tbody>
-
                               <?php
 
 
-                              $stmt = $conn->prepare(" 
-                              select a.item_post_customer_id, item_post_pic,full_code,a.item_name,
-                              sum(order_values) as order_values, sum(item_total_price) as item_total_price
-                              from tbl_item_post_customer a
-                              left join tbl_customer_order_detail b on a.item_post_customer_id = b.item_post_id
-                              left join tbl_user_staff c on a.add_by = c.usid
-                               
-                              group by a.item_post_customer_id, item_post_pic,full_code,a.item_name  ");
+                              $stmt = $conn->prepare(" call stp_dash_board_sale();");
                               $stmt->execute();
                               if ($stmt->rowCount() > 0) {
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                               ?>
 
-                                  <tr>
-                                    <td class="py-0">
-                                      <img src='../images/item_post/<?php echo $row['item_post_pic']; ?>' alt="Product Image">
-                                    </td>
-                                    <td><?php echo $row['item_name']; ?></td>
-                                    <td><?php echo $row['full_code']; ?></td>
-                                    <td><?php echo number_format($row['order_values']); ?></td>
-                                    <td><?php echo number_format($row['item_total_price']); ?></td>
-                                    <td>
-                                      <div class="dropdown">
-                                        <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                                        </a>
-
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                          <a href="javascript:0" class="dropdown-item" id="editmodal" data-item_post_id='<?php echo $row['item_post_customer_id']; ?>' data-toggle="modal" data-target="#modal-edit">ສະແດງ</a>
-
-                                        </div>
-                                      </div>
-                                    </td>
+                                  <tr> 
+                                    <td><?php echo $row['item_name']; ?></td> 
+                                    <td><?php echo number_format($row['ordered_values']); ?></td>
+                                    <td><?php echo number_format($row['customer_order_values']); ?></td>
+                                    <td><?php echo number_format($row['count_shop']); ?></td>
+                                    <td><?php echo number_format($row['total_price_order'],2); ?></td>
+                               
 
                                   </tr>
 

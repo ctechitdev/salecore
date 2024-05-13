@@ -12,7 +12,7 @@ $remain = $item_row['remain'];
 
 if ($remain < $order_values) {
     $res = array("res" => "over");
-}else if($order_values <= 0 ){
+} else if ($order_values <= 0) {
     $res = array("res" => "nozero");
 } else {
 
@@ -56,7 +56,6 @@ if ($remain < $order_values) {
         }
     }
 }
-
 
 
 

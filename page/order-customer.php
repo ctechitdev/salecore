@@ -32,11 +32,11 @@ $header_click = "2";
 
         $.post('../function/modal/show-cart-customer.php',
             function(output) {
-                $('.show_cart_data').html(output).show();
+                $('.show_item_detail').html(output).show();
             });
     });
 
-
+    // ສະແດງລາຍການປະຫວັດບິນ
     $(document).on("click", "#bill-show", function(e) {
         e.preventDefault();
 
@@ -59,6 +59,7 @@ $header_click = "2";
             });
     });
 
+    //ສະແດງເນື້ອປະຫວັດບິນ
     $(document).on("click", "#show-bill", function(e) {
         e.preventDefault();
         var customer_order_id = $(this).data("customer_order_id");
@@ -103,7 +104,7 @@ $header_click = "2";
 
 
                             if (isset($_POST['btn_search'])) {
-                                $search_key = $_POST['search_key']; 
+                                $search_key = $_POST['search_key'];
                             } else {
                                 $search_key = "";
                             }
@@ -121,7 +122,7 @@ $header_click = "2";
                                                 <div class="media-body">
                                                     <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?> (<?php echo $row['pack_type_name']; ?> <?php echo $row['weight']; ?>) </h5>
                                                     <ul class="list-unstyled h4">
-                                                       
+
                                                         <li class="d-flex p-1">
                                                             <i class="mdi mdi-cash mr-1 "></i>
                                                             <span>ລາຄາ:<?php echo number_format($row['sale_price']); ?></span>
@@ -134,7 +135,7 @@ $header_click = "2";
 
                                                     </ul>
                                                     <div class="d-flex justify-content-center ">
-                                                        <a href="javascript:0" class="btn btn-info btn-pill" id="item-modal" data-item_code='<?php echo $row['item_code']; ?>' data-pack_type_name='<?php echo $row['pack_type_name']; ?>'  data-toggle="modal" data-target="#modal-edit">ສັງສິນຄ້າ</a>
+                                                        <a href="javascript:0" class="btn btn-info btn-pill" id="item-modal" data-item_code='<?php echo $row['item_code']; ?>' data-pack_type_name='<?php echo $row['pack_type_name']; ?>' data-toggle="modal" data-target="#modal-edit">ສັງສິນຄ້າ</a>
                                                     </div>
 
                                                 </div>
@@ -163,16 +164,6 @@ $header_click = "2";
             </div>
 
 
-            <div class="card card-offcanvas" id="cart-buy">
-                <div class="card-header">
-                    <h2>ລາຍການກຽມອອກບິນ</h2>
-                </div>
-                <div class="show_cart_data">
-
-                </div>
-
-            </div>
-
 
             <div class="card card-offcanvas" id="sale-list">
                 <div class="card-header">
@@ -185,6 +176,32 @@ $header_click = "2";
 
 
             </div>
+
+
+            <div class="modal fade" id="cart-buy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-end border-bottom-0">
+
+
+                            <button type="button" class="btn-close-icon" data-dismiss="modal" aria-label="Close">
+                                <i class="mdi mdi-close"></i>
+                            </button>
+                        </div>
+
+                        <div class="show_cart_data">
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
 
             <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -231,47 +248,24 @@ $header_click = "2";
                         function() {
                             location.reload();
                         }, 1000);
-                }else if (data.res == "over") {
-					Swal.fire(
-						'ລົງທະບຽນຊ້ຳ',
-						'ບໍ່ສາມາດສັ່ງເກີນໄດ້',
-						'error'
-					)
-				}else if (data.res == "nozero") {
-					Swal.fire(
-						'ລົງທະບຽນຊ້ຳ',
-						'ກະລຸນາໃສ່ຈຳນວນຈິງ',
-						'error'
-					)
-				}
-            }, 'json')
-            return false;
-        });
- 
-
-
-        $(document).on("submit", "#add-bill", function() {
-            $.post("../query/add-bill-order.php", $(this).serialize(), function(data) {
-                if (data.res == "success") {
+                } else if (data.res == "over") {
                     Swal.fire(
-                        'ສຳເລັດ',
-                        'ຢືນຢັນສັ່ງຊື້ສິນຄ້າສຳເລັດ',
-                        'success'
+                        'ລົງທະບຽນຊ້ຳ',
+                        'ບໍ່ສາມາດສັ່ງເກີນໄດ້',
+                        'error'
                     )
-                    setTimeout(
-                        function() {
-                            location.reload();
-                        }, 1000);
-                }else if (data.res == "nostock") {
-					Swal.fire(
-						'ລົງທະບຽນຊ້ຳ',
-						'ມີສິນຄ້າສັ່ງເກີນ',
-						'error'
-					)
-				}
+                } else if (data.res == "nozero") {
+                    Swal.fire(
+                        'ລົງທະບຽນຊ້ຳ',
+                        'ກະລຸນາໃສ່ຈຳນວນຈິງ',
+                        'error'
+                    )
+                }
             }, 'json')
             return false;
         });
+
+
 
         // delete 
         $(document).on("click", "#delete-cart", function(e) {

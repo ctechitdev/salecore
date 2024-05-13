@@ -561,7 +561,8 @@ insert into tbl_customer_order_status (customer_order_status_name) values ('เบเ
 
 create table tbl_customer_order(
     customer_order_id int not null PRIMARY KEY AUTO_INCREMENT,
-    customer_order_bill varchar(20),
+    customer_order_bill varchar(20), 
+    stock_bill_id int,
     total_price decimal(20,4),
     order_status int,
     order_by int,

@@ -74,10 +74,10 @@ if ($check_remain > 0) {
 
             $price_bill = "KP$gendate_number$right_code";
 
-            $order_bill = $conn->query(" insert into tbl_customer_order  (customer_order_bill,total_price,order_status,order_by,order_date) 
-            values ('$price_bill','$total_sale_cart','1','$id_users',now()); ");
+            $order_bill = $conn->query(" insert into tbl_customer_order  (customer_order_bill,stock_bill_id,total_price,order_status,order_by,order_date) 
+            values ('$price_bill','$stock_bill_id','$total_sale_cart','1','$id_users',now()); ");
 
-            
+
 
 
             $order_bill_id = $conn->lastInsertId();
@@ -94,13 +94,33 @@ if ($check_remain > 0) {
                     $clear_cart = $conn->query(" delete from tbl_customer_order_cart where add_by = '$id_users' ");
 
                     if ($bill_price_detail) {
-                        $res = array("res" => "success");
+
+                        $data_message = "test noti";
+
+
+                        $url = 'https://notify-api.line.me/api/notify';
+                        $token      = " line no ti code ";
+                        $headers    = [
+                            'Content-Type: application/x-www-form-urlencoded',
+                            'Authorization: Bearer ' . $token
+                        ];
+                        $fields     = "message= $data_message ";
+
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec($ch);
+                        curl_close($ch);
+
+
+
+                        echo json_encode(array("statusCode" => "success"));
                     }
                 }
             }
         }
     }
 }
-
-
-echo json_encode($res);
