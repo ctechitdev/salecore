@@ -87,21 +87,25 @@ $header_click = "2";
                 <div class="content">
 
 
-                    <form action="" method="post">
-                        <div class="input-group  ">
-                            <input type="text" autocomplete="off" name="search_key" class="form-control" placeholder="ຄຳຄົ້ນຫາ..." />
-                            <div class="input-group-append">
-                                <button type="submit" name="btn_search" class="btn btn-primary">ຄົ້ນຫາ</button>
+
+
+
+                    <div class="card-body  ">
+
+                        <form action="" method="post">
+                            <div class="input-group  ">
+                                <input type="text" autocomplete="off" name="search_key" class="form-control" placeholder="ຄຳຄົ້ນຫາ..." />
+                                <div class="input-group-append">
+                                    <button type="submit" name="btn_search" class="btn btn-primary">ຄົ້ນຫາ</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
 
-
-                    <div class="card-body px-3 px-md-5">
-                        <div class="row">
+                        <div class="row mt-2">
 
                             <?php
 
+                           // echo "$depart_id";
 
                             if (isset($_POST['btn_search'])) {
                                 $search_key = $_POST['search_key'];
@@ -109,7 +113,7 @@ $header_click = "2";
                                 $search_key = "";
                             }
 
-                            $stmt = $conn->prepare(" call stp_show_item_data_remain('$search_key');");
+                            $stmt = $conn->prepare(" call stp_show_item_data_remain('$search_key','$depart_id');");
                             $stmt->execute();
                             if ($stmt->rowCount() > 0) {
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -150,8 +154,33 @@ $header_click = "2";
                                         </div>
                                     </div>
 
-                            <?php
+                                <?php
                                 }
+                            } else {
+                                ?>
+                                <div class="container d-flex align-items-center justify-content-center">
+                                    <div class="row justify-content-center mt-5">
+                                        <div class="col-md-12">
+                                            <div class="card card-default">
+                                                <div class="card-header">
+                                                    <div class="app-brand w-100 d-flex justify-content-center border-bottom-0">
+
+                                                        <img src="../images/ic_launcher.png" width="30%" height="100%" alt="Mono">
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-7 text-center">
+
+                                                    <h3 class="text-dark mb-6 ">ບໍ່ພົບລາຍການຄົ້ນຫາສິນຄ້າ</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            <?php
                             }
                             ?>
 

@@ -42,7 +42,7 @@ if ($selAcc->rowCount() > 0) {
 			$_SESSION['id_users'] =   $sql_cus_row['customer_user_id'];
 			$_SESSION['full_name'] =   $sql_cus_row['customer_name'];
 			$_SESSION['role_id'] =   $sql_cus_row['role_id'];
-			$_SESSION['depart_id'] =   0;
+			$_SESSION['depart_id'] =  $sql_cus_row['company_depart_id'];  
 
 			if ($sql_cus_row['customer_status'] == 1) {
 				$res = array("res" => "success");

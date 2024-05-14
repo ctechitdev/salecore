@@ -133,11 +133,11 @@ $header_click = "2";
 
                                     $stmt4 = $conn->prepare("SELECT a.stock_bill_id,stock_bill_number,
                                     (case when status_bill_id = 2 then 'ຮັບເຂົ້າສາງ' else 'ຖ້າກວດສອບ' end) as status_bill,
-                                    count(stock_bill_detail_id) as item_count,sum(credit_value) as credit_value,a.add_date
+                                    count(stock_bill_detail_id) as item_count,sum(credit_value) as credit_value,date(a.add_date) as add_date
                                     FROM tbl_stock_bill_detail a
                                     left join tbl_stock_bill b on a.stock_bill_id = b.stock_bill_id
                                     where a.add_by = '$id_users'
-                                    group by a.stock_bill_id,stock_bill_number,a.add_date ");
+                                    group by a.stock_bill_id,stock_bill_number,date(a.add_date) ");
                                     $stmt4->execute();
                                     if ($stmt4->rowCount() > 0) {
                                         while ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {

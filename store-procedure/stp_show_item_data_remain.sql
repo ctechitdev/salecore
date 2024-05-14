@@ -1,5 +1,7 @@
+DROP PROCEDURE IF EXISTS stp_show_item_data_remain;
+
 DELIMITER $$
-CREATE  PROCEDURE stp_show_item_data_remain(name_item varchar(200))
+CREATE PROCEDURE stp_show_item_data_remain(name_item varchar(200), depart_id int)
 BEGIN
 
 SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
@@ -23,13 +25,20 @@ select a.item_code,a.warehouse_id,
 ( base_in_values - (case when base_out_values is null then 0 else base_out_values end)) as remain,a.pack_type_name
 from tmp_stock_in a
 left join tmp_stock_out b on a.item_code = b.item_code and a.warehouse_id = b.warehouse_id and a.pack_type_name = b.pack_type_name;
+
+create TEMPORARY table tmp_item_group_depart
+select icc_id,use_by 
+from tbl_staff_item_code a 
+left join tbl_depart b on a.use_by = b.dp_id
+where use_by = depart_id;
  
 
 select   a.item_code,item_name,a.pack_type_name,(case when sale_price is null then 0 else sale_price end) as sale_price,weight,remain
 from tmp_stock_remain a
 left join tbl_item_code_list b on a.item_code = b.full_code 
 left join tbl_item_price_sale c on a.item_code = c.item_code and a.pack_type_name = c.pack_type_name
-where remain > 0 and sale_price > 0 and item_name like CONCAT('%', name_item , '%')
+left join tmp_item_group_depart d on b.com_code = d.icc_id
+where remain > 0 and sale_price > 0 and item_name like CONCAT('%', name_item , '%') and use_by = depart_id
 group by a.item_code,item_name
 order by item_name asc;
 
