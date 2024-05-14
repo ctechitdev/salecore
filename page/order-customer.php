@@ -113,6 +113,12 @@ $header_click = "2";
                             $stmt->execute();
                             if ($stmt->rowCount() > 0) {
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                                    if ($row['remain'] != 0) {
+                                        $remain = "ມີສິນຄ້າ";
+                                    } else {
+                                        $remain = "ສິນຄ້າໝົດ";
+                                    }
                             ?>
                                     <div class="col-lg-6 col-xl-6">
                                         <div class="card card-default p-4">
@@ -129,7 +135,7 @@ $header_click = "2";
                                                         </li>
                                                         <li class="d-flex p-1">
                                                             <i class="mdi mdi-store mr-1 "></i>
-                                                            <span>ໃນສາງ: <?php echo number_format($row['remain']); ?></span>
+                                                            <span>ໃນສາງ: <?php echo $remain; ?></span>
                                                         </li>
 
 
