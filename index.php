@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link id="main-css-href" rel="stylesheet" href="css/3style.css" />
 
-
+    <link href="images/Kp-Logo.png" rel="shortcut icon" />
 
 
 
@@ -26,15 +26,15 @@
             <div class="card-header pb-0">
               <div class="app-brand w-100 d-flex justify-content-center border-bottom-0">
                 <a class="w-auto pl-0" href="index.php">
-                  <img src="images/newicon.png" alt="Mono">
+                  <img src="images/Kp-Logo.png" alt="Mono">
 
                 </a>
               </div>
             </div>
             <div class="card-body px-5 pb-5 pt-0">
-              <br>
 
-              <h4 class="text-dark mb-6 text-center">KPSMP</h4>
+
+              <!-- <h4 class="text-dark mb-6 text-center">KPSMP</h4> -->
 
 
 
@@ -43,16 +43,16 @@
                 <div class="row">
 
                   <div class="form-group col-md-12 mb-4">
-                    <input class="form-control input-lg" name="username" id="username" type="text" aria-describedby="emailHelp" placeholder="email">
+                    <input class="form-control input-lg" name="username" id="username" type="text" aria-describedby="emailHelp" placeholder="ຢູສເຊີ້">
                   </div>
                   <div class="form-group col-md-12 ">
-                    <input type="password" class="form-control input-lg" name="pass" id="pass" placeholder="Password">
+                    <input type="password" class="form-control input-lg" name="pass" id="pass" placeholder="ລະຫັດຜ່ານ">
                   </div>
                   <div class="col-md-12 text-center">
 
 
 
-                    <button type="submit" name="btnlogin" class="btn btn-primary btn-pill mb-4">Sign In</button>
+                    <button type="submit" name="btnlogin" class="btn btn-info btn-pill mb-4">Sign In</button>
 
                   </div>
                 </div>
@@ -84,7 +84,7 @@
         } else if (data.res == "success") {
           $('body').fadeOut();
           window.location.href = 'page/index.php';
-        }else if (data.res == "reset") {
+        } else if (data.res == "reset") {
           $('body').fadeOut();
           window.location.href = 'page/user-account-settings.php';
         }

@@ -22,13 +22,20 @@ $customer_order_id = $_POST['customer_order_id'];
             left join tbl_customer_order_status b on a.order_status = b.customer_order_status_id
             where customer_order_id = '$customer_order_id' ")->fetch(PDO::FETCH_ASSOC);
 
+            if ($headrow['order_status'] == 1) {
+                $label_color = "text-info";
+            } else  if ($headrow['order_status'] == 2) {
+                $label_color = "text-success";
+            } else  if ($headrow['order_status'] == 3) {
+                $label_color = "text-danger";
+            }
 
             ?>
 
             <div class="form-group col-lg-12 text-center ">
                 <label class="text-dark font-weight-medium h3"> ເລກບິນ: <?php echo $headrow['customer_order_bill']; ?> </label><br>
                 <label class="text-dark font-weight-medium h3">ວັນທີສັ່ງ: <?php echo $headrow['order_date']; ?> </label><br>
-                <label class="text-dark font-weight-medium mt-2 h3">(<?php echo $headrow['customer_order_status_name']; ?>)</label><br>
+                <label class='<?php echo "$label_color"; ?> font-weight-medium mt-2 h3'>(<?php echo $headrow['customer_order_status_name']; ?>)</label><br>
             </div>
 
 
@@ -74,7 +81,7 @@ $customer_order_id = $_POST['customer_order_id'];
                                                 <td><b><?php echo $detailrow['item_name']; ?></td>
                                                 <td><b><?php echo $detailrow['sale_price']; ?></td>
                                                 <td><b><?php echo $detailrow['order_values']; ?></td>
-                                                <td><b><?php echo number_format($detailrow['total_price_order'],2); ?></td>
+                                                <td><b><?php echo number_format($detailrow['total_price_order'], 2); ?></td>
                                             </tr>
 
 

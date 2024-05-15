@@ -27,6 +27,7 @@ $header_click = "2";
 <script src="../plugins/nprogress/nprogress.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script>
+    //ສະແດງ cart ສິນຄ້າ
     $(document).on("click", "#cart-show", function(e) {
         e.preventDefault();
 
@@ -46,6 +47,7 @@ $header_click = "2";
             });
     });
 
+    // ສະແດງລາຍລະສິນຄ້າທີ່ຄິກ
     $(document).on("click", "#item-modal", function(e) {
         e.preventDefault();
         var item_code = $(this).data("item_code");
@@ -59,7 +61,7 @@ $header_click = "2";
             });
     });
 
-    //ສະແດງເນື້ອປະຫວັດບິນ
+    //ສະແດງເນື້ອໃນປະຫວັດບິນ
     $(document).on("click", "#show-bill", function(e) {
         e.preventDefault();
         var customer_order_id = $(this).data("customer_order_id");
@@ -105,7 +107,7 @@ $header_click = "2";
 
                             <?php
 
-                           // echo "$depart_id";
+                            // echo "$depart_id";
 
                             if (isset($_POST['btn_search'])) {
                                 $search_key = $_POST['search_key'];
@@ -120,9 +122,13 @@ $header_click = "2";
 
                                     if ($row['remain'] != 0) {
                                         $remain = "ມີສິນຄ້າ";
+                                        $remain_color = "blue";
                                     } else {
                                         $remain = "ສິນຄ້າໝົດ";
+                                        $remain_color = "red";
                                     }
+
+
                             ?>
                                     <div class="col-lg-6 col-xl-6">
                                         <div class="card card-default p-4">
@@ -130,16 +136,32 @@ $header_click = "2";
                                             <div class="media">
 
                                                 <div class="media-body">
-                                                    <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?> (<?php echo $row['pack_type_name']; ?> <?php echo $row['weight']; ?>) </h5>
+                                                    <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?> (<?php echo $row['pack_type_name']; ?> <?php echo $row['weight']; ?>)
+                                                        <span style='color:#07ed4c'>
+                                                            <?php
+                                                            if ($row['promotion_status'] == 1) {
+                                                                echo " (ມີໂປຣໂມຊັ້ນ)";
+                                                            }
+
+                                                            ?>
+                                                        </span>
+                                                    </h5>
                                                     <ul class="list-unstyled h4">
 
                                                         <li class="d-flex p-1">
                                                             <i class="mdi mdi-cash mr-1 "></i>
                                                             <span>ລາຄາ:<?php echo number_format($row['sale_price']); ?></span>
+
+
                                                         </li>
                                                         <li class="d-flex p-1">
                                                             <i class="mdi mdi-store mr-1 "></i>
-                                                            <span>ໃນສາງ: <?php echo $remain; ?></span>
+                                                            <span style='color:<?php echo "$remain_color"; ?>'><?php echo $remain; ?></span>
+
+
+
+
+
                                                         </li>
 
 

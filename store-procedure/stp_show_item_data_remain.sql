@@ -16,8 +16,9 @@ group by item_code,warehouse_id;
 
 create TEMPORARY table tmp_stock_out
 select item_code,warehouse_id, sum(debit_value) as base_out_values,pack_type_name
-from tbl_stock_bill_detail
-where debit_value > 0
+from tbl_stock_bill_detail a
+left join tbl_customer_order b on a.stock_bill_id = b.stock_bill_id
+where debit_value > 0  and order_status != '3'
 group by item_code,warehouse_id;
 
 create TEMPORARY table tmp_stock_remain
@@ -32,13 +33,21 @@ from tbl_staff_item_code a
 left join tbl_depart b on a.use_by = b.dp_id
 where use_by = depart_id;
  
+create TEMPORARY table tmp_item_promotion
+select promotion_detail_id,item_code_buy
+from tbl_promotion_detail a
+left join tbl_promotion b on a.promotion_id = b.promotion_id
+where a.active_date <= CURDATE() and a.expire_date >= CURDATE()  and active_status_id ='2';
 
-select   a.item_code,item_name,a.pack_type_name,(case when sale_price is null then 0 else sale_price end) as sale_price,weight,remain
+
+select   a.item_code,item_name,a.pack_type_name,(case when sale_price is null then 0 else sale_price end) as sale_price,weight,remain,
+(case when promotion_detail_id is null then '0' else '1' end) as promotion_status
 from tmp_stock_remain a
 left join tbl_item_code_list b on a.item_code = b.full_code 
 left join tbl_item_price_sale c on a.item_code = c.item_code and a.pack_type_name = c.pack_type_name
 left join tmp_item_group_depart d on b.com_code = d.icc_id
-where remain > 0 and sale_price > 0 and item_name like CONCAT('%', name_item , '%') and use_by = depart_id
+left join tmp_item_promotion e on a.item_code = e.item_code_buy
+where sale_price > 0 and item_name like CONCAT('%', name_item , '%') and use_by = depart_id
 group by a.item_code,item_name
 order by item_name asc;
 

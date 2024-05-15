@@ -16,9 +16,8 @@ $pack_type_name = $_POST['pack_type_name'];
     <div class="modal-body pt-0">
         <div class="row no-gutters">
 
-
             <?php
-             $row_item = $conn->query(" select a.item_code,item_name,sale_price,pack_type_name,weight
+            $row_item = $conn->query(" select a.item_code,item_name,sale_price,pack_type_name,weight
              from tbl_item_price_sale a
              left join tbl_item_code_list b on a.item_code = b.full_code
              where a.item_code = '$item_code' and pack_type_name = '$pack_type_name'  ")->fetch(PDO::FETCH_ASSOC);
@@ -44,8 +43,21 @@ $pack_type_name = $_POST['pack_type_name'];
                             </div>
                         </div>
 
+                        <?php
+
+                        $pro_row = $conn->query(" select a.item_code,item_name,sale_price,pack_type_name,weight
+                        from tbl_item_price_sale a
+                        left join tbl_item_code_list b on a.item_code = b.full_code
+                        where a.item_code = '$item_code' and pack_type_name = '$pack_type_name'  ")->fetch(PDO::FETCH_ASSOC);
+
+                        ?>
+                        <div class="form-group  col-lg-12">
+                            <label class="text-dark font-weight-medium"><?php echo $row_item['item_name']; ?></label>
+
+                        </div>
+
                         <div class="form-group  col-lg-6">
-                            <label class="text-dark font-weight-medium">ລາຄາຂາຍ: <?php echo number_format($row_item['sale_price'],2); ?></label>
+                            <label class="text-dark font-weight-medium">ລາຄາຂາຍ: <?php echo number_format($row_item['sale_price'], 2); ?></label>
                         </div>
 
 

@@ -132,7 +132,7 @@ include("../../setting/conn.php");
                         function() {
                             location.reload();
                         }, 1000);
-                } else if (dataResult.statusCode == "failed") {
+                } else if (dataResult.statusCode == "nostock") {
                     Notiflix.Loading.remove();
                     Swal.fire(
                         'ບັນທືກບໍ່ສຳເລັດ',

@@ -1,3 +1,6 @@
+DROP PROCEDURE IF EXISTS stp_check_stock_add_bill;
+
+
 DELIMITER $$
 CREATE PROCEDURE stp_check_stock_add_bill(id_user int)
 BEGIN

@@ -658,8 +658,9 @@ insert into tbl_stock_type (stock_type_name) values ('ຮັບເຄື່ອ�
 insert into tbl_stock_type (stock_type_name) values ('ເບີກອໍເດີ້');
 
 create table tbl_item_price_sale (
-    item_price_sale_id int not null PRIMARY KEY AUTO_INCREMENT,
+    item_price_sale_id int not null PRIMARY KEY AUTO_INCREMENT, 
     item_code varchar(50),
+    item_picture varchar(100),
     price_list_id int,
     sale_price decimal(20,2),
     pack_type_name varchar(30),
@@ -723,5 +724,21 @@ create or replace table tbl_active_status (
 );
 
 insert into tbl_active_status(active_status_name) values ('ກວດສອບ');
-insert into tbl_active_status(active_status_name) values ('ອານຸມັດ');
+insert into tbl_active_status(active_status_name) values ('ນຳໃຊ້');
 insert into tbl_active_status(active_status_name) values ('ຍົກເລີກ');
+
+
+
+create or replace table tbl_billing_discount(
+  billing_discount_id int not null PRIMARY KEY AUTO_INCREMENT,
+  billing_discount_name varchar(150),
+  promotion_type_id int,
+  billing_buy_values decimal(20,2),
+  billing_discount_values decimal(20,2),
+  item_company_code_id int,
+  active_status_id int,
+  active_date date,
+  expire_date date,
+  add_date date,
+  add_by int
+);

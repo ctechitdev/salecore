@@ -17,7 +17,7 @@
         <!-- User Account -->
         <li class="dropdown user-menu">
           <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-            <img src="../images/iconmenu.png" class="user-image rounded-circle" alt="User Image" />
+            <img src="../images/kpicon.png" class="user-image rounded-circle" alt="User Image" />
             <span class="d-none d-lg-inline-block"><?php echo "$full_name"; ?></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">

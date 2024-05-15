@@ -12,14 +12,16 @@ $stmt1->execute();
 if ($stmt1->rowCount() > 0) {
     while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
 
-        if ($row1['remain_values'] <= 0) {
+        if ($row1['remain_values'] <  0) {
             $check_remain++;
         }
     }
 }
 
 if ($check_remain > 0) {
-    $res = array("res" => "nostock");
+ 
+    
+    echo json_encode(array("statusCode" => "nostock"));
 } else {
 
     $conn = null;
