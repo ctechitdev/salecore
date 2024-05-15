@@ -680,3 +680,48 @@ create or replace table tbl_price_history(
     update_by int,
     date_upload date
 );
+
+
+create or replace table tbl_promotion(
+    promotion_id int not null PRIMARY KEY AUTO_INCREMENT, 
+    promotion_title varchar(50),
+    active_status_id int, 
+    active_date date,
+    expire_date date,
+    add_by int,
+    date_add date 
+);
+
+create or replace table tbl_promotion_detail(
+    promotion_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
+    promotion_id int,
+    item_code_buy varchar(50),
+    pack_type_name_buy varchar(30),
+    buy_values int,
+    item_code_pro varchar(50),
+    pack_type_name_pro varchar(30), 
+    promotion_type_id int,
+    price_pro decimal(20,2),
+    active_date date,
+    expire_date date
+);
+
+create table tbl_promotion_type(
+  promotion_type_id int not null PRIMARY KEY AUTO_INCREMENT,
+  promotion_type_name varchar(30)
+);
+
+
+insert into tbl_promotion_type (promotion_type_name) values ('ແຖມສິນຄ້າ');
+insert into tbl_promotion_type (promotion_type_name) values ('ຫລຸດເປີເຊັນ');
+insert into tbl_promotion_type (promotion_type_name) values ('ຫລຸດລາຄາ');
+
+
+create or replace table tbl_active_status (
+  active_status_id int not null PRIMARY KEY AUTO_INCREMENT,
+  active_status_name varchar(30)
+);
+
+insert into tbl_active_status(active_status_name) values ('ກວດສອບ');
+insert into tbl_active_status(active_status_name) values ('ອານຸມັດ');
+insert into tbl_active_status(active_status_name) values ('ຍົກເລີກ');
