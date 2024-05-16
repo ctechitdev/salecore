@@ -698,14 +698,25 @@ create or replace table tbl_promotion_detail(
     promotion_id int,
     item_code_buy varchar(50),
     pack_type_name_buy varchar(30),
-    buy_values int,
+    promotion_type_buy int,
+    buy_values decimal(20,2), 
     item_code_pro varchar(50),
-    pack_type_name_pro varchar(30), 
-    promotion_type_id int,
-    price_pro decimal(20,2),
+    pack_type_name_pro varchar(30),  
+    promotion_type_pro int,
+    promotion_values decimal(20,2), 
+    payment_type_id int,
     active_date date,
     expire_date date
 );
+
+create table tbl_payment_type(
+    payment_type_id int not null PRIMARY KEY AUTO_INCREMENT,
+    payment_type_name varchar(50)
+);
+
+
+insert into tbl_payment_type (payment_type_name) values ('ເງິນສົດ');
+insert into tbl_payment_type (payment_type_name) values ('ຕິດໜີ້');
 
 create table tbl_promotion_type(
   promotion_type_id int not null PRIMARY KEY AUTO_INCREMENT,

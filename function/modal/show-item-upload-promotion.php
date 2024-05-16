@@ -42,9 +42,11 @@ $promotion_id = $_POST['promotion_id'];
                                     <tr>
                                         <th>ລຳດັບ</th>
                                         <th>ຊື້ສິນຄ້າ</th>
-                                        <th>ຊື້</th>
-                                        <th>ແຖມສິນຄ້າ</th>
-                                        <th>ແຖມ</th>
+                                        <th>ປະເພດຊື້</th>
+                                        <th>ມູນຄ່າຊື້</th>
+                                        <th>ສິນຄ້າໂປຣ</th>
+                                        <th>ປະເພດໂປຣ</th>
+                                        <th>ມູນຄ່າໂປຣ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,11 +57,14 @@ $promotion_id = $_POST['promotion_id'];
                                     $arrayNumberEdit = 0;
                                     $i = 1;
 
-                                    $detail = $conn->prepare("select concat( item_code_buy, ' ',b.item_name,' ',pack_type_name_buy ) as item_buy_name,buy_values,
-                                    concat(item_code_pro,' ',c.item_name, ' ', pack_type_name_pro) as item_pro_name,price_pro
+                                    $detail = $conn->prepare("select concat( item_code_buy, ' ',b.item_name,' ',pack_type_name_buy ) as item_buy_name,
+                                    (case when promotion_type_buy = 1 then 'ຈຳນວນຊື້' else 'ມູນຄ່າຊື້' end) as promotion_type_buy,
+                                    buy_values,
+                                    concat(item_code_pro,' ',c.item_name, ' ', pack_type_name_pro) as item_pro_name,promotion_type_name,promotion_values
                                     from tbl_promotion_detail a
                                     left join tbl_item_code_list b on a.item_code_buy = b.full_code
-                                    left join tbl_item_code_list c on a.item_code_pro = c.full_code 
+                                    left join tbl_item_code_list c on a.item_code_pro = c.full_code
+                                    left join tbl_promotion_type d on a.promotion_type_pro = d.promotion_type_id
                                     where  promotion_id = '$promotion_id' ");
                                     $detail->execute();
                                     if ($detail->rowCount() > 0) {
@@ -73,9 +78,11 @@ $promotion_id = $_POST['promotion_id'];
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td><?php echo $detailrow['item_buy_name']; ?></td>
+                                                <td><?php echo $detailrow['promotion_type_buy']; ?></td>
                                                 <td><?php echo $detailrow['buy_values']; ?></td>
                                                 <td><?php echo $detailrow['item_pro_name']; ?></td>
-                                                <td><?php echo   number_format($detailrow['price_pro']); ?></td>
+                                                <td><?php echo $detailrow['promotion_type_name']; ?></td>
+                                                <td><?php echo   number_format($detailrow['promotion_values']); ?></td>
                                             </tr>
 
 

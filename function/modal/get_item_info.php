@@ -11,7 +11,7 @@ $pack_type_name = $_POST['pack_type_name'];
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 
 
-<form id="update-modal" enctype="multipart/form-data">
+<form id="update-form" enctype="multipart/form-data">
     <div class="modal-body pt-0">
         <div class="row no-gutters">
 
@@ -34,7 +34,7 @@ $pack_type_name = $_POST['pack_type_name'];
 
 
             <div class="col-md-5">
-                <div class="profile-content-left px-4">
+                <div class="profile-content-left px-5">
                     <div class="card text-center px-0 border-0">
                         <div class="card-img mx-auto">
 
@@ -42,11 +42,11 @@ $pack_type_name = $_POST['pack_type_name'];
 
                             if ($row_item['item_picture'] == "") {
                             ?>
-                                <img src="../images/ic_launcher.png" alt="user image" width="100%" />
+                                <img src="../images/Kp-Logo.png" alt="user image" width="100%" />
                             <?php
                             } else {
                             ?>
-                                <img src='../images/item_post/<?php echo $row_item['item_picture']; ?>' width="100%" alt="user image" />
+                                <img src='../images/product_picture/<?php echo $row_item['item_picture']; ?>' width="100%" alt="user image" />
 
                             <?php
                             }
@@ -55,7 +55,16 @@ $pack_type_name = $_POST['pack_type_name'];
                             <input type="file" class="form-control mt-5" name="profile_pic" id="profile_pic" multiple>
                         </div>
 
+                        <div class="col-lg-12  mt-2 text-center">
 
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox checkbox-danger d-inline-block mr-3 mb-3">
+                                    <input type="checkbox" class="custom-control-input" id="picture_status" name="picture_status">
+                                    <label class="custom-control-label" for="picture_status">ຍົກເລີກຮູບພາບ</label>
+                                </div>
+
+                            </div>
+                        </div>
 
                     </div>
 
@@ -94,7 +103,7 @@ $pack_type_name = $_POST['pack_type_name'];
                         <div class="form-group  col-lg-12">
                             <label class="text-dark font-weight-medium">ລາຄາຂາຍ</label>
                             <div class="form-group">
-                                <input type="number" name="sale_price" autocomplete="off" class="form-control" value='<?php echo $row_item['sale_price'] ?>' require />
+                                <input type="number" name="sale_price" autocomplete="off" class="form-control" value='<?php echo $row_item['sale_price'] ?>' required />
                             </div>
                         </div>
 
@@ -116,13 +125,15 @@ $pack_type_name = $_POST['pack_type_name'];
     </div>
 </form>
 
+
+
 <script>
-    $('#update-modal').submit(function(e) {
+    $('#update-form').submit(function(e) {
         e.preventDefault();
 
         var form = new FormData($(this)[0]);
         $.ajax({
-            url: "../query/update-item-post-customer.php",
+            url: "../query/update-item-sale-data.php",
             method: "POST",
             dataType: 'json',
             data: form,

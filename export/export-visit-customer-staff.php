@@ -37,6 +37,11 @@ $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'ວັນທີ່ຢ້ຽ�
 $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'ເວລາເຂົ້າ');
 $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'ເວລາອອກ'); 
 
+$objPHPExcel->getActiveSheet()->SetCellValue('H1', 'ຄ່າlatຕອນເຂົ້າ');
+$objPHPExcel->getActiveSheet()->SetCellValue('I1', 'ຄ່າlonຕອນເຂົ້າ');
+$objPHPExcel->getActiveSheet()->SetCellValue('J1', 'ຄ່າlatຕອນອອກ');
+$objPHPExcel->getActiveSheet()->SetCellValue('K1', 'ຄ່າlonຕອນອອກ'); 
+
 $objPHPExcel->getDefaultStyle()->applyFromArray($styleArray);
 
 
@@ -46,7 +51,7 @@ $rowCount = 2;
 
 
 $stmt1 = $conn->prepare(" SELECT b.cus_code,c_shop_name,village_name,distict_name,time_check_in,
-time_check_out,concat(staff_cp,' ',staff_name) as staff_name,date_check
+time_check_out,concat(staff_cp,' ',staff_name) as staff_name,date_check,lat_in,lon_in,lat_out,lon_out
 FROM tbl_visited_customer a
 left join tbl_visit_dairy b on a.cus_code = b.vd_id
 left join tbl_districts c on b.district = c.dis_id
@@ -66,6 +71,10 @@ if ($stmt1->rowCount() > 0) {
         $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, mb_strtoupper($row1['date_check'], 'UTF-8'));
         $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, mb_strtoupper($row1['time_check_in'], 'UTF-8'));
         $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, mb_strtoupper($row1['time_check_out'], 'UTF-8'));  
+        $objPHPExcel->getActiveSheet()->SetCellValue('H' . $rowCount, mb_strtoupper($row1['lat_in'], 'UTF-8')); 
+        $objPHPExcel->getActiveSheet()->SetCellValue('I' . $rowCount, mb_strtoupper($row1['lon_in'], 'UTF-8')); 
+        $objPHPExcel->getActiveSheet()->SetCellValue('J' . $rowCount, mb_strtoupper($row1['lat_out'], 'UTF-8')); 
+        $objPHPExcel->getActiveSheet()->SetCellValue('K' . $rowCount, mb_strtoupper($row1['lon_out'], 'UTF-8')); 
         $rowCount++;
     }
 }

@@ -34,7 +34,7 @@ left join tbl_depart b on a.use_by = b.dp_id
 where use_by = depart_id;
  
 create TEMPORARY table tmp_item_promotion
-select promotion_detail_id,item_code_buy
+select promotion_detail_id,item_code_buy,pack_type_name_buy
 from tbl_promotion_detail a
 left join tbl_promotion b on a.promotion_id = b.promotion_id
 where a.active_date <= CURDATE() and a.expire_date >= CURDATE()  and active_status_id ='2';
@@ -46,7 +46,7 @@ from tmp_stock_remain a
 left join tbl_item_code_list b on a.item_code = b.full_code 
 left join tbl_item_price_sale c on a.item_code = c.item_code and a.pack_type_name = c.pack_type_name
 left join tmp_item_group_depart d on b.com_code = d.icc_id
-left join tmp_item_promotion e on a.item_code = e.item_code_buy
+left join tmp_item_promotion e on a.item_code = e.item_code_buy and a.pack_type_name = e.pack_type_name_buy
 where sale_price > 0 and item_name like CONCAT('%', name_item , '%') and use_by = depart_id
 group by a.item_code,item_name
 order by item_name asc;

@@ -77,7 +77,7 @@ $header_click = "2";
                         <div class="card-body">
 
                             <div class="email-body-head mb-5 ">
-                                <h4 class="text-dark"> ຈັດການສິນຄ້າສະແດງ</h4>
+                                <h4 class="text-dark">ລາຍການສິນຄ້າ</h4>
                                 <?php
 
                                 //   echo "$date_view and $id_staff";
@@ -118,8 +118,8 @@ $header_click = "2";
 
                                             <tr>
                                                 <td><?php echo  $i; ?></td>
-                                                <td><?php echo  $row4['item_name']; ?></td>
                                                 <td><?php echo  $row4['item_code']; ?></td>
+                                                <td><?php echo  $row4['item_name']; ?></td>
                                                 <td><?php echo  $row4['pack_type_name']; ?></td>
                                                 <td><?php echo  number_format($row4['sale_price'], 2); ?></td>
                                                 <td><?php echo  $row4['name_company']; ?></td>
@@ -218,7 +218,6 @@ $header_click = "2";
                 error: function(er) {}
             });
         });
-
 
 
         // delete 

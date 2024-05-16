@@ -45,21 +45,36 @@ $pack_type_name = $_POST['pack_type_name'];
 
                         <?php
 
-                        $pro_row = $conn->query(" select a.item_code,item_name,sale_price,pack_type_name,weight
-                        from tbl_item_price_sale a
-                        left join tbl_item_code_list b on a.item_code = b.full_code
-                        where a.item_code = '$item_code' and pack_type_name = '$pack_type_name'  ")->fetch(PDO::FETCH_ASSOC);
+                        $pro_row = $conn->query(" 
+                        select  promotion_detail_id, 
+                        (case when promotion_type_buy = 1 then 'ຊື້ຄົບຈຳນວນ' else 'ຊື້ຄົບມູນຄ່າ' end) as buy_type_name,buy_values,
+                        (case 
+                        when promotion_type_pro = 1 then 'ແຖມສິນຄ້າ' 
+                        when promotion_type_pro = 2 then 'ຮັບສ່ວນຫລຸດເປີເຊັນ'
+                        when promotion_type_pro = 3 then 'ຮັບມູນຄ່າສ່ວນຫລຸດ' end) as category_pro_type,
+                        (case when promotion_type_pro = 1 then b.item_name else '' end) as item_name,
+                        (case 
+                        when promotion_type_pro = 1 then concat(' ຈຳນວນ ', promotion_values, ' ', pack_type_name_pro)
+                        when promotion_type_pro = 2 then concat(promotion_values,' ເປີເຊັນ')
+                        when promotion_type_pro = 3 then concat(promotion_values,' THB') end) as promotion_item 
+                        from tbl_promotion_detail a
+                        left join tbl_item_code_list b on a.item_code_pro = b.full_code
+                        where  item_code_buy = '$item_code' and pack_type_name_buy = '$pack_type_name'  ")->fetch(PDO::FETCH_ASSOC);
+
+
 
                         ?>
+
                         <div class="form-group  col-lg-12">
-                            <label class="text-dark font-weight-medium"><?php echo $row_item['item_name']; ?></label>
+                            <label class="text-dark font-weight-medium">
+                                <span><?php echo  $pro_row['buy_type_name']; ?> </span>
+                                <span style='color:blue'><?php echo  $pro_row['buy_values']; ?>  </span>ຂື້ນໄປ
+                                <span><?php echo  $pro_row['category_pro_type']; ?> </span>
+                                <span style='color:blue'><?php echo  $pro_row['item_name']; ?> </span>
+                                <span style='color:green'><?php echo  $pro_row['promotion_item']; ?> </span>
+                             </label>
 
                         </div>
-
-                        <div class="form-group  col-lg-6">
-                            <label class="text-dark font-weight-medium">ລາຄາຂາຍ: <?php echo number_format($row_item['sale_price'], 2); ?></label>
-                        </div>
-
 
                         <div class="form-group  col-lg-12">
                             <label class="text-dark font-weight-medium">ຈຳນວນສັ່ງຊື້</label>
