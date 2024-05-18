@@ -304,7 +304,7 @@ $header_click = "2";
                     setTimeout(
                         function() {
                             location.reload();
-                        }, 1000);
+                        }, 500);
                 } else if (data.res == "over") {
                     Swal.fire(
                         'ລົງທະບຽນຊ້ຳ',
@@ -358,7 +358,7 @@ $header_click = "2";
                                 setTimeout(
                                     function() {
                                         location.reload();
-                                    }, 1000);
+                                    }, 500);
 
                             }
                         },

@@ -46,8 +46,7 @@ $pack_type_name = $_POST['pack_type_name'];
                         <?php
 
                         $pro_row = $conn->query(" 
-                        select  promotion_detail_id, 
-                        (case when promotion_type_buy = 1 then 'ຊື້ຄົບຈຳນວນ' else 'ຊື້ຄົບມູນຄ່າ' end) as buy_type_name,buy_values,
+                        select  promotion_detail_id, buy_values,
                         (case 
                         when promotion_type_pro = 1 then 'ແຖມສິນຄ້າ' 
                         when promotion_type_pro = 2 then 'ຮັບສ່ວນຫລຸດເປີເຊັນ'
@@ -66,8 +65,7 @@ $pack_type_name = $_POST['pack_type_name'];
                         ?>
 
                         <div class="form-group  col-lg-12">
-                            <label class="text-dark font-weight-medium">
-                                <span><?php echo  $pro_row['buy_type_name']; ?> </span>
+                            <label class="text-dark font-weight-medium"> 
                                 <span style='color:blue'><?php echo  $pro_row['buy_values']; ?>  </span>ຂື້ນໄປ
                                 <span><?php echo  $pro_row['category_pro_type']; ?> </span>
                                 <span style='color:blue'><?php echo  $pro_row['item_name']; ?> </span>

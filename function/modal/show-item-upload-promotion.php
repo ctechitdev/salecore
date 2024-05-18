@@ -41,8 +41,7 @@ $promotion_id = $_POST['promotion_id'];
                                 <thead>
                                     <tr>
                                         <th>ລຳດັບ</th>
-                                        <th>ຊື້ສິນຄ້າ</th>
-                                        <th>ປະເພດຊື້</th>
+                                        <th>ຊື້ສິນຄ້າ</th> 
                                         <th>ມູນຄ່າຊື້</th>
                                         <th>ສິນຄ້າໂປຣ</th>
                                         <th>ປະເພດໂປຣ</th>
@@ -57,8 +56,7 @@ $promotion_id = $_POST['promotion_id'];
                                     $arrayNumberEdit = 0;
                                     $i = 1;
 
-                                    $detail = $conn->prepare("select concat( item_code_buy, ' ',b.item_name,' ',pack_type_name_buy ) as item_buy_name,
-                                    (case when promotion_type_buy = 1 then 'ຈຳນວນຊື້' else 'ມູນຄ່າຊື້' end) as promotion_type_buy,
+                                    $detail = $conn->prepare("select concat( item_code_buy, ' ',b.item_name,' ',pack_type_name_buy ) as item_buy_name, 
                                     buy_values,
                                     concat(item_code_pro,' ',c.item_name, ' ', pack_type_name_pro) as item_pro_name,promotion_type_name,promotion_values
                                     from tbl_promotion_detail a
@@ -77,8 +75,7 @@ $promotion_id = $_POST['promotion_id'];
 
                                             <tr>
                                                 <td><?php echo $i; ?></td>
-                                                <td><?php echo $detailrow['item_buy_name']; ?></td>
-                                                <td><?php echo $detailrow['promotion_type_buy']; ?></td>
+                                                <td><?php echo $detailrow['item_buy_name']; ?></td> 
                                                 <td><?php echo $detailrow['buy_values']; ?></td>
                                                 <td><?php echo $detailrow['item_pro_name']; ?></td>
                                                 <td><?php echo $detailrow['promotion_type_name']; ?></td>

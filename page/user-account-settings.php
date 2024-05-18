@@ -57,8 +57,23 @@ $header_name = "ຂໍ້ມູນຜູ້ໃຊ້";
                 <div class="card-body">
 
                   <?php
-                  $edit_row = $conn->query("select * from tbl_user_staff where usid = '$id_users' ")->fetch(PDO::FETCH_ASSOC);
+                  if ($user_type_id == 1) {
 
+                    $edit_row = $conn->query("select * from tbl_user_staff where usid = '$id_users' ")->fetch(PDO::FETCH_ASSOC);
+
+                    $full_name = $edit_row['full_name'];
+                    $user_name = $edit_row['user_name'];
+
+                  } else if ($user_type_id == 2) {
+
+                    $edit_row = $conn->query("select * from tbl_customer_user where customer_user_id = '$id_users' ")->fetch(PDO::FETCH_ASSOC);
+
+                    $full_name = $edit_row['customer_name'];
+                    $user_name = $edit_row['customer_user_name'];
+
+                  }
+
+              
                   ?>
 
                   <form id="profile">
@@ -67,7 +82,7 @@ $header_name = "ຂໍ້ມູນຜູ້ໃຊ້";
                       <div class="col-lg-12">
                         <div class="form-group">
                           <label for="firstName">ຊື່ຜູ້ໃຊ້</label>
-                          <input type="text" class="form-control" name="new_full_name" value='<?php echo $edit_row['full_name']; ?>'>
+                          <input type="text" class="form-control" name="new_full_name" value='<?php echo "$full_name"; ?>'>
                         </div>
                       </div>
 
@@ -76,7 +91,7 @@ $header_name = "ຂໍ້ມູນຜູ້ໃຊ້";
                       <div class="col-lg-12">
                         <div class="form-group mb-4">
                           <label for="userName">ຢູສເຊີ້</label>
-                          <input type="text" class="form-control" id="userName" value='<?php echo $edit_row['user_name']; ?>' readonly>
+                          <input type="text" class="form-control" id="userName" value='<?php echo "$user_name"; ?>' readonly>
                           <span class="d-block mt-1">ບໍ່ສາມາດປ່ຽນເອງໄດ້ຕ້ອງຕິດຕໍ່ຜູ້ດູແລລະບົບ</span>
                         </div>
                       </div>
@@ -84,7 +99,7 @@ $header_name = "ຂໍ້ມູນຜູ້ໃຊ້";
                       <div class="col-lg-12">
                         <div class="form-group mb-4">
                           <label for="userName">ລະຫັດຜ່ານໃໝ່</label>
-                          <input type="text" class="form-control" name="user_password" >
+                          <input type="text" class="form-control" name="user_password">
                           <span class="d-block mt-1">ຖ້າຫາກຕ້ອງການປ່ຽນລະຫັດຜ່ານໃຫມ່ພິມລະຫັດຜ່ານໃຫມ່ແລ້ວກົດແກ້ໄຂ</span>
                         </div>
 

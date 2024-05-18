@@ -76,8 +76,8 @@ if ($check_remain > 0) {
 
             $price_bill = "KP$gendate_number$right_code";
 
-            $order_bill = $conn->query(" insert into tbl_customer_order  (customer_order_bill,stock_bill_id,total_price,order_status,order_by,order_date) 
-            values ('$price_bill','$stock_bill_id','$total_sale_cart','1','$id_users',now()); ");
+            $order_bill = $conn->query(" insert into tbl_customer_order  (customer_order_bill,stock_bill_id,total_price,discount_list_total,discount_bill_price,gran_total_price,order_status,order_by,order_date) 
+            values ('$price_bill','$stock_bill_id','$total_sale_cart','$total_discount_list','$price_bill_discount','$gran_total_price','1','$id_users',now()); ");
 
 
 
@@ -86,8 +86,8 @@ if ($check_remain > 0) {
 
             if ($order_bill) {
                 $bill_price_detail = $conn->query("  
-                INSERT INTO tbl_customer_order_detail (customer_order_id,item_code,pack_type_name,sale_price,order_values,total_price_order,order_by,date_order)
-                select  '$order_bill_id' as customer_order_id,item_code,pack_type_name,sale_price, order_values , total_price_order ,'$id_users' as add_by, now() as add_date
+                INSERT INTO tbl_customer_order_detail (customer_order_id,item_code,pack_type_name,sale_price,order_values,discount_percent,discount_price,total_price_order,order_by,date_order)
+                select  '$order_bill_id' as customer_order_id,item_code,pack_type_name,sale_price, order_values ,discount_percent,discount_price, total_price_order ,'$id_users' as add_by, now() as add_date
                 from tbl_customer_order_cart 
                 where add_by = '$id_users' ");
 

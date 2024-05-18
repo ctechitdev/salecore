@@ -559,11 +559,15 @@ insert into tbl_customer_order_status (customer_order_status_name) values ('ສ�
 insert into tbl_customer_order_status (customer_order_status_name) values ('ຮັບອໍເດີ້ແລ້ວ'); ;
 insert into tbl_customer_order_status (customer_order_status_name) values ('ຍົກເລີກ');
 
-create table tbl_customer_order(
+create or replace table tbl_customer_order(
     customer_order_id int not null PRIMARY KEY AUTO_INCREMENT,
     customer_order_bill varchar(20), 
     stock_bill_id int,
     total_price decimal(20,4),
+    discount_list_total decimal(20,4),
+    discount_bill_percent decimal(20,4),
+    discount_bill_price decimal(20,4),
+    gran_total_price decimal(20,4),
     order_status int,
     order_by int,
     order_date date, 
@@ -575,13 +579,14 @@ create or replace table tbl_customer_order_detail(
     customer_order_id int, 
     item_code varchar(50),
     pack_type_name varchar(50),
-    sale_price decimal(20,2),
+    sale_price decimal(20,2), 
     order_values int,
+    discount_percent decimal(20,2),
+    discount_price decimal(20,2),
     total_price_order decimal(20,2), 
     order_by int,
     date_order date
 );
-
  
 alter table tbl_item_code_list add column show_staff_status_id int;
 alter table tbl_item_code_list add column show_customer_status_id int;
@@ -606,8 +611,11 @@ create or replace table tbl_customer_order_cart (
     item_code varchar(50),
     pack_type_name varchar(50),
     sale_price decimal(20,2),
+    discount_percent decimal(20,2),
+    discount_price decimal(20,2),
     order_values int,
-    total_price_order decimal(20,2), 
+    total_price_order decimal(20,2),
+    promotion_type_id int,
     add_by int,
     add_date date
 );
@@ -697,8 +705,7 @@ create or replace table tbl_promotion_detail(
     promotion_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
     promotion_id int,
     item_code_buy varchar(50),
-    pack_type_name_buy varchar(30),
-    promotion_type_buy int,
+    pack_type_name_buy varchar(30), 
     buy_values decimal(20,2), 
     item_code_pro varchar(50),
     pack_type_name_pro varchar(30),  
@@ -727,7 +734,7 @@ create table tbl_promotion_type(
 insert into tbl_promotion_type (promotion_type_name) values ('ແຖມສິນຄ້າ');
 insert into tbl_promotion_type (promotion_type_name) values ('ຫລຸດເປີເຊັນ');
 insert into tbl_promotion_type (promotion_type_name) values ('ຫລຸດລາຄາ');
-
+insert into tbl_promotion_type (promotion_type_name) values ('ບໍ່ມີໂປຣ');
 
 create or replace table tbl_active_status (
   active_status_id int not null PRIMARY KEY AUTO_INCREMENT,

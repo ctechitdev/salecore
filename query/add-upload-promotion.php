@@ -48,22 +48,21 @@ require '../excelReader/SpreadsheetReader.php';
 $reader = new SpreadsheetReader($targetDirectory);
 foreach ($reader as $key => $row) {
     $item_code_buy = $row[0];
-    $pack_name_buy = $row[2];
-    $promotion_type_buy = $row[3];
-    $item_values_buy = $row[4];
+    $pack_name_buy = $row[2]; 
+    $item_values_buy = $row[3];
 
-    $item_code_pro = $row[5];
-    $pack_name_pro = $row[7];
-    $promotion_type_pro = $row[8];
-    $item_values_pro = $row[9];
+    $item_code_pro = $row[4];
+    $pack_name_pro = $row[6];
+    $promotion_type_pro = $row[7];
+    $item_values_pro = $row[8];
 
-    $payment_type_id = $row[10];
+    $payment_type_id = $row[9];
 
 
     if (is_numeric($item_values_buy)) {
         $insert = $conn->query(" INSERT INTO tbl_promotion_detail 
-        (promotion_id,item_code_buy,pack_type_name_buy,promotion_type_buy,buy_values,item_code_pro,pack_type_name_pro,promotion_type_pro,promotion_values,payment_type_id,active_date,expire_date) 
-         VALUES('$promotion_id','$item_code_buy','$pack_name_buy','$promotion_type_buy','$item_values_buy','$item_code_pro','$pack_name_pro','$promotion_type_pro','$item_values_pro','$payment_type_id','$active_date','$expire_date' );  ");
+        (promotion_id,item_code_buy,pack_type_name_buy,buy_values,item_code_pro,pack_type_name_pro,promotion_type_pro,promotion_values,payment_type_id,active_date,expire_date) 
+         VALUES('$promotion_id','$item_code_buy','$pack_name_buy','$item_values_buy','$item_code_pro','$pack_name_pro','$promotion_type_pro','$item_values_pro','$payment_type_id','$active_date','$expire_date' );  ");
     }
 }
 
