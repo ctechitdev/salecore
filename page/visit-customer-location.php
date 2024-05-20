@@ -79,6 +79,8 @@ $header_click = "6";
 
                                                 <?php
 
+                                              //  echo "$depart_id";
+
                                                 function weekOfMonth($date)
                                                 {
                                                     //Get the first day of the month.
@@ -117,21 +119,34 @@ $header_click = "6";
 
                                                 $i = 1;
 
-
-                                                if ($week_visit >= 5) {
+                                                if (($depart_id == 21) || ($depart_id == 18)) {
 
                                                     $stmt4 = $conn->prepare("
-                                                    call stp_check_visit_week_5('$day_name','$month_now','$year_now','$id_users')   ");
+                                                    select vd_id,cus_code,c_shop_name,pv_name,distict_name,village_name,phone_number
+                                                    from tbl_visit_dairy a
+                                                    left join tbl_provinces b on a.provinces = b.pv_id
+                                                    left join tbl_districts c on a.district = c.dis_id
+                                                    where user_id = '$id_users'  ");
                                                 } else {
 
+                                                    if ($week_visit >= 5) {
 
-                                                    $stmt4 = $conn->prepare("
-                                                select vd_id,cus_code,c_shop_name,pv_name,distict_name,village_name,phone_number
-                                                from tbl_visit_dairy a
-                                                left join tbl_provinces b on a.provinces = b.pv_id
-                                                left join tbl_districts c on a.district = c.dis_id
-                                                where user_id = '$id_users' and day_visit = '$day_name' and week_visit ='$week_visit' ");
+                                                        $stmt4 = $conn->prepare("
+                                                        call stp_check_visit_week_5('$day_name','$month_now','$year_now','$id_users')   ");
+                                                    } else {
+
+
+                                                        $stmt4 = $conn->prepare("
+                                                    select vd_id,cus_code,c_shop_name,pv_name,distict_name,village_name,phone_number
+                                                    from tbl_visit_dairy a
+                                                    left join tbl_provinces b on a.provinces = b.pv_id
+                                                    left join tbl_districts c on a.district = c.dis_id
+                                                    where user_id = '$id_users' and day_visit = '$day_name' and week_visit ='$week_visit' ");
+                                                    }
                                                 }
+
+
+
 
                                                 $stmt4->execute();
                                                 if ($stmt4->rowCount() > 0) {

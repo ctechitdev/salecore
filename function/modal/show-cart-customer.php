@@ -101,6 +101,8 @@ include("../../setting/conn.php");
 
                     $total_bill = $total_sale_cart - $total_discount_list;
 
+                    $price_bill_discount = 0;
+
                     $bill_discount = $conn->query(" select billing_discount_id,billing_discount_values 
                     from tbl_billing_discount
                     where billing_buy_values = (select max(billing_buy_values) from tbl_billing_discount 
@@ -108,7 +110,7 @@ include("../../setting/conn.php");
 
                     if (!empty($bill_discount['billing_discount_id'])) {
                        $price_bill_discount =  $bill_discount['billing_discount_values'];
-                    }
+                    } 
 
                     $gran_total_price = $total_bill - $price_bill_discount;
                     ?>

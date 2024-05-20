@@ -559,7 +559,7 @@ insert into tbl_customer_order_status (customer_order_status_name) values ('ສ�
 insert into tbl_customer_order_status (customer_order_status_name) values ('ຮັບອໍເດີ້ແລ້ວ'); ;
 insert into tbl_customer_order_status (customer_order_status_name) values ('ຍົກເລີກ');
 
-create or replace table tbl_customer_order(
+create   table tbl_customer_order(
     customer_order_id int not null PRIMARY KEY AUTO_INCREMENT,
     customer_order_bill varchar(20), 
     stock_bill_id int,
@@ -574,7 +574,7 @@ create or replace table tbl_customer_order(
     recieve_order_date date
 );
 
-create or replace table tbl_customer_order_detail(
+create  table tbl_customer_order_detail(
     customer_order_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
     customer_order_id int, 
     item_code varchar(50),
@@ -691,7 +691,7 @@ create or replace table tbl_price_history(
 );
 
 
-create or replace table tbl_promotion(
+create table tbl_promotion(
     promotion_id int not null PRIMARY KEY AUTO_INCREMENT, 
     promotion_title varchar(50),
     active_status_id int, 
@@ -701,7 +701,7 @@ create or replace table tbl_promotion(
     date_add date 
 );
 
-create or replace table tbl_promotion_detail(
+create   table tbl_promotion_detail(
     promotion_detail_id int not null PRIMARY KEY AUTO_INCREMENT,
     promotion_id int,
     item_code_buy varchar(50),
@@ -747,7 +747,7 @@ insert into tbl_active_status(active_status_name) values ('ຍົກເລີກ
 
 
 
-create or replace table tbl_billing_discount(
+create  table tbl_billing_discount(
   billing_discount_id int not null PRIMARY KEY AUTO_INCREMENT,
   billing_discount_name varchar(150),
   promotion_type_id int,

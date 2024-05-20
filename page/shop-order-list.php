@@ -89,7 +89,7 @@ $header_click = "5";
 
                                     $stmt4 = $conn->prepare("   
                                     select distinct customer_order_id,customer_name,
-                                    customer_order_bill,customer_order_status_name,total_price,order_date,recieve_order_date 
+                                    customer_order_bill,customer_order_status_name,order_status,total_price,order_date,recieve_order_date 
                                     from tbl_customer_order a
                                     left join tbl_customer_order_status b on a.order_status = b.customer_order_status_id
                                     left join tbl_customer_product_used c on a.order_by = c.customer_user_id
@@ -102,6 +102,13 @@ $header_click = "5";
 
 
 
+                                            if ($row4['order_status'] == 1) {
+                                                $color_mark = "blue";
+                                            } else if ($row4['order_status'] == 2) {
+                                                $color_mark = "green";
+                                            } else if ($row4['order_status'] == 3) {
+                                                $color_mark = "red";
+                                            }
 
                                     ?>
 
@@ -111,7 +118,7 @@ $header_click = "5";
                                                 <td><?php echo  $i; ?></td>
                                                 <td><?php echo  $row4['customer_name']; ?></td>
                                                 <td><?php echo  $row4['customer_order_bill']; ?></td>
-                                                <td><?php echo  $row4['customer_order_status_name']; ?></td>
+                                                <td><p style='color:<?php echo "$color_mark";?>'><?php echo  $row4['customer_order_status_name']; ?></p></td>
                                                 <td><?php echo number_format($row4['total_price']); ?></td>
                                                 <td><?php echo  $row4['order_date']; ?></td>
                                                 <td><?php echo  $row4['recieve_order_date']; ?></td>
@@ -193,7 +200,6 @@ $header_click = "5";
             }, 'json')
             return false;
         });
- 
     </script>
 
 
