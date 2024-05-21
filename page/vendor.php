@@ -275,7 +275,7 @@ $header_click = "1";
                                                                 <div class="col-lg-12">
                                                                     <label class="text-dark font-weight-medium">ຈຳນວນວັນຕິດໜີ້</label>
                                                                     <div class="form-group">
-                                                                        <select class=" form-control font" name="payment_term"  >
+                                                                        <select class=" form-control font" name="payment_term">
                                                                             <option value="0"> ເລືອກວັນຕິດໜີ້ </option>
                                                                             <?php
                                                                             $stmt5 = $conn->prepare(" SELECT b1_number,pt_name FROM tbl_payment_term order by pt_name");
@@ -371,7 +371,7 @@ $header_click = "1";
                                                                 <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label for="firstName">ການຈັດສົ່ງສິນຄ້າ</label>
-                                                                        <textarea class="form-control" name="transport_detail"  cols="30" rows="3"></textarea>
+                                                                        <textarea class="form-control" name="transport_detail" cols="30" rows="3"></textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -524,12 +524,18 @@ $header_click = "1";
 
 
                                     <?php
+
+                                    if ($id_users == "54") {
+                                        $syntax = "";
+                                    } else {
+                                        $syntax = " where add_by = '$id_users'";
+                                    }
                                     $stmt4 = $conn->prepare(" 
 
 									SELECT vendor_id,a.vendor_code,vendor_name,vendor_shop_name,phone_office,register_date,acc_name
                                     FROM tbl_vendor a
                                     left join tbl_account_company b on a.acc_code = b.company_code
-                                    where add_by = '$id_users'
+                                   $syntax
 									order by vendor_id desc  ");
                                     $stmt4->execute();
 

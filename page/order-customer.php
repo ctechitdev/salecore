@@ -135,6 +135,16 @@ $header_click = "2";
 
                                             <div class="media">
 
+                                                <?php
+                                                if ($row['item_picture'] != "") {
+                                                ?>
+                                                    <img src='../images/product_picture/<?php echo $row['item_picture']; ?>' width="25%" alt="user image" />
+
+                                                <?php
+                                                }
+
+                                                ?>
+
                                                 <div class="media-body">
                                                     <h5 class="mt-0 mb-2 text-dark"><?php echo $row['item_name']; ?> (<?php echo $row['pack_type_name']; ?> <?php echo $row['weight']; ?>)
                                                         <span style='color:#07ed4c'>

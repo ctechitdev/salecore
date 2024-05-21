@@ -41,7 +41,7 @@ where a.active_date <= CURDATE() and a.expire_date >= CURDATE()  and active_stat
 
 
 select   a.item_code,item_name,a.pack_type_name,(case when sale_price is null then 0 else sale_price end) as sale_price,weight,remain,
-(case when promotion_detail_id is null then '0' else '1' end) as promotion_status
+(case when promotion_detail_id is null then '0' else '1' end) as promotion_status,item_picture
 from tmp_stock_remain a
 left join tbl_item_code_list b on a.item_code = b.full_code 
 left join tbl_item_price_sale c on a.item_code = c.item_code and a.pack_type_name = c.pack_type_name
