@@ -79,7 +79,7 @@ $header_click = "6";
 
                                                 <?php
 
-                                              //  echo "$depart_id";
+                                                //  echo "$depart_id";
 
                                                 function weekOfMonth($date)
                                                 {
@@ -126,7 +126,7 @@ $header_click = "6";
                                                     from tbl_visit_dairy a
                                                     left join tbl_provinces b on a.provinces = b.pv_id
                                                     left join tbl_districts c on a.district = c.dis_id
-                                                    where user_id = '$id_users'  ");
+                                                    where user_id = '$id_users' and day_visit = '$day_name'  ");
                                                 } else {
 
                                                     if ($week_visit >= 5) {
