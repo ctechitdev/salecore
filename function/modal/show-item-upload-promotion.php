@@ -41,7 +41,7 @@ $promotion_id = $_POST['promotion_id'];
                                 <thead>
                                     <tr>
                                         <th>ລຳດັບ</th>
-                                        <th>ຊື້ສິນຄ້າ</th> 
+                                        <th>ຊື້ສິນຄ້າ</th>
                                         <th>ມູນຄ່າຊື້</th>
                                         <th>ສິນຄ້າໂປຣ</th>
                                         <th>ປະເພດໂປຣ</th>
@@ -75,8 +75,8 @@ $promotion_id = $_POST['promotion_id'];
 
                                             <tr>
                                                 <td><?php echo $i; ?></td>
-                                                <td><?php echo $detailrow['item_buy_name']; ?></td> 
-                                                <td><?php echo $detailrow['buy_values']; ?></td>
+                                                <td><?php echo $detailrow['item_buy_name']; ?></td>
+                                                <td><?php echo number_format($detailrow['buy_values']); ?></td>
                                                 <td><?php echo $detailrow['item_pro_name']; ?></td>
                                                 <td><?php echo $detailrow['promotion_type_name']; ?></td>
                                                 <td><?php echo   number_format($detailrow['promotion_values']); ?></td>

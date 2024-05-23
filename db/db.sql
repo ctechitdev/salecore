@@ -760,3 +760,15 @@ create  table tbl_billing_discount(
   add_date date,
   add_by int
 );
+
+
+create table tbl_promotion_promote(
+    promotion_promote_id int not null PRIMARY KEY AUTO_INCREMENT,
+    promotion_promote_picture varchar(100),
+    item_company_code_id int,
+    active_status_id int,
+    active_date date,
+    expire_date date,
+    add_by int,
+    date_add date
+);

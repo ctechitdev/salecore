@@ -4,7 +4,7 @@ include("../setting/conn.php");
 
 
 $header_name = "ໂປຣທ້າຍບິນ";
-$header_click = "7";
+$header_click = "5";
 
 ?>
 
